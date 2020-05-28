@@ -3,6 +3,11 @@ baxter_common
 
 URDF, meshes, and custom messages describing the Baxter Research Robot from Rethink Robotics
 
+Work in progress
+----------------
+
+Messages have been ported to ROS 2.
+
 Code & Tickets
 --------------
 
