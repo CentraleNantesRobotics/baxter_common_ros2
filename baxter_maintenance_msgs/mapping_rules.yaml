@@ -1,0 +1,28 @@
+- fields_1_to_2:
+    tuneGravitySpring: tune_gravity_spring
+  ros1_message_name: TareData
+  ros1_package_name: baxter_maintenance_msgs
+  ros2_message_name: TareData
+  ros2_package_name: baxter_maintenance_msgs
+- fields_1_to_2:
+    data: data
+    isEnabled: is_enabled
+    uid: uid
+  ros1_message_name: CalibrateArmEnable
+  ros1_package_name: baxter_maintenance_msgs
+  ros2_message_name: CalibrateArmEnable
+  ros2_package_name: baxter_maintenance_msgs
+- fields_1_to_2:
+    suppressWriteToFile: suppress_write_to_file
+  ros1_message_name: CalibrateArmData
+  ros1_package_name: baxter_maintenance_msgs
+  ros2_message_name: CalibrateArmData
+  ros2_package_name: baxter_maintenance_msgs
+- fields_1_to_2:
+    data: data
+    isEnabled: is_enabled
+    uid: uid
+  ros1_message_name: TareEnable
+  ros1_package_name: baxter_maintenance_msgs
+  ros2_message_name: TareEnable
+  ros2_package_name: baxter_maintenance_msgs

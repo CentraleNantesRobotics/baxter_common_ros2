@@ -1,0 +1,65 @@
+- fields_1_to_2:
+    complete: complete
+    controlUid: control_uid
+    errorCodes: error_codes
+    isEnabled: is_enabled
+    labels: labels
+    timedOut: timed_out
+  ros1_message_name: RobustControllerStatus
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: RobustControllerStatus
+  ros2_package_name: baxter_core_msgs
+- fields_1_to_2:
+    isNodding: is_nodding
+    isPanEnabled: is_pan_enabled
+    isTurning: is_turning
+    pan: pan
+  ros1_message_name: HeadState
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: HeadState
+  ros2_package_name: baxter_core_msgs
+- fields_1_to_2:
+    isInputOnly: is_input_only
+    timestamp: timestamp
+    value: value
+  ros1_message_name: AnalogIOState
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: AnalogIOState
+  ros2_package_name: baxter_core_msgs
+- fields_1_to_2:
+    actual_effort: actual_effort
+    actual_position: actual_position
+    actual_velocity: actual_velocity
+    commanded_acceleration: commanded_acceleration
+    commanded_effort: commanded_effort
+    commanded_position: commanded_position
+    commanded_velocity: commanded_velocity
+    crosstalk_model_effort: crosstalk_model_effort
+    gravity_model_effort: gravity_model_effort
+    gravity_only: gravity_only
+    header: header
+    hystState: hyst_state
+    hysteresis_model_effort: hysteresis_model_effort
+    name: name
+  ros1_message_name: SEAJointState
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: SEAJointState
+  ros2_package_name: baxter_core_msgs
+- fields_1_to_2:
+    isInputOnly: is_input_only
+    state: state
+  ros1_message_name: DigitalIOState
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: DigitalIOState
+  ros2_package_name: baxter_core_msgs
+- fields_1_to_2:
+    isValid: is_valid
+    joints: joints
+    pose_stamp: pose_stamp
+    result_type: result_type
+    seed_angles: seed_angles
+    seed_mode: seed_mode
+  ros1_message_name: SolvePositionIK
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: SolvePositionIK
+  ros2_package_name: baxter_core_msgs
