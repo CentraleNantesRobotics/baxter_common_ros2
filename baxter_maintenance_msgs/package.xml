@@ -1,16 +1,27 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>baxter_core_msgs</name>
-  <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="ecn@todo.todo">ecn</maintainer>
-  <license>TODO: License declaration</license>
+  <name>baxter_mainenance_msgs</name>
+  <version>2.0.0</version>
+  <description>
+    Messages and Services required for ROS 2 communication with the Baxter 
+    Research Robot from Rethink Robotics
+  </description>
+  <maintainer email="olivier.kermorgant@ec-nantes.fr">Olivier Kermorgant</maintainer>
+  <license>BSD</license>
+  <url type="website">http://sdk.rethinkrobotics.com</url>
+  <url type="repository">
+    https://github.com/CentraleNantesRobotics/baxter_common_ros2
+  </url>
+  <url type="bugtracker">
+    https://github.com/CentraleNantesRobotics/baxter_common_ros2/issues
+  </url>
+  <author>Rethink Robotics Inc.</author>
+  <author>Olivier Kermorgant</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <build_depend>rosidl_default_generators</build_depend>
  
-  
 
   <exec_depend>rosidl_default_runtime</exec_depend>
   <member_of_group>rosidl_interface_packages</member_of_group>

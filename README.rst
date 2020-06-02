@@ -6,7 +6,7 @@ URDF, meshes, and custom messages describing the Baxter Research Robot from Reth
 Work in progress
 ----------------
 
-Messages have been ported to ROS 2.
+All packages have been ported to ROS 2. Packages compile but no tests have been done yet.
 
 Code & Tickets
 --------------

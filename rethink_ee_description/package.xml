@@ -1,24 +1,29 @@
 <?xml version="1.0"?>
-<package>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>rethink_ee_description</name>
-  <version>1.2.0</version>
+  <version>2.0.0</version>
   <description>
     Description of End Effector for Robots from Rethink Robotics.
-    This package contains the URDF and meshes describing these end effectors.
+    This package contains the URDF and meshes describing these end effectors for ROS 2.
   </description>
-
-  <maintainer email="rsdk.support@rethinkrobotics.com">
-    Rethink Robotics Inc.
-  </maintainer>
+ <maintainer email="olivier.kermorgant@ec-nantes.fr">Olivier Kermorgant</maintainer>
   <license>BSD</license>
   <url type="website">http://sdk.rethinkrobotics.com</url>
   <url type="repository">
-    https://github.com/RethinkRobotics/baxter_common
+    https://github.com/CentraleNantesRobotics/baxter_common_ros2
   </url>
   <url type="bugtracker">
-    https://github.com/RethinkRobotics/baxter_common/issues
+    https://github.com/CentraleNantesRobotics/baxter_common_ros2/issues
   </url>
   <author>Rethink Robotics Inc.</author>
+  <author>Olivier Kermorgant</author>
+  
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>urdf</depend>
+  
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 
-  <buildtool_depend>catkin</buildtool_depend>
 </package>
