@@ -46,3 +46,4 @@ catkin
 catkin_generated
 devel
 test_results
+CMakeLists.txt.user
