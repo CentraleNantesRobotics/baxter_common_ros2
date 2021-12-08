@@ -1,12 +1,16 @@
-baxter_common
-==============
+baxter_common_ros2
+==================
 
 URDF, meshes, and custom messages describing the Baxter Research Robot from Rethink Robotics
 
-Work in progress
-----------------
+All packages have been ported to ROS 2. Classical use of Baxter has been heavily tested (joint command, image topics)
 
-All packages have been ported to ROS 2. Packages compile but no tests have been done yet.
+baxter_bridge
+-------------
+
+The baxter_bridge package exposes a custom ros1<->ros2 bridge, precompiled for all Baxter's messages and specific topics.
+It avoids having to recompile ros1_bridge which can be quite long.
+Running the bridge with '-s' forces it to forward all topics, otherwise only a few are automatically forwarded and the others are forwarded dynamically when suitable.
 
 Code & Tickets
 --------------

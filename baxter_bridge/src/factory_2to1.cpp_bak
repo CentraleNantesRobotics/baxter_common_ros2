@@ -1,0 +1,41 @@
+#include <baxter_bridge/bridge_2to1.h>
+#include <baxter_bridge/factory.h>
+
+// messages
+#include <baxter_core_msgs/JointCommand.h>
+#include <baxter_core_msgs/msg/joint_command.hpp>
+
+namespace baxter_bridge
+{
+
+using namespace baxter_core_msgs;
+
+
+// message forwards
+template<> JointCommand
+forwardROS1<JointCommand,msg::JointCommand>
+(const msg::JointCommand &cmd2)
+{
+  static JointCommand cmd1;
+  cmd1.mode = cmd2.mode;
+  cmd1.names = cmd2.names;
+  cmd1.command = cmd2.command;
+  return cmd1;
+}
+
+
+
+
+
+// factory
+std::unique_ptr<Bridge> Factory::createBridge_2to1(const std::string &topic, const std::string &msg)
+{
+  if(msg == "baxter_core_msgs/JointCommand")
+    return std::make_unique<Bridge_2to1<JointCommand, msg::JointCommand>>
+        (topic);
+
+
+  return nullptr;
+}
+
+}
