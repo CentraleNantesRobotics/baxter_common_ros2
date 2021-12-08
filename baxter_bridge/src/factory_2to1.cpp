@@ -55,382 +55,308 @@ namespace baxter_bridge
 {
 // converters
 template<>
-auto convertROS1(const std_msgs::msg::Header &msg2)
+void convertMsg(const std_msgs::msg::Header &src, std_msgs::Header &dst)
 {
-  std_msgs::Header msg1;
-  msg1.stamp = Bridge::ros1_now();
-  msg1.frame_id = msg2.frame_id;
-  return msg1;
+  dst.stamp = Bridge::ros1_now();
+  dst.frame_id = src.frame_id;
 }
 
 template<>
-auto convertROS1(const diagnostic_msgs::msg::KeyValue &msg2)
+void convertMsg(const diagnostic_msgs::msg::KeyValue &src, diagnostic_msgs::KeyValue &dst)
 {
-  diagnostic_msgs::KeyValue msg1;
-  msg1.key = msg2.key;
-  msg1.value = msg2.value;
-  return msg1;
+  dst.key = src.key;
+  dst.value = src.value;
 }
 
 template<>
-auto convertROS1(const diagnostic_msgs::msg::DiagnosticStatus &msg2)
+void convertMsg(const diagnostic_msgs::msg::DiagnosticStatus &src, diagnostic_msgs::DiagnosticStatus &dst)
 {
-  diagnostic_msgs::DiagnosticStatus msg1;
-  msg1.level = msg2.level;
-  msg1.name = msg2.name;
-  msg1.message = msg2.message;
-  msg1.hardware_id = msg2.hardware_id;
-  std::transform(msg2.values.begin(), msg2.values.end(),
-                 std::back_inserter(msg1.values),
-                 convertROS1<diagnostic_msgs::msg::KeyValue>);
-  return msg1;
+  dst.level = src.level;
+  dst.name = src.name;
+  dst.message = src.message;
+  dst.hardware_id = src.hardware_id;
+  convertMsg(src.values, dst.values);
 }
 
 template<>
-auto convertROS1(const diagnostic_msgs::msg::DiagnosticArray &msg2)
+void convertMsg(const diagnostic_msgs::msg::DiagnosticArray &src, diagnostic_msgs::DiagnosticArray &dst)
 {
-  diagnostic_msgs::DiagnosticArray msg1;
-  msg1.header = convertROS1(msg2.header);
-  std::transform(msg2.status.begin(), msg2.status.end(),
-                 std::back_inserter(msg1.status),
-                 convertROS1<diagnostic_msgs::msg::DiagnosticStatus>);
-  return msg1;
+  convertMsg(src.header, dst.header);
+  convertMsg(src.status, dst.status);
 }
 
 template<>
-auto convertROS1(const baxter_core_msgs::msg::AnalogOutputCommand &msg2)
+void convertMsg(const baxter_core_msgs::msg::AnalogOutputCommand &src, baxter_core_msgs::AnalogOutputCommand &dst)
 {
-  baxter_core_msgs::AnalogOutputCommand msg1;
-  msg1.name = msg2.name;
-  msg1.value = msg2.value;
-  return msg1;
+  dst.name = src.name;
+  dst.value = src.value;
 }
 
 template<>
-auto convertROS1(const baxter_core_msgs::msg::DigitalOutputCommand &msg2)
+void convertMsg(const baxter_core_msgs::msg::DigitalOutputCommand &src, baxter_core_msgs::DigitalOutputCommand &dst)
 {
-  baxter_core_msgs::DigitalOutputCommand msg1;
-  msg1.name = msg2.name;
-  msg1.value = msg2.value;
-  return msg1;
+  dst.name = src.name;
+  dst.value = src.value;
 }
 
 template<>
-auto convertROS1(const baxter_core_msgs::msg::EndEffectorCommand &msg2)
+void convertMsg(const baxter_core_msgs::msg::EndEffectorCommand &src, baxter_core_msgs::EndEffectorCommand &dst)
 {
-  baxter_core_msgs::EndEffectorCommand msg1;
-  msg1.id = msg2.id;
-  msg1.command = msg2.command;
-  msg1.args = msg2.args;
-  msg1.sender = msg2.sender;
-  msg1.sequence = msg2.sequence;
-  return msg1;
+  dst.id = src.id;
+  dst.command = src.command;
+  dst.args = src.args;
+  dst.sender = src.sender;
+  dst.sequence = src.sequence;
 }
 
 template<>
-auto convertROS1(const baxter_core_msgs::msg::EndEffectorProperties &msg2)
+void convertMsg(const baxter_core_msgs::msg::EndEffectorProperties &src, baxter_core_msgs::EndEffectorProperties &dst)
 {
-  baxter_core_msgs::EndEffectorProperties msg1;
-  msg1.id = msg2.id;
-  msg1.ui_type = msg2.ui_type;
-  msg1.manufacturer = msg2.manufacturer;
-  msg1.product = msg2.product;
-  msg1.serial_number = msg2.serial_number;
-  msg1.hardware_rev = msg2.hardware_rev;
-  msg1.firmware_rev = msg2.firmware_rev;
-  msg1.firmware_date = msg2.firmware_date;
-  msg1.has_calibration = msg2.has_calibration;
-  msg1.controls_grip = msg2.controls_grip;
-  msg1.senses_grip = msg2.senses_grip;
-  msg1.reverses_grip = msg2.reverses_grip;
-  msg1.controls_force = msg2.controls_force;
-  msg1.senses_force = msg2.senses_force;
-  msg1.controls_position = msg2.controls_position;
-  msg1.senses_position = msg2.senses_position;
-  msg1.properties = msg2.properties;
-  return msg1;
+  dst.id = src.id;
+  dst.ui_type = src.ui_type;
+  dst.manufacturer = src.manufacturer;
+  dst.product = src.product;
+  dst.serial_number = src.serial_number;
+  dst.hardware_rev = src.hardware_rev;
+  dst.firmware_rev = src.firmware_rev;
+  dst.firmware_date = src.firmware_date;
+  dst.has_calibration = src.has_calibration;
+  dst.controls_grip = src.controls_grip;
+  dst.senses_grip = src.senses_grip;
+  dst.reverses_grip = src.reverses_grip;
+  dst.controls_force = src.controls_force;
+  dst.senses_force = src.senses_force;
+  dst.controls_position = src.controls_position;
+  dst.senses_position = src.senses_position;
+  dst.properties = src.properties;
 }
 
 template<>
-auto convertROS1(const baxter_core_msgs::msg::EndEffectorState &msg2)
+void convertMsg(const baxter_core_msgs::msg::EndEffectorState &src, baxter_core_msgs::EndEffectorState &dst)
 {
-  baxter_core_msgs::EndEffectorState msg1;
-  msg1.timestamp = Bridge::ros1_now();
-  msg1.id = msg2.id;
-  msg1.enabled = msg2.enabled;
-  msg1.calibrated = msg2.calibrated;
-  msg1.ready = msg2.ready;
-  msg1.moving = msg2.moving;
-  msg1.gripping = msg2.gripping;
-  msg1.missed = msg2.missed;
-  msg1.error = msg2.error;
-  msg1.reverse = msg2.reverse;
-  msg1.state = msg2.state;
-  msg1.command = msg2.command;
-  msg1.command_sender = msg2.command_sender;
-  msg1.command_sequence = msg2.command_sequence;
-  return msg1;
+  dst.timestamp = Bridge::ros1_now();
+  dst.id = src.id;
+  dst.enabled = src.enabled;
+  dst.calibrated = src.calibrated;
+  dst.ready = src.ready;
+  dst.moving = src.moving;
+  dst.gripping = src.gripping;
+  dst.missed = src.missed;
+  dst.error = src.error;
+  dst.reverse = src.reverse;
+  dst.state = src.state;
+  dst.command = src.command;
+  dst.command_sender = src.command_sender;
+  dst.command_sequence = src.command_sequence;
 }
 
 template<>
-auto convertROS1(const std_msgs::msg::Bool &msg2)
+void convertMsg(const std_msgs::msg::Bool &src, std_msgs::Bool &dst)
 {
-  std_msgs::Bool msg1;
-  msg1.data = msg2.data;
-  return msg1;
+  dst.data = src.data;
 }
 
 template<>
-auto convertROS1(const baxter_core_msgs::msg::HeadPanCommand &msg2)
+void convertMsg(const baxter_core_msgs::msg::HeadPanCommand &src, baxter_core_msgs::HeadPanCommand &dst)
 {
-  baxter_core_msgs::HeadPanCommand msg1;
-  msg1.target = msg2.target;
-  msg1.speed_ratio = msg2.speed_ratio;
-  msg1.enable_pan_request = msg2.enable_pan_request;
-  return msg1;
+  dst.target = src.target;
+  dst.speed_ratio = src.speed_ratio;
+  dst.enable_pan_request = src.enable_pan_request;
 }
 
 template<>
-auto convertROS1(const baxter_core_msgs::msg::HeadState &msg2)
+void convertMsg(const baxter_core_msgs::msg::HeadState &src, baxter_core_msgs::HeadState &dst)
 {
-  baxter_core_msgs::HeadState msg1;
-  msg1.pan = msg2.pan;
-  msg1.isTurning = msg2.is_turning;
-  msg1.isNodding = msg2.is_nodding;
-  msg1.isPanEnabled = msg2.is_pan_enabled;
-  return msg1;
+  dst.pan = src.pan;
+  dst.isTurning = src.is_turning;
+  dst.isNodding = src.is_nodding;
+  dst.isPanEnabled = src.is_pan_enabled;
 }
 
 template<>
-auto convertROS1(const std_msgs::msg::UInt16 &msg2)
+void convertMsg(const std_msgs::msg::UInt16 &src, std_msgs::UInt16 &dst)
 {
-  std_msgs::UInt16 msg1;
-  msg1.data = msg2.data;
-  return msg1;
+  dst.data = src.data;
 }
 
 template<>
-auto convertROS1(const baxter_core_msgs::msg::CollisionAvoidanceState &msg2)
+void convertMsg(const baxter_core_msgs::msg::CollisionAvoidanceState &src, baxter_core_msgs::CollisionAvoidanceState &dst)
 {
-  baxter_core_msgs::CollisionAvoidanceState msg1;
-  msg1.header = convertROS1(msg2.header);
-  msg1.other_arm = msg2.other_arm;
-  msg1.collision_object = msg2.collision_object;
-  return msg1;
+  convertMsg(src.header, dst.header);
+  dst.other_arm = src.other_arm;
+  dst.collision_object = src.collision_object;
 }
 
 template<>
-auto convertROS1(const std_msgs::msg::UInt32 &msg2)
+void convertMsg(const std_msgs::msg::UInt32 &src, std_msgs::UInt32 &dst)
 {
-  std_msgs::UInt32 msg1;
-  msg1.data = msg2.data;
-  return msg1;
+  dst.data = src.data;
 }
 
 template<>
-auto convertROS1(const geometry_msgs::msg::Vector3 &msg2)
+void convertMsg(const geometry_msgs::msg::Vector3 &src, geometry_msgs::Vector3 &dst)
 {
-  geometry_msgs::Vector3 msg1;
-  msg1.x = msg2.x;
-  msg1.y = msg2.y;
-  msg1.z = msg2.z;
-  return msg1;
+  dst.x = src.x;
+  dst.y = src.y;
+  dst.z = src.z;
 }
 
 template<>
-auto convertROS1(const geometry_msgs::msg::Twist &msg2)
+void convertMsg(const geometry_msgs::msg::Twist &src, geometry_msgs::Twist &dst)
 {
-  geometry_msgs::Twist msg1;
-  msg1.linear = convertROS1(msg2.linear);
-  msg1.angular = convertROS1(msg2.angular);
-  return msg1;
+  convertMsg(src.linear, dst.linear);
+  convertMsg(src.angular, dst.angular);
 }
 
 template<>
-auto convertROS1(const geometry_msgs::msg::TwistStamped &msg2)
+void convertMsg(const geometry_msgs::msg::TwistStamped &src, geometry_msgs::TwistStamped &dst)
 {
-  geometry_msgs::TwistStamped msg1;
-  msg1.header = convertROS1(msg2.header);
-  msg1.twist = convertROS1(msg2.twist);
-  return msg1;
+  convertMsg(src.header, dst.header);
+  convertMsg(src.twist, dst.twist);
 }
 
 template<>
-auto convertROS1(const geometry_msgs::msg::Point &msg2)
+void convertMsg(const geometry_msgs::msg::Point &src, geometry_msgs::Point &dst)
 {
-  geometry_msgs::Point msg1;
-  msg1.x = msg2.x;
-  msg1.y = msg2.y;
-  msg1.z = msg2.z;
-  return msg1;
+  dst.x = src.x;
+  dst.y = src.y;
+  dst.z = src.z;
 }
 
 template<>
-auto convertROS1(const geometry_msgs::msg::Quaternion &msg2)
+void convertMsg(const geometry_msgs::msg::Quaternion &src, geometry_msgs::Quaternion &dst)
 {
-  geometry_msgs::Quaternion msg1;
-  msg1.x = msg2.x;
-  msg1.y = msg2.y;
-  msg1.z = msg2.z;
-  msg1.w = msg2.w;
-  return msg1;
+  dst.x = src.x;
+  dst.y = src.y;
+  dst.z = src.z;
+  dst.w = src.w;
 }
 
 template<>
-auto convertROS1(const geometry_msgs::msg::Pose &msg2)
+void convertMsg(const geometry_msgs::msg::Pose &src, geometry_msgs::Pose &dst)
 {
-  geometry_msgs::Pose msg1;
-  msg1.position = convertROS1(msg2.position);
-  msg1.orientation = convertROS1(msg2.orientation);
-  return msg1;
+  convertMsg(src.position, dst.position);
+  convertMsg(src.orientation, dst.orientation);
 }
 
 template<>
-auto convertROS1(const geometry_msgs::msg::Wrench &msg2)
+void convertMsg(const geometry_msgs::msg::Wrench &src, geometry_msgs::Wrench &dst)
 {
-  geometry_msgs::Wrench msg1;
-  msg1.force = convertROS1(msg2.force);
-  msg1.torque = convertROS1(msg2.torque);
-  return msg1;
+  convertMsg(src.force, dst.force);
+  convertMsg(src.torque, dst.torque);
 }
 
 template<>
-auto convertROS1(const baxter_core_msgs::msg::EndpointState &msg2)
+void convertMsg(const baxter_core_msgs::msg::EndpointState &src, baxter_core_msgs::EndpointState &dst)
 {
-  baxter_core_msgs::EndpointState msg1;
-  msg1.header = convertROS1(msg2.header);
-  msg1.pose = convertROS1(msg2.pose);
-  msg1.twist = convertROS1(msg2.twist);
-  msg1.wrench = convertROS1(msg2.wrench);
-  return msg1;
+  convertMsg(src.header, dst.header);
+  convertMsg(src.pose, dst.pose);
+  convertMsg(src.twist, dst.twist);
+  convertMsg(src.wrench, dst.wrench);
 }
 
 template<>
-auto convertROS1(const baxter_core_msgs::msg::SEAJointState &msg2)
+void convertMsg(const baxter_core_msgs::msg::SEAJointState &src, baxter_core_msgs::SEAJointState &dst)
 {
-  baxter_core_msgs::SEAJointState msg1;
-  msg1.header = convertROS1(msg2.header);
-  msg1.name = msg2.name;
-  msg1.commanded_position = msg2.commanded_position;
-  msg1.commanded_velocity = msg2.commanded_velocity;
-  msg1.commanded_acceleration = msg2.commanded_acceleration;
-  msg1.commanded_effort = msg2.commanded_effort;
-  msg1.actual_position = msg2.actual_position;
-  msg1.actual_velocity = msg2.actual_velocity;
-  msg1.actual_effort = msg2.actual_effort;
-  msg1.gravity_model_effort = msg2.gravity_model_effort;
-  msg1.gravity_only = msg2.gravity_only;
-  msg1.hysteresis_model_effort = msg2.hysteresis_model_effort;
-  msg1.crosstalk_model_effort = msg2.crosstalk_model_effort;
-  msg1.hystState = msg2.hyst_state;
-  return msg1;
+  convertMsg(src.header, dst.header);
+  dst.name = src.name;
+  dst.commanded_position = src.commanded_position;
+  dst.commanded_velocity = src.commanded_velocity;
+  dst.commanded_acceleration = src.commanded_acceleration;
+  dst.commanded_effort = src.commanded_effort;
+  dst.actual_position = src.actual_position;
+  dst.actual_velocity = src.actual_velocity;
+  dst.actual_effort = src.actual_effort;
+  dst.gravity_model_effort = src.gravity_model_effort;
+  dst.gravity_only = src.gravity_only;
+  dst.hysteresis_model_effort = src.hysteresis_model_effort;
+  dst.crosstalk_model_effort = src.crosstalk_model_effort;
+  dst.hystState = src.hyst_state;
 }
 
 template<>
-auto convertROS1(const trajectory_msgs::msg::JointTrajectoryPoint &msg2)
+void convertMsg(const trajectory_msgs::msg::JointTrajectoryPoint &src, trajectory_msgs::JointTrajectoryPoint &dst)
 {
-  trajectory_msgs::JointTrajectoryPoint msg1;
-  msg1.positions = msg2.positions;
-  msg1.velocities = msg2.velocities;
-  msg1.accelerations = msg2.accelerations;
-  msg1.effort = msg2.effort;
-  msg1.time_from_start.sec = msg2.time_from_start.sec;
-  msg1.time_from_start.nsec = msg2.time_from_start.nanosec;
-  return msg1;
+  dst.positions = src.positions;
+  dst.velocities = src.velocities;
+  dst.accelerations = src.accelerations;
+  dst.effort = src.effort;
+  dst.time_from_start.sec = src.time_from_start.sec;
+  dst.time_from_start.nsec = src.time_from_start.nanosec;
 }
 
 template<>
-auto convertROS1(const baxter_core_msgs::msg::JointCommand &msg2)
+void convertMsg(const baxter_core_msgs::msg::JointCommand &src, baxter_core_msgs::JointCommand &dst)
 {
-  baxter_core_msgs::JointCommand msg1;
-  msg1.mode = msg2.mode;
-  msg1.command = msg2.command;
-  msg1.names = msg2.names;
-  return msg1;
+  dst.mode = src.mode;
+  dst.command = src.command;
+  dst.names = src.names;
 }
 
 template<>
-auto convertROS1(const std_msgs::msg::Float64 &msg2)
+void convertMsg(const std_msgs::msg::Float64 &src, std_msgs::Float64 &dst)
 {
-  std_msgs::Float64 msg1;
-  msg1.data = msg2.data;
-  return msg1;
+  dst.data = src.data;
 }
 
 template<>
-auto convertROS1(const std_msgs::msg::Empty &)
+void convertMsg(const std_msgs::msg::Empty &, std_msgs::Empty &)
 {
-  std_msgs::Empty msg1;
-  return msg1;
 }
 
 template<>
-auto convertROS1(const std_msgs::msg::Float32 &msg2)
+void convertMsg(const std_msgs::msg::Float32 &src, std_msgs::Float32 &dst)
 {
-  std_msgs::Float32 msg1;
-  msg1.data = msg2.data;
-  return msg1;
+  dst.data = src.data;
 }
 
 template<>
-auto convertROS1(const baxter_core_msgs::msg::URDFConfiguration &msg2)
+void convertMsg(const baxter_core_msgs::msg::URDFConfiguration &src, baxter_core_msgs::URDFConfiguration &dst)
 {
-  baxter_core_msgs::URDFConfiguration msg1;
-  msg1.time = Bridge::ros1_now();
-  msg1.link = msg2.link;
-  msg1.joint = msg2.joint;
-  msg1.urdf = msg2.urdf;
-  return msg1;
+  dst.time = Bridge::ros1_now();
+  dst.link = src.link;
+  dst.joint = src.joint;
+  dst.urdf = src.urdf;
 }
 
 template<>
-auto convertROS1(const sensor_msgs::msg::Image &msg2)
+void convertMsg(const sensor_msgs::msg::Image &src, sensor_msgs::Image &dst)
 {
-  sensor_msgs::Image msg1;
-  msg1.header = convertROS1(msg2.header);
-  msg1.height = msg2.height;
-  msg1.width = msg2.width;
-  msg1.encoding = msg2.encoding;
-  msg1.is_bigendian = msg2.is_bigendian;
-  msg1.step = msg2.step;
-  msg1.data = msg2.data;
-  return msg1;
+  convertMsg(src.header, dst.header);
+  dst.height = src.height;
+  dst.width = src.width;
+  dst.encoding = src.encoding;
+  dst.is_bigendian = src.is_bigendian;
+  dst.step = src.step;
+  dst.data = src.data;
 }
 
 template<>
-auto convertROS1(const baxter_maintenance_msgs::msg::CalibrateArmData &msg2)
+void convertMsg(const baxter_maintenance_msgs::msg::CalibrateArmData &src, baxter_maintenance_msgs::CalibrateArmData &dst)
 {
-  baxter_maintenance_msgs::CalibrateArmData msg1;
-  msg1.suppressWriteToFile = msg2.suppress_write_to_file;
-  return msg1;
+  dst.suppressWriteToFile = src.suppress_write_to_file;
 }
 
 template<>
-auto convertROS1(const baxter_maintenance_msgs::msg::CalibrateArmEnable &msg2)
+void convertMsg(const baxter_maintenance_msgs::msg::CalibrateArmEnable &src, baxter_maintenance_msgs::CalibrateArmEnable &dst)
 {
-  baxter_maintenance_msgs::CalibrateArmEnable msg1;
-  msg1.isEnabled = msg2.is_enabled;
-  msg1.uid = msg2.uid;
-  msg1.data = convertROS1(msg2.data);
-  return msg1;
+  dst.isEnabled = src.is_enabled;
+  dst.uid = src.uid;
+  convertMsg(src.data, dst.data);
 }
 
 template<>
-auto convertROS1(const baxter_maintenance_msgs::msg::TareData &msg2)
+void convertMsg(const baxter_maintenance_msgs::msg::TareData &src, baxter_maintenance_msgs::TareData &dst)
 {
-  baxter_maintenance_msgs::TareData msg1;
-  msg1.tuneGravitySpring = msg2.tune_gravity_spring;
-  return msg1;
+  dst.tuneGravitySpring = src.tune_gravity_spring;
 }
 
 template<>
-auto convertROS1(const baxter_maintenance_msgs::msg::TareEnable &msg2)
+void convertMsg(const baxter_maintenance_msgs::msg::TareEnable &src, baxter_maintenance_msgs::TareEnable &dst)
 {
-  baxter_maintenance_msgs::TareEnable msg1;
-  msg1.isEnabled = msg2.is_enabled;
-  msg1.uid = msg2.uid;
-  msg1.data = convertROS1(msg2.data);
-  return msg1;
+  dst.isEnabled = src.is_enabled;
+  dst.uid = src.uid;
+  convertMsg(src.data, dst.data);
 }
 
 std::map<std::string, std::string> Factory::topics_2to1 = {

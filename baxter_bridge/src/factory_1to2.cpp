@@ -2,6 +2,10 @@
 #include <baxter_bridge/bridge_1to2.h>
 #include <baxter_bridge/factory.h>
 //messages
+#include <sensor_msgs/Range.h>
+#include <sensor_msgs/msg/range.hpp>
+#include <sensor_msgs/PointCloud.h>
+#include <sensor_msgs/msg/point_cloud.hpp>
 #include <sensor_msgs/CameraInfo.h>
 #include <sensor_msgs/msg/camera_info.hpp>
 #include <sensor_msgs/Image.h>
@@ -59,447 +63,390 @@ namespace baxter_bridge
 {
 // converters
 template<>
-auto convertROS2(const std_msgs::Header &msg1)
+void convertMsg(const std_msgs::Header &src, std_msgs::msg::Header &dst)
 {
-  std_msgs::msg::Header msg2;
-  msg2.stamp = Bridge::ros2_now();
-  msg2.frame_id = msg1.frame_id;
-  return msg2;
+  dst.stamp = Bridge::ros2_now();
+  dst.frame_id = src.frame_id;
 }
 
 template<>
-auto convertROS2(const sensor_msgs::RegionOfInterest &msg1)
+void convertMsg(const sensor_msgs::Range &src, sensor_msgs::msg::Range &dst)
 {
-  sensor_msgs::msg::RegionOfInterest msg2;
-  msg2.x_offset = msg1.x_offset;
-  msg2.y_offset = msg1.y_offset;
-  msg2.height = msg1.height;
-  msg2.width = msg1.width;
-  msg2.do_rectify = msg1.do_rectify;
-  return msg2;
+  convertMsg(src.header, dst.header);
+  dst.radiation_type = src.radiation_type;
+  dst.field_of_view = src.field_of_view;
+  dst.min_range = src.min_range;
+  dst.max_range = src.max_range;
+  dst.range = src.range;
 }
 
 template<>
-auto convertROS2(const sensor_msgs::CameraInfo &msg1)
+void convertMsg(const geometry_msgs::Point32 &src, geometry_msgs::msg::Point32 &dst)
 {
-  sensor_msgs::msg::CameraInfo msg2;
-  msg2.header = convertROS2(msg1.header);
-  msg2.height = msg1.height;
-  msg2.width = msg1.width;
-  msg2.distortion_model = msg1.distortion_model;
-  msg2.d = msg1.D;
-  std::copy(msg1.K.begin(), msg1.K.end(), msg2.k.begin());
-  std::copy(msg1.R.begin(), msg1.R.end(), msg2.r.begin());
-  std::copy(msg1.P.begin(), msg1.P.end(), msg2.p.begin());
-  msg2.binning_x = msg1.binning_x;
-  msg2.binning_y = msg1.binning_y;
-  msg2.roi = convertROS2(msg1.roi);
-  return msg2;
+  dst.x = src.x;
+  dst.y = src.y;
+  dst.z = src.z;
 }
 
 template<>
-auto convertROS2(const sensor_msgs::Image &msg1)
+void convertMsg(const sensor_msgs::ChannelFloat32 &src, sensor_msgs::msg::ChannelFloat32 &dst)
 {
-  sensor_msgs::msg::Image msg2;
-  msg2.header = convertROS2(msg1.header);
-  msg2.height = msg1.height;
-  msg2.width = msg1.width;
-  msg2.encoding = msg1.encoding;
-  msg2.is_bigendian = msg1.is_bigendian;
-  msg2.step = msg1.step;
-  msg2.data = msg1.data;
-  return msg2;
+  dst.name = src.name;
+  dst.values = src.values;
 }
 
 template<>
-auto convertROS2(const diagnostic_msgs::KeyValue &msg1)
+void convertMsg(const sensor_msgs::PointCloud &src, sensor_msgs::msg::PointCloud &dst)
 {
-  diagnostic_msgs::msg::KeyValue msg2;
-  msg2.key = msg1.key;
-  msg2.value = msg1.value;
-  return msg2;
+  convertMsg(src.header, dst.header);
+  convertMsg(src.points, dst.points);
+  convertMsg(src.channels, dst.channels);
 }
 
 template<>
-auto convertROS2(const diagnostic_msgs::DiagnosticStatus &msg1)
+void convertMsg(const sensor_msgs::RegionOfInterest &src, sensor_msgs::msg::RegionOfInterest &dst)
 {
-  diagnostic_msgs::msg::DiagnosticStatus msg2;
-  msg2.level = msg1.level;
-  msg2.name = msg1.name;
-  msg2.message = msg1.message;
-  msg2.hardware_id = msg1.hardware_id;
-  std::transform(msg1.values.begin(), msg1.values.end(),
-                 std::back_inserter(msg2.values),
-                 convertROS2<diagnostic_msgs::KeyValue>);
-  return msg2;
+  dst.x_offset = src.x_offset;
+  dst.y_offset = src.y_offset;
+  dst.height = src.height;
+  dst.width = src.width;
+  dst.do_rectify = src.do_rectify;
 }
 
 template<>
-auto convertROS2(const diagnostic_msgs::DiagnosticArray &msg1)
+void convertMsg(const sensor_msgs::CameraInfo &src, sensor_msgs::msg::CameraInfo &dst)
 {
-  diagnostic_msgs::msg::DiagnosticArray msg2;
-  msg2.header = convertROS2(msg1.header);
-  std::transform(msg1.status.begin(), msg1.status.end(),
-                 std::back_inserter(msg2.status),
-                 convertROS2<diagnostic_msgs::DiagnosticStatus>);
-  return msg2;
+  convertMsg(src.header, dst.header);
+  dst.height = src.height;
+  dst.width = src.width;
+  dst.distortion_model = src.distortion_model;
+  dst.d = src.D;
+  convertMsg(src.K, dst.k);
+  convertMsg(src.R, dst.r);
+  convertMsg(src.P, dst.p);
+  dst.binning_x = src.binning_x;
+  dst.binning_y = src.binning_y;
+  convertMsg(src.roi, dst.roi);
 }
 
 template<>
-auto convertROS2(const std_msgs::MultiArrayDimension &msg1)
+void convertMsg(const sensor_msgs::Image &src, sensor_msgs::msg::Image &dst)
 {
-  std_msgs::msg::MultiArrayDimension msg2;
-  msg2.label = msg1.label;
-  msg2.size = msg1.size;
-  msg2.stride = msg1.stride;
-  return msg2;
+  convertMsg(src.header, dst.header);
+  dst.height = src.height;
+  dst.width = src.width;
+  dst.encoding = src.encoding;
+  dst.is_bigendian = src.is_bigendian;
+  dst.step = src.step;
+  dst.data = src.data;
 }
 
 template<>
-auto convertROS2(const std_msgs::MultiArrayLayout &msg1)
+void convertMsg(const diagnostic_msgs::KeyValue &src, diagnostic_msgs::msg::KeyValue &dst)
 {
-  std_msgs::msg::MultiArrayLayout msg2;
-  std::transform(msg1.dim.begin(), msg1.dim.end(),
-                 std::back_inserter(msg2.dim),
-                 convertROS2<std_msgs::MultiArrayDimension>);
-  msg2.data_offset = msg1.data_offset;
-  return msg2;
+  dst.key = src.key;
+  dst.value = src.value;
 }
 
 template<>
-auto convertROS2(const std_msgs::UInt8MultiArray &msg1)
+void convertMsg(const diagnostic_msgs::DiagnosticStatus &src, diagnostic_msgs::msg::DiagnosticStatus &dst)
 {
-  std_msgs::msg::UInt8MultiArray msg2;
-  msg2.layout = convertROS2(msg1.layout);
-  msg2.data = msg1.data;
-  return msg2;
+  dst.level = src.level;
+  dst.name = src.name;
+  dst.message = src.message;
+  dst.hardware_id = src.hardware_id;
+  convertMsg(src.values, dst.values);
 }
 
 template<>
-auto convertROS2(const std_msgs::UInt32 &msg1)
+void convertMsg(const diagnostic_msgs::DiagnosticArray &src, diagnostic_msgs::msg::DiagnosticArray &dst)
 {
-  std_msgs::msg::UInt32 msg2;
-  msg2.data = msg1.data;
-  return msg2;
+  convertMsg(src.header, dst.header);
+  convertMsg(src.status, dst.status);
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::AnalogIOState &msg1)
+void convertMsg(const std_msgs::MultiArrayDimension &src, std_msgs::msg::MultiArrayDimension &dst)
 {
-  baxter_core_msgs::msg::AnalogIOState msg2;
-  msg2.timestamp = Bridge::ros2_now();
-  msg2.value = msg1.value;
-  msg2.is_input_only = msg1.isInputOnly;
-  return msg2;
+  dst.label = src.label;
+  dst.size = src.size;
+  dst.stride = src.stride;
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::AnalogIOStates &msg1)
+void convertMsg(const std_msgs::MultiArrayLayout &src, std_msgs::msg::MultiArrayLayout &dst)
 {
-  baxter_core_msgs::msg::AnalogIOStates msg2;
-  msg2.names = msg1.names;
-  std::transform(msg1.states.begin(), msg1.states.end(),
-                 std::back_inserter(msg2.states),
-                 convertROS2<baxter_core_msgs::AnalogIOState>);
-  return msg2;
+  convertMsg(src.dim, dst.dim);
+  dst.data_offset = src.data_offset;
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::DigitalOutputCommand &msg1)
+void convertMsg(const std_msgs::UInt8MultiArray &src, std_msgs::msg::UInt8MultiArray &dst)
 {
-  baxter_core_msgs::msg::DigitalOutputCommand msg2;
-  msg2.name = msg1.name;
-  msg2.value = msg1.value;
-  return msg2;
+  convertMsg(src.layout, dst.layout);
+  dst.data = src.data;
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::DigitalIOState &msg1)
+void convertMsg(const std_msgs::UInt32 &src, std_msgs::msg::UInt32 &dst)
 {
-  baxter_core_msgs::msg::DigitalIOState msg2;
-  msg2.state = msg1.state;
-  msg2.is_input_only = msg1.isInputOnly;
-  return msg2;
+  dst.data = src.data;
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::DigitalIOStates &msg1)
+void convertMsg(const baxter_core_msgs::AnalogIOState &src, baxter_core_msgs::msg::AnalogIOState &dst)
 {
-  baxter_core_msgs::msg::DigitalIOStates msg2;
-  msg2.names = msg1.names;
-  std::transform(msg1.states.begin(), msg1.states.end(),
-                 std::back_inserter(msg2.states),
-                 convertROS2<baxter_core_msgs::DigitalIOState>);
-  return msg2;
+  dst.timestamp = Bridge::ros2_now();
+  dst.value = src.value;
+  dst.is_input_only = src.isInputOnly;
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::EndEffectorCommand &msg1)
+void convertMsg(const baxter_core_msgs::AnalogIOStates &src, baxter_core_msgs::msg::AnalogIOStates &dst)
 {
-  baxter_core_msgs::msg::EndEffectorCommand msg2;
-  msg2.id = msg1.id;
-  msg2.command = msg1.command;
-  msg2.args = msg1.args;
-  msg2.sender = msg1.sender;
-  msg2.sequence = msg1.sequence;
-  return msg2;
+  dst.names = src.names;
+  convertMsg(src.states, dst.states);
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::EndEffectorProperties &msg1)
+void convertMsg(const baxter_core_msgs::DigitalOutputCommand &src, baxter_core_msgs::msg::DigitalOutputCommand &dst)
 {
-  baxter_core_msgs::msg::EndEffectorProperties msg2;
-  msg2.id = msg1.id;
-  msg2.ui_type = msg1.ui_type;
-  msg2.manufacturer = msg1.manufacturer;
-  msg2.product = msg1.product;
-  msg2.serial_number = msg1.serial_number;
-  msg2.hardware_rev = msg1.hardware_rev;
-  msg2.firmware_rev = msg1.firmware_rev;
-  msg2.firmware_date = msg1.firmware_date;
-  msg2.has_calibration = msg1.has_calibration;
-  msg2.controls_grip = msg1.controls_grip;
-  msg2.senses_grip = msg1.senses_grip;
-  msg2.reverses_grip = msg1.reverses_grip;
-  msg2.controls_force = msg1.controls_force;
-  msg2.senses_force = msg1.senses_force;
-  msg2.controls_position = msg1.controls_position;
-  msg2.senses_position = msg1.senses_position;
-  msg2.properties = msg1.properties;
-  return msg2;
+  dst.name = src.name;
+  dst.value = src.value;
 }
 
 template<>
-auto convertROS2(const std_msgs::Bool &msg1)
+void convertMsg(const baxter_core_msgs::DigitalIOState &src, baxter_core_msgs::msg::DigitalIOState &dst)
 {
-  std_msgs::msg::Bool msg2;
-  msg2.data = msg1.data;
-  return msg2;
+  dst.state = src.state;
+  dst.is_input_only = src.isInputOnly;
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::HeadPanCommand &msg1)
+void convertMsg(const baxter_core_msgs::DigitalIOStates &src, baxter_core_msgs::msg::DigitalIOStates &dst)
 {
-  baxter_core_msgs::msg::HeadPanCommand msg2;
-  msg2.target = msg1.target;
-  msg2.speed_ratio = msg1.speed_ratio;
-  msg2.enable_pan_request = msg1.enable_pan_request;
-  return msg2;
+  dst.names = src.names;
+  convertMsg(src.states, dst.states);
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::HeadState &msg1)
+void convertMsg(const baxter_core_msgs::EndEffectorCommand &src, baxter_core_msgs::msg::EndEffectorCommand &dst)
 {
-  baxter_core_msgs::msg::HeadState msg2;
-  msg2.pan = msg1.pan;
-  msg2.is_turning = msg1.isTurning;
-  msg2.is_nodding = msg1.isNodding;
-  msg2.is_pan_enabled = msg1.isPanEnabled;
-  return msg2;
+  dst.id = src.id;
+  dst.command = src.command;
+  dst.args = src.args;
+  dst.sender = src.sender;
+  dst.sequence = src.sequence;
 }
 
 template<>
-auto convertROS2(const sensor_msgs::JointState &msg1)
+void convertMsg(const baxter_core_msgs::EndEffectorProperties &src, baxter_core_msgs::msg::EndEffectorProperties &dst)
 {
-  sensor_msgs::msg::JointState msg2;
-  msg2.header = convertROS2(msg1.header);
-  msg2.name = msg1.name;
-  msg2.position = msg1.position;
-  msg2.velocity = msg1.velocity;
-  msg2.effort = msg1.effort;
-  return msg2;
+  dst.id = src.id;
+  dst.ui_type = src.ui_type;
+  dst.manufacturer = src.manufacturer;
+  dst.product = src.product;
+  dst.serial_number = src.serial_number;
+  dst.hardware_rev = src.hardware_rev;
+  dst.firmware_rev = src.firmware_rev;
+  dst.firmware_date = src.firmware_date;
+  dst.has_calibration = src.has_calibration;
+  dst.controls_grip = src.controls_grip;
+  dst.senses_grip = src.senses_grip;
+  dst.reverses_grip = src.reverses_grip;
+  dst.controls_force = src.controls_force;
+  dst.senses_force = src.senses_force;
+  dst.controls_position = src.controls_position;
+  dst.senses_position = src.senses_position;
+  dst.properties = src.properties;
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::CollisionAvoidanceState &msg1)
+void convertMsg(const std_msgs::Bool &src, std_msgs::msg::Bool &dst)
 {
-  baxter_core_msgs::msg::CollisionAvoidanceState msg2;
-  msg2.header = convertROS2(msg1.header);
-  msg2.other_arm = msg1.other_arm;
-  msg2.collision_object = msg1.collision_object;
-  return msg2;
+  dst.data = src.data;
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::CollisionDetectionState &msg1)
+void convertMsg(const baxter_core_msgs::HeadPanCommand &src, baxter_core_msgs::msg::HeadPanCommand &dst)
 {
-  baxter_core_msgs::msg::CollisionDetectionState msg2;
-  msg2.header = convertROS2(msg1.header);
-  msg2.collision_state = msg1.collision_state;
-  return msg2;
+  dst.target = src.target;
+  dst.speed_ratio = src.speed_ratio;
+  dst.enable_pan_request = src.enable_pan_request;
 }
 
 template<>
-auto convertROS2(const geometry_msgs::Point &msg1)
+void convertMsg(const baxter_core_msgs::HeadState &src, baxter_core_msgs::msg::HeadState &dst)
 {
-  geometry_msgs::msg::Point msg2;
-  msg2.x = msg1.x;
-  msg2.y = msg1.y;
-  msg2.z = msg1.z;
-  return msg2;
+  dst.pan = src.pan;
+  dst.is_turning = src.isTurning;
+  dst.is_nodding = src.isNodding;
+  dst.is_pan_enabled = src.isPanEnabled;
 }
 
 template<>
-auto convertROS2(const geometry_msgs::Quaternion &msg1)
+void convertMsg(const sensor_msgs::JointState &src, sensor_msgs::msg::JointState &dst)
 {
-  geometry_msgs::msg::Quaternion msg2;
-  msg2.x = msg1.x;
-  msg2.y = msg1.y;
-  msg2.z = msg1.z;
-  msg2.w = msg1.w;
-  return msg2;
+  convertMsg(src.header, dst.header);
+  dst.name = src.name;
+  dst.position = src.position;
+  dst.velocity = src.velocity;
+  dst.effort = src.effort;
 }
 
 template<>
-auto convertROS2(const geometry_msgs::Pose &msg1)
+void convertMsg(const baxter_core_msgs::CollisionAvoidanceState &src, baxter_core_msgs::msg::CollisionAvoidanceState &dst)
 {
-  geometry_msgs::msg::Pose msg2;
-  msg2.position = convertROS2(msg1.position);
-  msg2.orientation = convertROS2(msg1.orientation);
-  return msg2;
+  convertMsg(src.header, dst.header);
+  dst.other_arm = src.other_arm;
+  dst.collision_object = src.collision_object;
 }
 
 template<>
-auto convertROS2(const geometry_msgs::Vector3 &msg1)
+void convertMsg(const baxter_core_msgs::CollisionDetectionState &src, baxter_core_msgs::msg::CollisionDetectionState &dst)
 {
-  geometry_msgs::msg::Vector3 msg2;
-  msg2.x = msg1.x;
-  msg2.y = msg1.y;
-  msg2.z = msg1.z;
-  return msg2;
+  convertMsg(src.header, dst.header);
+  dst.collision_state = src.collision_state;
 }
 
 template<>
-auto convertROS2(const geometry_msgs::Twist &msg1)
+void convertMsg(const geometry_msgs::Point &src, geometry_msgs::msg::Point &dst)
 {
-  geometry_msgs::msg::Twist msg2;
-  msg2.linear = convertROS2(msg1.linear);
-  msg2.angular = convertROS2(msg1.angular);
-  return msg2;
+  dst.x = src.x;
+  dst.y = src.y;
+  dst.z = src.z;
 }
 
 template<>
-auto convertROS2(const geometry_msgs::Wrench &msg1)
+void convertMsg(const geometry_msgs::Quaternion &src, geometry_msgs::msg::Quaternion &dst)
 {
-  geometry_msgs::msg::Wrench msg2;
-  msg2.force = convertROS2(msg1.force);
-  msg2.torque = convertROS2(msg1.torque);
-  return msg2;
+  dst.x = src.x;
+  dst.y = src.y;
+  dst.z = src.z;
+  dst.w = src.w;
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::EndpointState &msg1)
+void convertMsg(const geometry_msgs::Pose &src, geometry_msgs::msg::Pose &dst)
 {
-  baxter_core_msgs::msg::EndpointState msg2;
-  msg2.header = convertROS2(msg1.header);
-  msg2.pose = convertROS2(msg1.pose);
-  msg2.twist = convertROS2(msg1.twist);
-  msg2.wrench = convertROS2(msg1.wrench);
-  return msg2;
+  convertMsg(src.position, dst.position);
+  convertMsg(src.orientation, dst.orientation);
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::SEAJointState &msg1)
+void convertMsg(const geometry_msgs::Vector3 &src, geometry_msgs::msg::Vector3 &dst)
 {
-  baxter_core_msgs::msg::SEAJointState msg2;
-  msg2.header = convertROS2(msg1.header);
-  msg2.name = msg1.name;
-  msg2.commanded_position = msg1.commanded_position;
-  msg2.commanded_velocity = msg1.commanded_velocity;
-  msg2.commanded_acceleration = msg1.commanded_acceleration;
-  msg2.commanded_effort = msg1.commanded_effort;
-  msg2.actual_position = msg1.actual_position;
-  msg2.actual_velocity = msg1.actual_velocity;
-  msg2.actual_effort = msg1.actual_effort;
-  msg2.gravity_model_effort = msg1.gravity_model_effort;
-  msg2.gravity_only = msg1.gravity_only;
-  msg2.hysteresis_model_effort = msg1.hysteresis_model_effort;
-  msg2.crosstalk_model_effort = msg1.crosstalk_model_effort;
-  msg2.hyst_state = msg1.hystState;
-  return msg2;
+  dst.x = src.x;
+  dst.y = src.y;
+  dst.z = src.z;
 }
 
 template<>
-auto convertROS2(const std_msgs::Empty &)
+void convertMsg(const geometry_msgs::Twist &src, geometry_msgs::msg::Twist &dst)
 {
-  std_msgs::msg::Empty msg2;
-  return msg2;
+  convertMsg(src.linear, dst.linear);
+  convertMsg(src.angular, dst.angular);
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::NavigatorState &msg1)
+void convertMsg(const geometry_msgs::Wrench &src, geometry_msgs::msg::Wrench &dst)
 {
-  baxter_core_msgs::msg::NavigatorState msg2;
-  msg2.button_names = msg1.button_names;
-  std::transform(msg1.buttons.begin(), msg1.buttons.end(), 
-    std::back_inserter(msg2.buttons), [](auto b){return static_cast<bool>(b);});
-  msg2.wheel = msg1.wheel;
-  msg2.light_names = msg1.light_names;
-  std::transform(msg1.lights.begin(), msg1.lights.end(), 
-    std::back_inserter(msg2.lights), [](auto b){return static_cast<bool>(b);});
-  return msg2;
+  convertMsg(src.force, dst.force);
+  convertMsg(src.torque, dst.torque);
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::NavigatorStates &msg1)
+void convertMsg(const baxter_core_msgs::EndpointState &src, baxter_core_msgs::msg::EndpointState &dst)
 {
-  baxter_core_msgs::msg::NavigatorStates msg2;
-  msg2.names = msg1.names;
-  std::transform(msg1.states.begin(), msg1.states.end(),
-                 std::back_inserter(msg2.states),
-                 convertROS2<baxter_core_msgs::NavigatorState>);
-  return msg2;
+  convertMsg(src.header, dst.header);
+  convertMsg(src.pose, dst.pose);
+  convertMsg(src.twist, dst.twist);
+  convertMsg(src.wrench, dst.wrench);
 }
 
 template<>
-auto convertROS2(const std_msgs::Float32 &msg1)
+void convertMsg(const baxter_core_msgs::SEAJointState &src, baxter_core_msgs::msg::SEAJointState &dst)
 {
-  std_msgs::msg::Float32 msg2;
-  msg2.data = msg1.data;
-  return msg2;
+  convertMsg(src.header, dst.header);
+  dst.name = src.name;
+  dst.commanded_position = src.commanded_position;
+  dst.commanded_velocity = src.commanded_velocity;
+  dst.commanded_acceleration = src.commanded_acceleration;
+  dst.commanded_effort = src.commanded_effort;
+  dst.actual_position = src.actual_position;
+  dst.actual_velocity = src.actual_velocity;
+  dst.actual_effort = src.actual_effort;
+  dst.gravity_model_effort = src.gravity_model_effort;
+  dst.gravity_only = src.gravity_only;
+  dst.hysteresis_model_effort = src.hysteresis_model_effort;
+  dst.crosstalk_model_effort = src.crosstalk_model_effort;
+  dst.hyst_state = src.hystState;
 }
 
 template<>
-auto convertROS2(const std_msgs::UInt16 &msg1)
+void convertMsg(const std_msgs::Empty &, std_msgs::msg::Empty &)
 {
-  std_msgs::msg::UInt16 msg2;
-  msg2.data = msg1.data;
-  return msg2;
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::URDFConfiguration &msg1)
+void convertMsg(const baxter_core_msgs::NavigatorState &src, baxter_core_msgs::msg::NavigatorState &dst)
 {
-  baxter_core_msgs::msg::URDFConfiguration msg2;
-  msg2.time = Bridge::ros2_now();
-  msg2.link = msg1.link;
-  msg2.joint = msg1.joint;
-  msg2.urdf = msg1.urdf;
-  return msg2;
+  dst.button_names = src.button_names;
+  convertMsg(src.buttons, dst.buttons);
+  dst.wheel = src.wheel;
+  dst.light_names = src.light_names;
+  convertMsg(src.lights, dst.lights);
 }
 
 template<>
-auto convertROS2(const baxter_core_msgs::RobustControllerStatus &msg1)
+void convertMsg(const baxter_core_msgs::NavigatorStates &src, baxter_core_msgs::msg::NavigatorStates &dst)
 {
-  baxter_core_msgs::msg::RobustControllerStatus msg2;
-  msg2.is_enabled = msg1.isEnabled;
-  msg2.complete = msg1.complete;
-  msg2.control_uid = msg1.controlUid;
-  msg2.timed_out = msg1.timedOut;
-  msg2.error_codes = msg1.errorCodes;
-  msg2.labels = msg1.labels;
-  return msg2;
+  dst.names = src.names;
+  convertMsg(src.states, dst.states);
 }
 
 template<>
-auto convertROS2(const std_msgs::Int32 &msg1)
+void convertMsg(const std_msgs::Float32 &src, std_msgs::msg::Float32 &dst)
 {
-  std_msgs::msg::Int32 msg2;
-  msg2.data = msg1.data;
-  return msg2;
+  dst.data = src.data;
+}
+
+template<>
+void convertMsg(const std_msgs::UInt16 &src, std_msgs::msg::UInt16 &dst)
+{
+  dst.data = src.data;
+}
+
+template<>
+void convertMsg(const baxter_core_msgs::URDFConfiguration &src, baxter_core_msgs::msg::URDFConfiguration &dst)
+{
+  dst.time = Bridge::ros2_now();
+  dst.link = src.link;
+  dst.joint = src.joint;
+  dst.urdf = src.urdf;
+}
+
+template<>
+void convertMsg(const baxter_core_msgs::RobustControllerStatus &src, baxter_core_msgs::msg::RobustControllerStatus &dst)
+{
+  dst.is_enabled = src.isEnabled;
+  dst.complete = src.complete;
+  dst.control_uid = src.controlUid;
+  dst.timed_out = src.timedOut;
+  dst.error_codes = src.errorCodes;
+  dst.labels = src.labels;
+}
+
+template<>
+void convertMsg(const std_msgs::Int32 &src, std_msgs::msg::Int32 &dst)
+{
+  dst.data = src.data;
 }
 
 std::map<std::string, std::string> Factory::topics_1to2 = {
+  {"/robot/range/left_hand_range", "sensor_msgs/Range"},
+  {"/robot/range/right_hand_range", "sensor_msgs/Range"},
+  {"/robot/sonar/head_sonar/state", "sensor_msgs/PointCloud"},
   {"/cameras/left_hand_camera/camera_info", "sensor_msgs/CameraInfo"},
   {"/cameras/left_hand_camera/camera_info_std", "sensor_msgs/CameraInfo"},
   {"/cameras/left_hand_camera/image", "sensor_msgs/Image"},
@@ -570,7 +517,17 @@ std::map<std::string, std::string> Factory::topics_1to2 = {
 
 void Factory::createBridge_1to2(const std::string &topic, const std::string &msg)
 {
-  if(msg == "sensor_msgs/CameraInfo")
+  if(msg == "sensor_msgs/Range")
+  {
+    bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::Range, sensor_msgs::msg::Range>>
+        (topic));
+  }
+  else if(msg == "sensor_msgs/PointCloud")
+  {
+    bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::PointCloud, sensor_msgs::msg::PointCloud>>
+        (topic));
+  }
+  else if(msg == "sensor_msgs/CameraInfo")
   {
     bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::CameraInfo, sensor_msgs::msg::CameraInfo>>
         (topic));

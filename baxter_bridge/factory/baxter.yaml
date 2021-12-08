@@ -1,5 +1,16 @@
 # quickly processed output of all rostopic info when connected to Baxter
-
+/robot/range/left_hand_range:
+  Type: sensor_msgs/Range
+  Publishers:
+    - baxter.local
+/robot/range/right_hand_range:
+  Type: sensor_msgs/Range
+  Publishers:
+    - baxter.local
+/robot/sonar/head_sonar/state:
+  Type: sensor_msgs/PointCloud
+  Publishers:
+    - baxter.local
 /ExternalTools/left/PositionKinematicsNode/FKServer/reply:
   Type: 'RosMsgToolsMsgs/Reply'
 

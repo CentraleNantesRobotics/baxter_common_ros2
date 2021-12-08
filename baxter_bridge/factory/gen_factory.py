@@ -4,6 +4,8 @@ import os
 import yaml
 import sys
 
+debug = False
+
 
 if '-s' in sys.argv:
     # scan topics, make sure to be on a ROS 1 terminal connected to Baxter
@@ -29,8 +31,11 @@ pkg_dir = os.path.abspath(os.path.dirname(__file__) + '/..')
 
 ignores = ['/tf','/rosout']
 
-def is_builtin(msg):    
-    return msg[0].islower() and '/' not in msg and any(b in msg for b in ['bool','float','int','string','byte'])
+builtin = ['bool','float','int','string','byte']
+
+def is_builtin(msg):
+    is_array = msg[-1] == ']' and msg[-2] != '['    
+    return msg[0].islower() and not is_array and '/' not in msg and any(b in msg for b in builtin)
 
 def ros2_include(msg):
     # ROS 2 uses only lower case
@@ -49,7 +54,7 @@ def ros2_include(msg):
     return include+'.hpp'
     
 
-with open(pkg_dir + '/config/baxter.yaml') as f:
+with open(pkg_dir + '/factory/baxter.yaml') as f:
     infos = yaml.safe_load(f)
     
 deprecated = ['arm_navigation_msgs']
@@ -57,19 +62,27 @@ deprecated = ['arm_navigation_msgs']
 topics = {'publishers': {}, 'subscribers': {}}
 for topic, info in infos.items(): 
     if any(d in info['Type'] for d in deprecated): continue
-    #if not any(keep in info['Type'] for keep in ['Image','JointState','JointCommand']): continue
+    if debug:
+        if not any(keep in info['Type'] for keep in ['Image','JointState','JointCommand','CameraInfo']): 
+            continue
 
     if 'Publishers' in info and any(p for p in info['Publishers'] if 'baxter.local' in p): 
         topics['publishers'][topic] = info['Type'] 
     if 'Subscribers' in info and any(s for s in info['Subscribers'] if 'baxter.local' in s): 
         topics['subscribers'][topic] = info['Type']
-    
-rules = []
+   
+# special rule for sensor_msgs/CameraInfo
+rules = {'ros1_package_name': 'sensor_msgs'}
+rules['ros1_message_name']= 'CameraInfo'
+rules['fields_1_to_2'] = {}
+for field in 'dkrp':
+    rules['fields_1_to_2'][field.upper()] = field
+
+rules = [rules]
 for pkg in ('baxter_core_msgs','baxter_maintenance_msgs'):    
     with open(pkg_dir + f'/../{pkg}/mapping_rules.yaml') as f:
         rules += yaml.safe_load(f)
-
-    
+        
 # simplify + invert 2 to 1
 rules = dict((r['ros1_package_name']+'/'+r['ros1_message_name'], 
               dict((v,k) for (k,v) in r['fields_1_to_2'].items())) for r in rules)
@@ -90,13 +103,14 @@ def load_message(full_msg):
         if '/' not in sub and not is_builtin(sub):
             fields[field] = f'{pkg}/{sub}'    
     
+    rule = dict((f,f) for f in fields)
     if full_msg in rules:
-        return fields, rules[full_msg]
-    else:
-        return fields, dict((f,f) for f in fields)
+        rule.update(rules[full_msg])
+    return fields,rule
+    
     
 def toElem(msg):
-    return msg.replace('[','').replace(']','')
+    return msg.split('[')[0]
     
 def toROS1(msg):
     return toElem(msg.replace('/', '::'))
@@ -151,41 +165,34 @@ class Factory:
         if msg in self.msgs_done: return True
         
         fields, rule = load_message(msg)
-        if fields is None: return True
-        
-        if msg == 'sensor_msgs/CameraInfo':
-            for k in rule:
-                if len(k) == 1:
-                    rule[k] = k.upper()    
-        
-        fct = 'convertROS' + self.tag[-1] 
+        if fields is None: return True         
+    
+        to2 = self.tag == '1to2'
+                        
         pkg = msg[:msg.find('/')]
-        msg1 = toROS1(msg)
-        msg2 = toROS2(msg)
+        src = toROS2(msg)
+        dst = toROS1(msg)
+        
+        if to2:
+            src,dst = dst,src
         
         valid = True
         
-        to2 = self.tag == '1to2'
-        
-        if to2:
-            fwd = [f'template<>\nauto {fct}(const {msg1} &msg1)']
-            fwd += ['{',f'  {msg2} msg2;']
-        else:
-            src,dst = 'msg2','msg1'
-            fwd = [f'template<>\nauto {fct}(const {msg2} &msg2)']
-            fwd += ['{',f'  {msg1} msg1;']
-            
         if msg == 'std_msgs/Empty':
-            fwd[0] = fwd[0][:-5]+')'
+            # nothing to do here
+            fwd = [f'template<>\nvoid convertMsg(const {src} &, {dst} &)\n{{']
+                                                                                  
+        else:
+            fwd = [f'template<>\nvoid convertMsg(const {src} &src, {dst} &dst)\n{{'] 
                         
         for field2,sub in fields.items():            
             
             if to2:
-                src_field = f'msg1.{rule[field2]}'
-                dst_field = f'msg2.{field2}'
+                src_field = f'src.{rule[field2]}'
+                dst_field = f'dst.{field2}'
             else:
-                src_field = f'msg2.{field2}'
-                dst_field = f'msg1.{rule[field2]}'
+                src_field = f'src.{field2}'
+                dst_field = f'dst.{rule[field2]}'
             
             # some special cases
             if sub == 'builtin_interfaces/Time':
@@ -199,37 +206,17 @@ class Factory:
                     fwd.append(f'  {dst_field}.nanosec = {src_field}.nsec;')        
                 else:
                     fwd.append(f'  {dst_field}.nsec = {src_field}.nanosec;')
-            elif sub[-1] == ']' and sub[-2] != '[':
-                # array
-                if is_builtin(sub):
-                    fwd.append(f'  std::copy({src_field}.begin(), {src_field}.end(), {dst_field}.begin());')
-                else:
-                    valid = valid and self.build_fwd(sub)
-                    sub = toROS1(sub) if to2 else toROS2(sub)
-                    fwd.append(f'  std::transform({src_field}.begin(), {src_field}.end(),')
-                    fwd.append(f'                 {dst_field}.begin(),')
-                    fwd.append(f'                 {fct}<{sub}>);')                
-            elif sub == 'bool[]':
-                fwd.append(f'''  std::transform({src_field}.begin(), {src_field}.end(), 
-    std::back_inserter({dst_field}), [](auto b){{return static_cast<bool>(b);}});''')
             elif is_builtin(sub):
-                fwd.append(f'  {dst_field} = {src_field};')
-            else:
-                # retrieve full message
-                valid = valid and self.build_fwd(sub)
-                if '[' in sub:
-                    fwd.append(f'  std::transform({src_field}.begin(), {src_field}.end(),')
-                    fwd.append(f'                 std::back_inserter({dst_field}),')
-                    sub = toROS1(sub) if to2 else toROS2(sub)
-                    fwd.append(f'                 {fct}<{sub}>);')
+                if 'bool[' in sub:
+                    fwd.append(f'  convertMsg({src_field}, {dst_field});')                    
                 else:
-                    fwd.append(f'  {dst_field} = {fct}({src_field});')
+                    fwd.append(f'  {dst_field} = {src_field};')
+            else:
+                valid = valid and self.build_fwd(sub)
+                fwd.append(f'  convertMsg({src_field}, {dst_field});')
             
         if valid:
-            print(f'Generating {fct}<{msg1}>\n')
-            
-            
-            fwd.append(f'  return msg{self.tag[-1]};')
+            print(f'Generating convertMsg<{src}, {dst}>\n')
             fwd.append('}\n')
             self.forwards.append('\n'.join(fwd))
             self.msgs_done.append(msg)
