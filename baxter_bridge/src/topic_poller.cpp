@@ -22,33 +22,22 @@ void TopicPoller::poll()
   ros2_published.clear();
   ros2_subscribed.clear();
 
+  // only register topics that have not been bridged
   for(const auto &info: info1)
   {
     const auto &topic{info.name};
     if(Factory::isPublishedByBaxter(topic))
-    {
-      // known topic published by Baxter
       ros1_published.push_back(topic);
-    }
     else if(Factory::isSubscribedByBaxter(topic))
-    {
-      // known topic subscribed
       ros1_subscribed.push_back(topic);
-    }
   }
 
   for(const auto &[topic, msg]: info2)
   {
     if(Factory::isPublishedByBaxter(topic))
-    {
-      // known topic published by Baxter
       ros2_subscribed.push_back(topic);
-    }
     else if(Factory::isSubscribedByBaxter(topic))
-    {
-      // known topic subscribed
       ros2_published.push_back(topic);
-    }
   }
 
   std::sort(ros1_published.begin(), ros1_published.end());
@@ -70,5 +59,4 @@ std::vector<std::string> TopicPoller::pendingBridges() const
                             back_inserter(pending));
   return pending;
 }
-
 }

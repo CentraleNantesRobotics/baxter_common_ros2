@@ -8,7 +8,7 @@
 namespace baxter_bridge
 {
 
-// basic types + their vectors
+// basic types + their vectors if same types
 template <class Src, class Dst>
 inline void convertMsg(const Src &src, Dst &dst)
 {
@@ -25,7 +25,7 @@ convertMsg(const std::vector<Src>& src, std::vector<Dst> &dst)
   {Dst converted;convertMsg(elem,converted);return converted;});
 }
 
-// arrays are std vs boost
+// arrays are std in ROS 2 vs boost in ROS 1
 template <class Src, class DstBoostArray, size_t N>
 void convertMsg(const std::array<Src, N> &src, DstBoostArray &dst)
 {

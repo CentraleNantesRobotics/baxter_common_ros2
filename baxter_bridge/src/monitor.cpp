@@ -1,5 +1,6 @@
 #include <baxter_bridge/monitor.h>
-#include <opencv2/highgui.hpp>
+#include <sensor_msgs/Image.h>
+#include <opencv2/imgproc.hpp>
 
 constexpr double timeout_s{1.};
 
@@ -97,8 +98,8 @@ void Monitor::parsePublishRequest(const std::string &user, const std::string &to
     }
   }
 
-  //if(change && im_pub.get())
-  publishXDisplay(now_s);
+  if(change && im_pub.get())
+    publishXDisplay(now_s);
 }
 
 bool Monitor::userCallback(baxter_bridge::BaxterPublishersRequest &req,
@@ -112,10 +113,7 @@ bool Monitor::userCallback(baxter_bridge::BaxterPublishersRequest &req,
 
 void Monitor::publishXDisplay(const double now_s)
 {
-  //static auto im{cv::Mat(600, 1024, CV_8UC3)};
-
   static const std::array<cv::Scalar, 2> colors{cv::Scalar{0,255,0}, cv::Scalar{255,120,80}};
-  //static cv::Mat
   static sensor_msgs::Image im_msg = []()
   {
     sensor_msgs::Image msg;
@@ -128,7 +126,6 @@ void Monitor::publishXDisplay(const double now_s)
     return msg;
   }();
 
-
   // cv::Mat sharing the same memory as im_msg, better than ros1 cv_bridge
   cv::Mat im = [](sensor_msgs::Image &msg)
   {
@@ -139,9 +136,10 @@ void Monitor::publishXDisplay(const double now_s)
     return im;
   }(im_msg);
 
-  // reset
+  // all black
   im.setTo(0);
 
+  // should probably adapt to publishers size
   constexpr auto row_inc{50};
   constexpr auto font_size{1.4};
 
@@ -156,10 +154,6 @@ void Monitor::publishXDisplay(const double now_s)
 
     row += row_inc;
   }
-
-  cv::imshow("publishers", im);
-  cv::waitKey(1);
-
   im_pub->publish(im_msg);
 
 }
