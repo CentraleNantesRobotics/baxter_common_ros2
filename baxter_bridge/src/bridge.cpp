@@ -80,6 +80,10 @@ bool Bridge::initRSP()
     RCLCPP_ERROR(ros2()->get_logger(), "Cannot find param /robot_description: run a simulation or connect to Baxter");
     return false;
   }
+
+  urdf::Model model;
+  model.initString(description);
+
   const std::string description_file{"/tmp/baxter_description.yaml"};
   std::ofstream description_stream;
   description_stream.open(description_file.c_str());
@@ -94,7 +98,12 @@ bool Bridge::initRSP()
   rsp_arg.arguments({"--ros-args", "-r", "__ns:=/robot", "--params-file", description_file});
   rsp_node = std::make_shared<robot_state_publisher::RobotStatePublisher>(rsp_arg);
 
-  exec->add_node(rsp_node);
+  if(model.getName() == "baxter")
+    RCLCPP_INFO(ros2()->get_logger(), "Using Baxter's robot description");
+  else
+    RCLCPP_WARN(ros2()->get_logger(), "Using description of robot '" + model.getName() + "'");
+
+  exec->add_node(rsp_node); 
 
   return true;
 }

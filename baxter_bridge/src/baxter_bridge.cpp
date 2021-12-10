@@ -10,16 +10,10 @@ int main(int argc, char** argv)
   if(!Bridge::init(argc, argv))
     return 0;
 
-  // basic command and inverse kinematics for both arms
-  SolveIK left("left"), right("right");
-
-  // we always like to have joint states
-  Factory::createBridge("/robot/joint_states");
-
   std::unique_ptr<TopicPoller> poller;
   if(Bridge::onBaxter())
   {
-    RCLCPP_INFO(Bridge::ros2()->get_logger(), "Connected to Baxter");
+    RCLCPP_INFO(Bridge::ros2()->get_logger(), "Connected to real Baxter");
     // other cheap bridges we are usually interested in
     // makes it easier to spawn in RViz2 if they are advertized in ROS 2
     Factory::createBridge("/robot/range/left_hand_range");
@@ -33,8 +27,13 @@ int main(int argc, char** argv)
   }
   else
   {
-    RCLCPP_INFO(Bridge::ros2()->get_logger(), "Not connected to Baxter");
+    RCLCPP_WARN(Bridge::ros2()->get_logger(), "Not connected to real Baxter");
   }
+
+  // basic command and inverse kinematics for both arms
+  SolveIK left("left"), right("right");
+  // we always like to have joint states
+  Factory::createBridge("/robot/joint_states");
 
   ros::AsyncSpinner async(1);
   async.start();

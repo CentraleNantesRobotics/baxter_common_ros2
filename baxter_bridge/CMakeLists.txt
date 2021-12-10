@@ -18,7 +18,6 @@ find_package(diagnostic_msgs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
 find_package(robot_state_publisher REQUIRED)
 
-find_package(Boost REQUIRED)
 find_package(OpenCV REQUIRED)
 
 set(CMAKE_BUILD_TYPE Release)
@@ -40,6 +39,7 @@ add_executable(baxter_bridge    src/baxter_bridge.cpp
 target_include_directories(baxter_bridge PRIVATE ${ROS1_INCLUDES} include ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
 target_link_directories(baxter_bridge PUBLIC ${ROS1_ROOT}/lib)
 target_link_libraries(baxter_bridge ${ROS1_LIBS} ${OpenCV_LIBS})
+
 ament_target_dependencies(baxter_bridge 
 rclcpp sensor_msgs baxter_core_msgs baxter_maintenance_msgs diagnostic_msgs trajectory_msgs robot_state_publisher)
 

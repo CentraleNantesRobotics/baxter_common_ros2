@@ -4,7 +4,7 @@ import os
 import yaml
 import sys
 
-debug = False
+debug = '-d' in sys.argv
 
 
 if '-s' in sys.argv:

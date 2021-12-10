@@ -13,6 +13,9 @@ def generate_launch_description():
         get_package_share_directory('baxter_description'),
         'urdf',
         'baxter.urdf')
+    
+    with open(urdf) as f:
+        urdf_xml = f.read()
 
     return LaunchDescription([
         Node(
@@ -20,6 +23,6 @@ def generate_launch_description():
             executable='robot_state_publisher',
             name='robot_state_publisher',
             output='screen',
-            arguments=[urdf],
+            parameters=[{'robot_description': urdf_xml}],
             remappings={'/joint_states': '/robot/joint_states'}.items()),
     ])
