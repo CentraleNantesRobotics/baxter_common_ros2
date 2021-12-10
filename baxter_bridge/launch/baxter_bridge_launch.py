@@ -18,7 +18,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
         "rviz",
-        default_value="False",
+        default_value="True",
         description="Whether to spawn RViz together with the bridge"),
         Node(
             package='baxter_bridge',
