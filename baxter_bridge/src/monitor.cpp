@@ -10,6 +10,13 @@ using namespace baxter_bridge;
 Monitor::Monitor(std::string name, bool display) : name{name}, display{display}
 {
   client = nh.serviceClient<baxter_bridge::BaxterPublishers>("/monitor", true);
+
+  im_timer = nh.createTimer(ros::Duration(timeout_s/2),
+                            [&](const ros::TimerEvent&)
+  {
+    if(im_pub.get())
+      publishXDisplay();
+  });
 }
 
 // local call to the monitor
@@ -62,13 +69,13 @@ void Monitor::parsePublishRequest(const std::string &user, const std::string &to
                          [topic](const auto &pub){return pub.topic == topic;})};
   const auto now_s{ros::Time::now().toSec()};
 
-  auto change{false};
+  //auto change{false};
   std::string user_authorized{user};
 
   if(prev == pub_state.publishers.end())
   {
     // new topic!
-    change = true;
+    //change = true;
     pub_state.publishers.push_back({});
     auto &last{pub_state.publishers.back()};
     last.topic = topic;
@@ -89,7 +96,7 @@ void Monitor::parsePublishRequest(const std::string &user, const std::string &to
       // previous user has not published for 1 sec
       prev->user = pub_state.authorized_user = user;
       prev->time = now_s;
-      change = true;
+      //change = true;
     }
     else
     {
@@ -97,9 +104,6 @@ void Monitor::parsePublishRequest(const std::string &user, const std::string &to
       pub_state.authorized_user = prev->user;
     }
   }
-
-  if(change && im_pub.get())
-    publishXDisplay(now_s);
 }
 
 bool Monitor::userCallback(baxter_bridge::BaxterPublishersRequest &req,
@@ -111,7 +115,7 @@ bool Monitor::userCallback(baxter_bridge::BaxterPublishersRequest &req,
   return true;
 }
 
-void Monitor::publishXDisplay(const double now_s)
+void Monitor::publishXDisplay()
 {
   static const std::array<cv::Scalar, 2> colors{cv::Scalar{0,255,0}, cv::Scalar{255,120,80}};
   static sensor_msgs::Image im_msg = []()
@@ -144,6 +148,7 @@ void Monitor::publishXDisplay(const double now_s)
   constexpr auto font_size{1.4};
 
   auto row{40};
+  const auto now_s = ros::Time::now().toSec();
   for(const auto &[topic, user, time]: pub_state.publishers)
   {
     const auto timeout{now_s-time > timeout_s};
@@ -155,5 +160,4 @@ void Monitor::publishXDisplay(const double now_s)
     row += row_inc;
   }
   im_pub->publish(im_msg);
-
 }

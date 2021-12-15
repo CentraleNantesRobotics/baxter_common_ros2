@@ -22,7 +22,8 @@ def generate_launch_description():
         description="Whether to spawn RViz together with the bridge"),
         Node(
             package='baxter_bridge',
-            executable='baxter_bridge'),
+            executable='baxter_bridge',
+            output='screen'),
         GroupAction([IncludeLaunchDescription(PythonLaunchDescriptionSource(rviz))],
                     condition=IfCondition(LaunchConfiguration("rviz")))
         ])

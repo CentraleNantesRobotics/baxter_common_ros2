@@ -27,7 +27,8 @@ private:
 
   bool display{false};
   std::unique_ptr<ros::Publisher> im_pub;
-  void publishXDisplay(const double now_s);
+  ros::Timer im_timer;
+  void publishXDisplay();
 
   void parsePublishRequest(const std::string &user, const std::string &topic);
   bool userCallback(BaxterPublishersRequest &req,
