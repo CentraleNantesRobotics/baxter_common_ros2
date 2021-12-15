@@ -30,12 +30,6 @@ struct SolveIK : public Bridge
     // ros 2
     ik_service = ros2()->create_service<SolveIK2>
                  (ik_srv, [&](SolveIK2::Request::SharedPtr req, SolveIK2::Response::SharedPtr res){solveIK(req,res);});
-
-    if(onBaxter())
-    {
-      // auto forward range and images
-      Factory::createBridge("/robot/range/" + side + "_hand_range");
-    }
   }
 
 private:
@@ -68,6 +62,8 @@ private:
       pose1.pose.orientation.y = pose2.pose.orientation.y;
       pose1.pose.orientation.z = pose2.pose.orientation.z;
       pose1.pose.orientation.w = pose2.pose.orientation.w;
+      pose1.header.frame_id = pose2.header.frame_id;
+      pose1.header.stamp = ros::Time::now();
     }
 
     // transfer seed
