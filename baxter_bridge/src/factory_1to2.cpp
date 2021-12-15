@@ -444,8 +444,8 @@ void convertMsg(const std_msgs::Int32 &src, std_msgs::msg::Int32 &dst)
 }
 
 std::map<std::string, std::string> Factory::topics_1to2 = {
-  {"/robot/range/left_hand_range", "sensor_msgs/Range"},
-  {"/robot/range/right_hand_range", "sensor_msgs/Range"},
+  {"/robot/range/left_hand_range/state", "sensor_msgs/Range"},
+  {"/robot/range/right_hand_range/state", "sensor_msgs/Range"},
   {"/robot/sonar/head_sonar/state", "sensor_msgs/PointCloud"},
   {"/cameras/left_hand_camera/camera_info", "sensor_msgs/CameraInfo"},
   {"/cameras/left_hand_camera/camera_info_std", "sensor_msgs/CameraInfo"},

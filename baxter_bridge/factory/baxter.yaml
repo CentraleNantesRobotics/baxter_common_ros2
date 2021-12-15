@@ -1,9 +1,9 @@
 # quickly processed output of all rostopic info when connected to Baxter
-/robot/range/left_hand_range:
+/robot/range/left_hand_range/state:
   Type: sensor_msgs/Range
   Publishers:
     - baxter.local
-/robot/range/right_hand_range:
+/robot/range/right_hand_range/state:
   Type: sensor_msgs/Range
   Publishers:
     - baxter.local
