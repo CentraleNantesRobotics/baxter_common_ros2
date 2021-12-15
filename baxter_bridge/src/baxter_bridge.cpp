@@ -16,8 +16,8 @@ int main(int argc, char** argv)
     RCLCPP_INFO(Bridge::ros2()->get_logger(), "Connected to real Baxter");
     // other cheap bridges we are usually interested in
     // makes it easier to spawn in RViz2 if they are advertized in ROS 2
-    Factory::createBridge("/robot/range/left_hand_range");
-    Factory::createBridge("/robot/range/right_hand_range");
+    Factory::createBridge("/robot/range/left_hand_range/state");
+    Factory::createBridge("/robot/range/right_hand_range/state");
     Factory::createBridge("/robot/sonar/head_sonar/state");
 
     if(Bridge::isStatic())
