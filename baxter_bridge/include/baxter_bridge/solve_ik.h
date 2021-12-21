@@ -2,7 +2,6 @@
 #define BAXTER_BRIDGE_ARM_RELAY_H
 
 // This bridge exposes the IK service in ROS 2
-// it also bridges joint commands and range / images
 
 // SolveIK
 #include <baxter_core_msgs/SolvePositionIK.h>

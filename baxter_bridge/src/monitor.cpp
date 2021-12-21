@@ -109,7 +109,7 @@ void Monitor::parsePublishRequest(const std::string &user, const std::string &to
 bool Monitor::userCallback(baxter_bridge::BaxterPublishersRequest &req,
                            baxter_bridge::BaxterPublishersResponse &res)
 {
-  std::cout << req.user << " want to publish on " << req.topic << std::endl;
+  std::cout << req.user << " wants to publish on " << req.topic << std::endl;
   parsePublishRequest(req.user, req.topic);
   res = pub_state;
   return true;
