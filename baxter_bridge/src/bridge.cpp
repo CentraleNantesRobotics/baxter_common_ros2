@@ -101,7 +101,10 @@ bool Bridge::initRSP()
   if(model.getName() == "baxter")
     RCLCPP_INFO(ros2()->get_logger(), "Using Baxter's robot description");
   else
-    RCLCPP_WARN(ros2()->get_logger(), "Using description of robot '" + model.getName() + "'");
+  {
+    const std::string msg{"Using description of robot '" + model.getName() + "'"};
+    RCLCPP_WARN(ros2()->get_logger(), "%s", msg.c_str());
+  }
 
   exec->add_node(rsp_node); 
 

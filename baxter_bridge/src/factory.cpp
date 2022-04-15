@@ -29,14 +29,14 @@ void Factory::createBridge(const std::string &topic)
   {
     const auto msg{topics_1to2[topic]};
     topics_1to2.erase(bridge);
-    RCLCPP_INFO(Bridge::ros2()->get_logger(), "Creating bridge 1->2 " + topic);
+    RCLCPP_INFO(Bridge::ros2()->get_logger(), "Creating bridge 1->2 %s", topic.c_str());
     createBridge_1to2(topic, msg);
   }
   else if(const auto bridge = topics_2to1.find(topic);bridge != topics_2to1.end())
   {
     const auto msg{topics_2to1[topic]};
     topics_2to1.erase(bridge);
-    RCLCPP_INFO(Bridge::ros2()->get_logger(), "Creating bridge 2->1 " + topic);
+    RCLCPP_INFO(Bridge::ros2()->get_logger(), "Creating bridge 2->1 %s", topic.c_str());
     createBridge_2to1(topic, msg);
   }
 }
