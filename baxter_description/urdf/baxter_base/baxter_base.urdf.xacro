@@ -11,7 +11,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/torso/base_link.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/torso/base_link.DAE"/>
       </geometry>
       <material name="darkgray">
         <color rgba=".2 .2 .2 1"/>
@@ -20,7 +20,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/torso/base_link_collision.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/torso/base_link_collision.DAE"/>
       </geometry>
     </collision>
     <inertial>
@@ -47,7 +47,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 .00953"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/head/H0.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/head/H0.DAE"/>
       </geometry>
       <material name="darkgray">
         <color rgba=".2 .2 .2 1"/>
@@ -91,7 +91,7 @@
     <visual>
       <origin rpy="0 -1.57079632679 0" xyz="0 -.00953 -.0347"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/head/H1.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/head/H1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -255,7 +255,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/upper_shoulder/S0.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/upper_shoulder/S0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -277,7 +277,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/lower_shoulder/S1.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/lower_shoulder/S1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -299,7 +299,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/upper_elbow/E0.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/upper_elbow/E0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -334,7 +334,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/lower_elbow/E1.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/lower_elbow/E1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -356,7 +356,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/upper_forearm/W0.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/upper_forearm/W0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -398,7 +398,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/lower_forearm/W1.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/lower_forearm/W1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -420,7 +420,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/wrist/W2.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/wrist/W2.DAE"/>
       </geometry>
       <material name="lightgrey">
         <color rgba=".1 .1 .1 1"/>
@@ -623,7 +623,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/upper_shoulder/S0.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/upper_shoulder/S0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -645,7 +645,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/lower_shoulder/S1.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/lower_shoulder/S1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -667,7 +667,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/upper_elbow/E0.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/upper_elbow/E0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -702,7 +702,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/lower_elbow/E1.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/lower_elbow/E1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -724,7 +724,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/upper_forearm/W0.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/upper_forearm/W0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -766,7 +766,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/lower_forearm/W1.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/lower_forearm/W1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -788,7 +788,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://baxter_description/meshes/wrist/W2.DAE"/>
+        <mesh filename="file://$(find baxter_description)/meshes/wrist/W2.DAE"/>
       </geometry>
       <material name="lightgrey">
         <color rgba=".1 .1 .1 1"/>

@@ -24,7 +24,7 @@ set(CMAKE_BUILD_TYPE Release)
 
 # find ROS 1 packages we depend on: base ROS 1 (roscpp et all) + Baxter workspace
 set(ROS1_ROOT "/opt/ros/noetic")
-set(ROS1_BAXTER_WS "/opt/local_ws/ros1" CACHE STRING "Path to ROS 1 workspace where baxter packages are placed")
+set(ROS1_BAXTER_WS "/opt/ecn/ros1" CACHE STRING "Path to ROS 1 workspace where baxter packages are placed")
     
 set(ROS1_INCLUDES "${ROS1_ROOT}/include;${ROS1_BAXTER_WS}/install/include;${ROS1_BAXTER_WS}/devel/include")
 set(ROS1_LIBS roscpp rosconsole roscpp_serialization rostime)

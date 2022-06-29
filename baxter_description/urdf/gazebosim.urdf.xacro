@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<robot name="gazebosim" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+    
+     <xacro:macro name="joint_controller" params="joint">
+         
+        <!-- Position control -->
+        <plugin filename="libignition-gazebo-joint-position-controller-system.so" name="ignition::gazebo::systems::JointPositionController">
+            <joint_name>${joint}</joint_name>
+            <p_gain>10.</p_gain>
+            <i_gain>1.</i_gain>
+            <d_gain>0.1</d_gain>
+        </plugin>
+                 
+        <!-- Velocity control -->
+        <plugin filename="libignition-gazebo-joint-controller-system.so"
+        name="ignition::gazebo::systems::JointController">
+            <joint_name>${joint}</joint_name>                     
+        </plugin>        
+                  
+     </xacro:macro>
+        
+    <gazebo>
+        
+        <plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher"/>
+        
+        <xacro:joint_controller joint="head_pan"/>
+        <xacro:joint_controller joint="right_s0"/>
+        <xacro:joint_controller joint="right_s1"/>
+        <xacro:joint_controller joint="right_e0"/>
+        <xacro:joint_controller joint="right_e1"/>
+        <xacro:joint_controller joint="right_w0"/>
+        <xacro:joint_controller joint="right_w1"/>
+        <xacro:joint_controller joint="right_w2"/>
+        <xacro:joint_controller joint="left_s0"/>
+        <xacro:joint_controller joint="left_s1"/>
+        <xacro:joint_controller joint="left_e0"/>
+        <xacro:joint_controller joint="left_e1"/>
+        <xacro:joint_controller joint="left_w0"/>
+        <xacro:joint_controller joint="left_w1"/>
+        <xacro:joint_controller joint="left_w2"/>
+                                                
+        
+    </gazebo>
+</robot>
