@@ -5,17 +5,14 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
-
+import xacro
 
 def generate_launch_description():    
     
     urdf = os.path.join(
         get_package_share_directory('baxter_description'),
         'urdf',
-        'baxter.urdf')
-    
-    with open(urdf) as f:
-        urdf_xml = f.read()
+        'baxter.urdf.xacro')
 
     return LaunchDescription([
         Node(
@@ -23,6 +20,6 @@ def generate_launch_description():
             executable='robot_state_publisher',
             name='robot_state_publisher',
             output='screen',
-            parameters=[{'robot_description': urdf_xml}],
+            parameters=[{'robot_description': xacro.process(urdf)}],
             remappings={'/joint_states': '/robot/joint_states'}.items()),
     ])
