@@ -1,2 +1,2 @@
-string uuid 
-UpdateSource[] sources 
+string uuid
+UpdateSource[] sources

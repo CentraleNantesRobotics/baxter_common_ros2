@@ -1,3 +1,3 @@
-bool is_enabled 
-string uid 
-TareData data 
+bool is_enabled
+string uid
+TareData data

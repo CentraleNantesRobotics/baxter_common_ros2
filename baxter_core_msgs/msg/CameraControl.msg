@@ -1,5 +1,5 @@
-int32 id 
-int32 value 
+int32 id
+int32 value
 
 int32 CAMERA_CONTROL_EXPOSURE =100
 int32 CAMERA_CONTROL_GAIN =101

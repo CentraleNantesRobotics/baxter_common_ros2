@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>baxter_bridge</name>
-  <version>0.1.0</version>
+  <version>1.0.0</version>
   <description>
     Custom ROS 1/2 bridge for Baxter robot
   </description>
@@ -13,7 +13,7 @@
     https://github.com/CentraleNantesRobotics/baxter_common_ros2
   </url>
   <author>Olivier Kermorgant</author>
-  
+
   <buildtool_depend>ament_cmake</buildtool_depend>
   <depend>rclcpp</depend>
   <depend>sensor_msgs</depend>
@@ -22,7 +22,7 @@
   <depend>diagnostic_msgs</depend>
   <depend>trajectory_msgs</depend>
   <depend>robot_state_publisher</depend>
-  
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>

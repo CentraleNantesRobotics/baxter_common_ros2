@@ -19,7 +19,7 @@ struct Monitor
 private:
 
   ros::NodeHandle nh;
-  std::string name;  
+  std::string name;
 
   ros::ServiceClient client;
   std::unique_ptr<ros::ServiceServer> server;

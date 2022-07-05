@@ -18,10 +18,10 @@
   </url>
   <author>Rethink Robotics Inc.</author>
   <author>Olivier Kermorgant</author>
-  
+
   <buildtool_depend>ament_cmake</buildtool_depend>
   <depend>urdf</depend>
-  
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>

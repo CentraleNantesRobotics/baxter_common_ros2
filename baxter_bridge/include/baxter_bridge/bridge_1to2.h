@@ -13,7 +13,7 @@ template<class Msg1, class Msg2>
 struct Bridge_1to2 : public Bridge
 {
   Bridge_1to2(std::string topic)
-  {  
+  {
     pub = ros2()->create_publisher<Msg2>(topic, 10);
     sub = ros1()->subscribe<Msg1>(topic, 10, [&](const typename Msg1::ConstPtr &msg)
     {

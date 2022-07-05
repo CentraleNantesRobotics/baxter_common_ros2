@@ -4,7 +4,7 @@
   <name>baxter_description</name>
   <version>2.0.0</version>
   <description>
-    Description of Baxter Research Robot from Rethink Robotics for ROS 2.  
+    Description of Baxter Research Robot from Rethink Robotics for ROS 2.
     This package contains the URDF and meshes describing Baxter.
   </description>
 
@@ -19,12 +19,12 @@
   </url>
   <author>Rethink Robotics Inc.</author>
   <author>Olivier Kermorgant</author>
-  
+
   <buildtool_depend>ament_cmake</buildtool_depend>
   <depend>urdf</depend>
 
   <exec_depend>rethink_ee_description</exec_depend>
-  
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>

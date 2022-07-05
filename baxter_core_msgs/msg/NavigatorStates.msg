@@ -1,3 +1,3 @@
 # used when publishing multiple navigators
-string[] names 
-NavigatorState[] states 
+string[] names
+NavigatorState[] states

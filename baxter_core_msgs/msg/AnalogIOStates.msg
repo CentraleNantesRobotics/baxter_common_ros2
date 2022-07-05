@@ -1,2 +1,2 @@
-string[] names 
-AnalogIOState[] states 
+string[] names
+AnalogIOState[] states

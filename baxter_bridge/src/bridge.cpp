@@ -106,7 +106,7 @@ bool Bridge::initRSP()
     RCLCPP_WARN(ros2()->get_logger(), "%s", msg.c_str());
   }
 
-  exec->add_node(rsp_node); 
+  exec->add_node(rsp_node);
 
   return true;
 }

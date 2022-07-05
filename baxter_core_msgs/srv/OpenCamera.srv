@@ -1,4 +1,4 @@
-string name 
-CameraSettings settings 
+string name
+CameraSettings settings
 ---
-int32 err 
+int32 err

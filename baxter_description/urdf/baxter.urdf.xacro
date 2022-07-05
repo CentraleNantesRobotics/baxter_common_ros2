@@ -20,11 +20,11 @@
 
   <!-- Right End Effector -->
   <xacro:include filename="$(find baxter_description)/urdf/right_end_effector.urdf.xacro" />
-    
+
   <!-- Gazebo plugins -->
   <xacro:include filename="$(find baxter_description)/urdf/gazebosim.urdf.xacro" />
-  
-  
-  
+
+
+
 
 </robot>

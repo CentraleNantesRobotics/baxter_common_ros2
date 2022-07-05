@@ -1,29 +1,70 @@
 <?xml version="1.0" ?>
 <robot name="gazebosim" xmlns:xacro="http://www.ros.org/wiki/xacro">
-    
-    
+
+
      <xacro:macro name="joint_controller" params="joint">
-         
+
         <!-- Position control -->
         <plugin filename="libignition-gazebo-joint-position-controller-system.so" name="ignition::gazebo::systems::JointPositionController">
             <joint_name>${joint}</joint_name>
             <p_gain>10.</p_gain>
             <i_gain>1.</i_gain>
-            <d_gain>0.1</d_gain>
+            <d_gain>1.</d_gain>
+            <i_max>100</i_max>
+            <i_min>-100</i_min>
         </plugin>
-                 
+
         <!-- Velocity control -->
-        <plugin filename="libignition-gazebo-joint-controller-system.so"
-        name="ignition::gazebo::systems::JointController">
-            <joint_name>${joint}</joint_name>                     
-        </plugin>        
-                  
+<!--        <plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
+            <joint_name>${joint}</joint_name>
+            <topic>${joint}_cmd_vel</topic>
+        </plugin>  -->
+
      </xacro:macro>
-        
+
+     <xacro:macro name="camera_plugin" params="link">
+        <gazebo reference="${link}">
+         <sensor name="${link}" type="camera">
+          <camera>
+            <horizontal_fov>1.047</horizontal_fov> -->
+            <image>
+              <width>640</width>
+              <height>400</height>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>100</far>
+            </clip>
+          </camera>
+          <always_on>1</always_on>
+          <update_rate>30</update_rate>
+          <visualize>true</visualize>
+          <topic>${link}</topic>
+          <enable_metrics>false</enable_metrics>
+        </sensor>
+
+<!--        <plugin filename="ImageDisplay" name="Image Display">
+        <ignition-gui>
+          <title>RGB camera</title>
+          <property key="state" type="string" name="dummy">floating</property>
+          <property type="double" key="width" name="dummy">350</property>
+          <property type="double" key="height" name="dummy">315</property>
+        </ignition-gui>
+        <topic>${link}_image</topic>
+        <topic_picker>false</topic_picker>
+      </plugin>-->
+
+    </gazebo>
+    </xacro:macro>
+
+     <xacro:macro name="range" params="link">
+        <!-- Not supported -->
+    </xacro:macro>
+
     <gazebo>
-        
+
         <plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher"/>
-        
+
         <xacro:joint_controller joint="head_pan"/>
         <xacro:joint_controller joint="right_s0"/>
         <xacro:joint_controller joint="right_s1"/>
@@ -39,7 +80,13 @@
         <xacro:joint_controller joint="left_w0"/>
         <xacro:joint_controller joint="left_w1"/>
         <xacro:joint_controller joint="left_w2"/>
-                                                
-        
+
+        <xacro:range link="left_hand_range"/>
+        <xacro:range link="right_hand_range"/>
+
     </gazebo>
+
+<!--         <xacro:camera_plugin link="head_camera"/> -->
+        <xacro:camera_plugin link="left_hand_camera"/>
+<!--         <xacro:camera_plugin link="right_hand_camera_axis"/> -->
 </robot>

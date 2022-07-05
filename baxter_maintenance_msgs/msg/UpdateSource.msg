@@ -1,4 +1,4 @@
-string devname 
-string filename 
-string version 
-string uuid 
+string devname
+string filename
+string version
+string uuid

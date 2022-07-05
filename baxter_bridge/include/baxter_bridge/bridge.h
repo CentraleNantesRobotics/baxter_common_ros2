@@ -36,7 +36,7 @@ public:
   {
     return ros::Time::now();
   }
-protected:    
+protected:
 
   static bool initRSP();
   inline static bool canPublishOn(const std::string &topic)
@@ -54,7 +54,7 @@ private:
   static bool is_static;
 
   // monitor who publishes on which topics
-  static std::unique_ptr<Monitor> monitor;  
+  static std::unique_ptr<Monitor> monitor;
 
 };
 

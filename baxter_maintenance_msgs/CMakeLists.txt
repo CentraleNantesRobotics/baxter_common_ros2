@@ -22,12 +22,12 @@ find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-"msg/UpdateStatus.msg"  
-"msg/UpdateSources.msg"  
-"msg/TareData.msg"  
-"msg/CalibrateArmEnable.msg"  
-"msg/CalibrateArmData.msg"  
-"msg/TareEnable.msg"  
+"msg/UpdateStatus.msg"
+"msg/UpdateSources.msg"
+"msg/TareData.msg"
+"msg/CalibrateArmEnable.msg"
+"msg/CalibrateArmData.msg"
+"msg/TareEnable.msg"
 "msg/UpdateSource.msg"
 )
 

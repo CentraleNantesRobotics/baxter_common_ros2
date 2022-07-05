@@ -2,9 +2,9 @@
 # status:           One-word description of the current action being performed
 # long_description: Details pertaining to status if any.  Used for verbose error messages.
 
-uint16 status 
-float32 progress 
-string long_description 
+uint16 status
+float32 progress
+string long_description
 
 uint16 STS_IDLE = 0
 uint16 STS_INVALID = 1

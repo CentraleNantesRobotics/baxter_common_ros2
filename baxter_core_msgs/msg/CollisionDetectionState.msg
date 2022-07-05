@@ -1,2 +1,2 @@
-std_msgs/Header header 
-bool collision_state 
+std_msgs/Header header
+bool collision_state

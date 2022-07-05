@@ -45,8 +45,7 @@ int main(int argc, char** argv)
     // create new bridges if needed
     if(poller)
     {
-      const auto pending{poller->pendingBridges()};
-      for(const auto &topic: pending)
+      for(const auto &topic: poller->pendingBridges())
         Factory::createBridge(topic);
     }
   }
