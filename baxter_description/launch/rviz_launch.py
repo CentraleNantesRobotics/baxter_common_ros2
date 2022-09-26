@@ -15,6 +15,11 @@ def generate_launch_description():
         'launch',
         'config.rviz')
 
+    if os.environ['ROS_DISTRO'] in ('foxy', 'galactic'):
+        args = "0 0 .9 0 0 0 ground base"
+    else:
+        args = "--z .9 --frame-id ground --child-frame-id base"
+
     return LaunchDescription([
         Node(
             package='rviz2',
@@ -23,4 +28,4 @@ def generate_launch_description():
         Node(
             package='tf2_ros',
             executable='static_transform_publisher',
-            arguments="0 0 .9 0 0 0 ground base".split()),])
+            arguments=args.split()),])
