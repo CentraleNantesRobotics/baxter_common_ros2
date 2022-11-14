@@ -72,7 +72,7 @@ namespace baxter_bridge
   // init internal robot state publisher
   bool Bridge::initRSP()
   {
-    // get Baxter's description
+    // get Baxter's description from ROS 1 param
     const auto description{ros1_node->param<std::string>("robot_description", "")};
 
     if(description.empty())
@@ -84,34 +84,6 @@ namespace baxter_bridge
     urdf::Model model;
     model.initString(description);
 
-    const std::string description_file{"/tmp/baxter_description.xml"};
-    std::ofstream description_stream;
-    description_stream.open(description_file.c_str());
-    description_stream << description << "'\n";
-    description_stream.close();
-
-    FILE * stream;
-    const int max_buffer = 256;
-    std::string cmd{"xacro "};
-    cmd += description_file;
-    stream = popen(cmd.c_str(), "r");
-    std::string xml;
-
-    if (stream)
-    {
-      while (!feof(stream))
-      {
-        char buffer[max_buffer];
-        if (fgets(buffer, max_buffer, stream) != NULL) xml.append(buffer);
-      }
-      pclose(stream);
-    }
-
-    // override rsp's options
-    auto rsp_arg{rclcpp::NodeOptions()
-          .arguments({"--ros-args", "-r", "__ns:=/robot", "-p", "robot_description:=" + xml})};
-    rsp_node = std::make_shared<robot_state_publisher::RobotStatePublisher>(rsp_arg);
-
     if(model.getName() == "baxter")
       RCLCPP_INFO(ros2()->get_logger(), "Using Baxter's robot description");
     else
@@ -119,6 +91,11 @@ namespace baxter_bridge
       const std::string msg{"Using description of robot '" + model.getName() + "'"};
       RCLCPP_WARN(ros2()->get_logger(), "%s", msg.c_str());
     }
+
+    // instanciate local robot_state_publisher
+    auto rsp_arg{rclcpp::NodeOptions()
+          .arguments({"--ros-args", "-r", "__ns:=/robot", "-p", "robot_description:=" + description})};
+    rsp_node = std::make_shared<robot_state_publisher::RobotStatePublisher>(rsp_arg);
 
     exec->add_node(rsp_node);
 
