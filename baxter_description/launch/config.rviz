@@ -350,26 +350,6 @@ Visualization Manager:
         All Enabled: false
         base:
           Value: false
-        base_footprint:
-          Value: true
-        base_link:
-          Value: true
-        base_scan:
-          Value: true
-        bluerov2/base_link:
-          Value: true
-        bluerov2/mpu:
-          Value: true
-        camera_link:
-          Value: true
-        camera_rgb_frame:
-          Value: true
-        camera_rgb_optical_frame:
-          Value: true
-        caster_back_left_link:
-          Value: true
-        caster_back_right_link:
-          Value: true
         collision_head_link_1:
           Value: false
         collision_head_link_2:
@@ -384,8 +364,6 @@ Visualization Manager:
           Value: false
         head_camera:
           Value: false
-        imu_link:
-          Value: true
         l_gripper_l_finger:
           Value: false
         l_gripper_l_finger_tip:
@@ -414,21 +392,15 @@ Visualization Manager:
           Value: false
         left_lower_elbow:
           Value: false
-        left_lower_forearm:
-          Value: false
         left_lower_shoulder:
           Value: false
         left_torso_itb:
-          Value: false
-        left_upper_elbow:
           Value: false
         left_upper_elbow_visual:
           Value: false
         left_upper_forearm:
           Value: false
         left_upper_forearm_visual:
-          Value: false
-        left_upper_shoulder:
           Value: false
         left_wrist:
           Value: false
@@ -462,13 +434,9 @@ Visualization Manager:
           Value: false
         right_lower_elbow:
           Value: false
-        right_lower_forearm:
-          Value: false
         right_lower_shoulder:
           Value: false
         right_torso_itb:
-          Value: false
-        right_upper_elbow:
           Value: false
         right_upper_elbow_visual:
           Value: false
@@ -476,28 +444,14 @@ Visualization Manager:
           Value: false
         right_upper_forearm_visual:
           Value: false
-        right_upper_shoulder:
-          Value: false
         right_wrist:
           Value: false
-        robot1/base_link:
-          Value: true
-        robot1/link2:
-          Value: true
-        robot1/link2_2:
-          Value: true
-        robot1/link3:
-          Value: true
-        robot1/tool0:
-          Value: true
         screen:
           Value: false
         sonar_ring:
           Value: false
         torso:
           Value: false
-        world:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -511,82 +465,14 @@ Visualization Manager:
             collision_head_link_2:
               {}
             torso:
-              head:
-                dummyhead1:
-                  {}
-                head_camera:
-                  {}
-                screen:
-                  display:
-                    {}
               left_arm_mount:
-                left_upper_shoulder:
-                  left_lower_shoulder:
-                    left_upper_elbow:
-                      left_lower_elbow:
-                        left_upper_forearm:
-                          left_arm_itb:
-                            {}
-                          left_lower_forearm:
-                            left_wrist:
-                              left_hand:
-                                left_gripper_base:
-                                  l_gripper_l_finger:
-                                    l_gripper_l_finger_tip:
-                                      {}
-                                  l_gripper_r_finger:
-                                    l_gripper_r_finger_tip:
-                                      {}
-                                  left_gripper:
-                                    {}
-                                left_hand_accelerometer:
-                                  {}
-                                left_hand_camera:
-                                  {}
-                                left_hand_camera_axis:
-                                  {}
-                                left_hand_range:
-                                  {}
-                        left_upper_forearm_visual:
-                          {}
-                    left_upper_elbow_visual:
-                      {}
+                {}
               left_torso_itb:
                 {}
               pedestal:
                 {}
               right_arm_mount:
-                right_upper_shoulder:
-                  right_lower_shoulder:
-                    right_upper_elbow:
-                      right_lower_elbow:
-                        right_upper_forearm:
-                          right_arm_itb:
-                            {}
-                          right_lower_forearm:
-                            right_wrist:
-                              right_hand:
-                                right_gripper_base:
-                                  r_gripper_l_finger:
-                                    r_gripper_l_finger_tip:
-                                      {}
-                                  r_gripper_r_finger:
-                                    r_gripper_r_finger_tip:
-                                      {}
-                                  right_gripper:
-                                    {}
-                                right_hand_accelerometer:
-                                  {}
-                                right_hand_camera:
-                                  {}
-                                right_hand_camera_axis:
-                                  {}
-                                right_hand_range:
-                                  {}
-                        right_upper_forearm_visual:
-                          {}
-                    right_upper_elbow_visual:
-                      {}
+                {}
               right_torso_itb:
                 {}
               sonar_ring:
@@ -639,7 +525,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 4.857568264007568
+      Distance: 5.493033409118652
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
