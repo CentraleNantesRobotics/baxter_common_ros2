@@ -1,1814 +1,1282 @@
-# quickly processed output of all rostopic info when connected to Baxter
-/robot/range/left_hand_range/state:
-  Type: sensor_msgs/Range
-  Publishers:
-    - baxter.local
-/robot/range/right_hand_range/state:
-  Type: sensor_msgs/Range
-  Publishers:
-    - baxter.local
-/robot/sonar/head_sonar/state:
-  Type: sensor_msgs/PointCloud
-  Publishers:
-    - baxter.local
 /ExternalTools/left/PositionKinematicsNode/FKServer/reply:
-  Type: 'RosMsgToolsMsgs/Reply'
-
-  Publishers:
-    - '/PositionKinematicsNode_left (http://baxter.local:45535/)'
-
-
-
-
+  pub:
+  - /PositionKinematicsNode_left (http://baxter.local:50595/)
+  type: RosMsgToolsMsgs/Reply
 /ExternalTools/left/PositionKinematicsNode/FKServer/request:
-  Type: 'RosMsgToolsMsgs/Request'
-
-
-
-  Subscribers:
-    - '/PositionKinematicsNode_left (http://baxter.local:45535/)'
-
-
+  sub:
+  - /PositionKinematicsNode_left (http://baxter.local:50595/)
+  type: RosMsgToolsMsgs/Request
 /ExternalTools/left/PositionKinematicsNode/IKServer/reply:
-  Type: 'RosMsgToolsMsgs/Reply'
-
-  Publishers:
-    - '/PositionKinematicsNode_left (http://baxter.local:45535/)'
-
-
-
-
+  pub:
+  - /PositionKinematicsNode_left (http://baxter.local:50595/)
+  type: RosMsgToolsMsgs/Reply
 /ExternalTools/left/PositionKinematicsNode/IKServer/request:
-  Type: 'RosMsgToolsMsgs/Request'
-
-
-
-  Subscribers:
-    - '/PositionKinematicsNode_left (http://baxter.local:45535/)'
-
-
+  sub:
+  - /PositionKinematicsNode_left (http://baxter.local:50595/)
+  type: RosMsgToolsMsgs/Request
 /ExternalTools/right/PositionKinematicsNode/FKServer/reply:
-  Type: 'RosMsgToolsMsgs/Reply'
-
-  Publishers:
-    - '/PositionKinematicsNode_right (http://baxter.local:41944/)'
-
-
-
-
+  pub:
+  - /PositionKinematicsNode_right (http://baxter.local:43427/)
+  type: RosMsgToolsMsgs/Reply
 /ExternalTools/right/PositionKinematicsNode/FKServer/request:
-  Type: 'RosMsgToolsMsgs/Request'
-
-
-
-  Subscribers:
-    - '/PositionKinematicsNode_right (http://baxter.local:41944/)'
-
-
+  sub:
+  - /PositionKinematicsNode_right (http://baxter.local:43427/)
+  type: RosMsgToolsMsgs/Request
 /ExternalTools/right/PositionKinematicsNode/IKServer/reply:
-  Type: 'RosMsgToolsMsgs/Reply'
-
-  Publishers:
-    - '/PositionKinematicsNode_right (http://baxter.local:41944/)'
-
-
-
-
+  pub:
+  - /PositionKinematicsNode_right (http://baxter.local:43427/)
+  type: RosMsgToolsMsgs/Reply
 /ExternalTools/right/PositionKinematicsNode/IKServer/request:
-  Type: 'RosMsgToolsMsgs/Request'
-
-
-
-  Subscribers:
-    - '/PositionKinematicsNode_right (http://baxter.local:41944/)'
-
-
-/cameras/left_hand_camera/camera_info:
-  Type: 'sensor_msgs/CameraInfo'
-
-  Publishers:
-    - '/baxter_cams (http://baxter.local:35166/)'
-
-  Subscribers:
-    - '/rviz_1638784357295491079 (http://130.66.206.171:34473/)'
-
-
-/cameras/left_hand_camera/camera_info_std:
-  Type: 'sensor_msgs/CameraInfo'
-
-  Publishers:
-    - '/baxter_cams (http://baxter.local:35166/)'
-
-
-
-
-/cameras/left_hand_camera/image:
-  Type: 'sensor_msgs/Image'
-
-  Publishers:
-    - '/baxter_cams (http://baxter.local:35166/)'
-
-  Subscribers:
-    - '/rviz_1638784357295491079 (http://130.66.206.171:34473/)'
-
-
+  sub:
+  - /PositionKinematicsNode_right (http://baxter.local:43427/)
+  type: RosMsgToolsMsgs/Request
 /cameras/right_hand_camera/camera_info:
-  Type: 'sensor_msgs/CameraInfo'
-
-  Publishers:
-    - '/baxter_cams (http://baxter.local:35166/)'
-
-
-
-
+  pub:
+  - /baxter_cams (http://baxter.local:42344/)
+  type: sensor_msgs/CameraInfo
 /cameras/right_hand_camera/camera_info_std:
-  Type: 'sensor_msgs/CameraInfo'
-
-  Publishers:
-    - '/baxter_cams (http://baxter.local:35166/)'
-
-
-
-
+  pub:
+  - /baxter_cams (http://baxter.local:42344/)
+  type: sensor_msgs/CameraInfo
 /cameras/right_hand_camera/image:
-  Type: 'sensor_msgs/Image'
-
-  Publishers:
-    - '/baxter_cams (http://baxter.local:35166/)'
-
-
-
-
-/clicked_point:
-  Type: 'geometry_msgs/PointStamped'
-
-  Publishers:
-    - '/rviz_1638784248252468919 (http://130.66.205.239:43847/)'
-    - '/rviz_1638784301742924786 (http://130.66.206.149:37769/)'
-    - '/rviz_1638784357295491079 (http://130.66.206.171:34473/)'
-    - '/rviz_1638784433134606030 (http://130.66.207.56:40699/)'
-
-
-
-
+  pub:
+  - /baxter_cams (http://baxter.local:42344/)
+  type: sensor_msgs/Image
 /collision/left/collision_detection:
-  Type: 'MotorControlMsgs/CollisionDetection'
-
-  Publishers:
-    - '/collision/left/joint_collision_estimator_left (http://baxter.local:59991/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  pub:
+  - /collision/left/joint_collision_estimator_left (http://baxter.local:35048/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: MotorControlMsgs/CollisionDetection
+/collision/left/debug:
+  pub:
+  - /collision/left/joint_collision_estimator_left (http://baxter.local:35048/)
+  type: MotorControlMsgs/JointCollisionEstimatorDebug
 /collision/right/collision_detection:
-  Type: 'MotorControlMsgs/CollisionDetection'
-
-  Publishers:
-    - '/collision/right/joint_collision_estimator_right (http://baxter.local:40008/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  pub:
+  - /collision/right/joint_collision_estimator_right (http://baxter.local:49954/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  - /rcloader_right (http://baxter.local:56870/)
+  type: MotorControlMsgs/CollisionDetection
+/collision/right/debug:
+  pub:
+  - /collision/right/joint_collision_estimator_right (http://baxter.local:49954/)
+  type: MotorControlMsgs/JointCollisionEstimatorDebug
 /diagnostics:
-  Type: 'diagnostic_msgs/DiagnosticArray'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-    - '/collision/right/joint_collision_estimator_right (http://baxter.local:40008/)'
-    - '/collision/left/joint_collision_estimator_left (http://baxter.local:59991/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-  Subscribers:
-    - '/diagnostic_aggregator (http://baxter.local:47308/)'
-    - '/rosbag_diagnostics (http://baxter.local:44811/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  - /collision/right/joint_collision_estimator_right (http://baxter.local:49954/)
+  - /collision/left/joint_collision_estimator_left (http://baxter.local:35048/)
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  sub:
+  - /diagnostic_aggregator (http://baxter.local:49377/)
+  - /rosbag_diagnostics (http://baxter.local:49083/)
+  type: diagnostic_msgs/DiagnosticArray
 /diagnostics_agg:
-  Type: 'diagnostic_msgs/DiagnosticArray'
-
-  Publishers:
-    - '/diagnostic_aggregator (http://baxter.local:47308/)'
-
-
-
-
+  pub:
+  - /diagnostic_aggregator (http://baxter.local:49377/)
+  type: diagnostic_msgs/DiagnosticArray
 /diagnostics_toplevel_state:
-  Type: 'diagnostic_msgs/DiagnosticStatus'
-
-  Publishers:
-    - '/diagnostic_aggregator (http://baxter.local:47308/)'
-
-
-
-
+  pub:
+  - /diagnostic_aggregator (http://baxter.local:49377/)
+  type: diagnostic_msgs/DiagnosticStatus
 /hdraw:
-  Type: 'std_msgs/UInt8MultiArray'
-
-  Publishers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
-
-
-/initialpose:
-  Type: 'geometry_msgs/PoseWithCovarianceStamped'
-
-  Publishers:
-    - '/rviz_1638784248252468919 (http://130.66.205.239:43847/)'
-    - '/rviz_1638784301742924786 (http://130.66.206.149:37769/)'
-    - '/rviz_1638784357295491079 (http://130.66.206.171:34473/)'
-    - '/rviz_1638784433134606030 (http://130.66.207.56:40699/)'
-
-
-
-
-/move_base_simple/goal:
-  Type: 'geometry_msgs/PoseStamped'
-
-  Publishers:
-    - '/rviz_1638784248252468919 (http://130.66.205.239:43847/)'
-    - '/rviz_1638784301742924786 (http://130.66.206.149:37769/)'
-    - '/rviz_1638784357295491079 (http://130.66.206.171:34473/)'
-    - '/rviz_1638784433134606030 (http://130.66.207.56:40699/)'
-
-
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: std_msgs/UInt8MultiArray
+/robot/accelerometer/left_accelerometer/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: sensor_msgs/Imu
+/robot/accelerometer/right_accelerometer/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: sensor_msgs/Imu
 /robot/accelerometer_names:
-  Type: 'MotorControlMsgs/StringArray'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/StringArray
 /robot/accelerometer_states:
-  Type: 'MotorControlMsgs/AccelerometerStates'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/AccelerometerStates
 /robot/analog_io/command:
-  Type: 'baxter_core_msgs/AnalogOutputCommand'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AnalogOutputCommand
+/robot/analog_io/left_hand_range/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AnalogIOState
 /robot/analog_io/left_hand_range/value_uint32:
-  Type: 'std_msgs/UInt32'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt32
+/robot/analog_io/left_vacuum_sensor_analog/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AnalogIOState
 /robot/analog_io/left_vacuum_sensor_analog/value_uint32:
-  Type: 'std_msgs/UInt32'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt32
+/robot/analog_io/left_wheel/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AnalogIOState
 /robot/analog_io/left_wheel/value_uint32:
-  Type: 'std_msgs/UInt32'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt32
+/robot/analog_io/right_hand_range/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AnalogIOState
 /robot/analog_io/right_hand_range/value_uint32:
-  Type: 'std_msgs/UInt32'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt32
+/robot/analog_io/right_vacuum_sensor_analog/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AnalogIOState
 /robot/analog_io/right_vacuum_sensor_analog/value_uint32:
-  Type: 'std_msgs/UInt32'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt32
+/robot/analog_io/right_wheel/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AnalogIOState
 /robot/analog_io/right_wheel/value_uint32:
-  Type: 'std_msgs/UInt32'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt32
+/robot/analog_io/torso_fan/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AnalogIOState
 /robot/analog_io/torso_fan/value_uint32:
-  Type: 'std_msgs/UInt32'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt32
+/robot/analog_io/torso_left_wheel/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AnalogIOState
 /robot/analog_io/torso_left_wheel/value_uint32:
-  Type: 'std_msgs/UInt32'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt32
+/robot/analog_io/torso_lighting/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AnalogIOState
 /robot/analog_io/torso_lighting/value_uint32:
-  Type: 'std_msgs/UInt32'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt32
+/robot/analog_io/torso_right_wheel/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AnalogIOState
 /robot/analog_io/torso_right_wheel/value_uint32:
-  Type: 'std_msgs/UInt32'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt32
 /robot/analog_io_names:
-  Type: 'MotorControlMsgs/StringArray'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/StringArray
 /robot/analog_io_states:
-  Type: 'baxter_core_msgs/AnalogIOStates'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AnalogIOStates
+/robot/assembly/head/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AssemblyState
+/robot/assembly/left/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AssemblyState
+/robot/assembly/right/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AssemblyState
+/robot/assembly/torso/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AssemblyState
 /robot/assembly_names:
-  Type: 'MotorControlMsgs/StringArray'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/StringArray
 /robot/attached_collision_object:
-  Type: 'arm_navigation_msgs/AttachedCollisionObject'
-
-
-
-  Subscribers:
-    - '/robot/environment_server (http://baxter.local:40213/)'
-
-
+  sub:
+  - /robot/environment_server (http://baxter.local:37048/)
+  type: arm_navigation_msgs/AttachedCollisionObject
 /robot/collision_object:
-  Type: 'arm_navigation_msgs/CollisionObject'
-
-
-
-  Subscribers:
-    - '/robot/environment_server (http://baxter.local:40213/)'
-
-
+  sub:
+  - /robot/environment_server (http://baxter.local:37048/)
+  type: arm_navigation_msgs/CollisionObject
 /robot/digital_io/command:
-  Type: 'baxter_core_msgs/DigitalOutputCommand'
-
-  Publishers:
-    - '/baxter_cams (http://baxter.local:35166/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /baxter_cams (http://baxter.local:42344/)
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalOutputCommand
+/robot/digital_io/head_green_light/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/head_lcd_auto_config/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/head_red_light/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/head_yellow_light/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/left_blow/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/left_button_back/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/left_button_ok/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/left_button_show/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/left_hand_camera_power/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /baxter_cams (http://baxter.local:42344/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/left_inner_light/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/left_lower_button/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/left_lower_cuff/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/left_outer_light/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/left_pneumatic/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/left_shoulder_button/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/left_suck/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/left_upper_button/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/limit_switch_1/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/limit_switch_2/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/limit_switch_3/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/motor_fault_signal/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/right_blow/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/right_blue_light/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/right_button_back/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/right_button_ok/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/right_button_show/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/right_hand_camera_power/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /baxter_cams (http://baxter.local:42344/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/right_inner_light/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/right_lower_button/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/right_lower_cuff/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/right_outer_light/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/right_pneumatic/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/right_shoulder_button/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/right_suck/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/right_upper_button/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_brake/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_brake_sensor/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_camera_power/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /baxter_cams (http://baxter.local:42344/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_digital_input0/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_foot_pedal/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_left_button_back/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_left_button_ok/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_left_button_show/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_left_inner_light/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_left_outer_light/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_process_sense0/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_process_sense1/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_right_button_back/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_right_button_ok/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_right_button_show/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_right_inner_light/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_right_outer_light/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_safety_stop/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_ui_output0/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_ui_output1/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_ui_output2/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
+/robot/digital_io/torso_ui_output3/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOState
 /robot/digital_io_names:
-  Type: 'MotorControlMsgs/StringArray'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/StringArray
 /robot/digital_io_states:
-  Type: 'baxter_core_msgs/DigitalIOStates'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/DigitalIOStates
 /robot/end_effector/left_gripper/command:
-  Type: 'baxter_core_msgs/EndEffectorCommand'
-
-  Publishers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_left (http://baxter.local:33132/)
+  - /baxter_ros1_bridge_okermo (http://130.66.205.156:41551/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  - /baxter_ros1_bridge_okermo (http://130.66.205.156:41551/)
+  type: baxter_core_msgs/EndEffectorCommand
 /robot/end_effector/left_gripper/configure:
-  Type: 'MotorControlMsgs/GripperConfiguration'
-
-  Publishers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_left (http://baxter.local:33132/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/GripperConfiguration
 /robot/end_effector/left_gripper/properties:
-  Type: 'baxter_core_msgs/EndEffectorProperties'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_core_msgs/EndEffectorProperties
 /robot/end_effector/left_gripper/rsdk/set_properties:
-  Type: 'baxter_core_msgs/EndEffectorProperties'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/EndEffectorProperties
 /robot/end_effector/left_gripper/rsdk/set_state:
-  Type: 'baxter_core_msgs/EndEffectorState'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/EndEffectorState
 /robot/end_effector/left_gripper/set_object_mass:
-  Type: 'MotorControlMsgs/ObjectMass'
-
-  Publishers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_left (http://baxter.local:33132/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/ObjectMass
+/robot/end_effector/left_gripper/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /end_effector_publisher (http://baxter.local:55013/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_core_msgs/EndEffectorState
 /robot/end_effector/right_gripper/command:
-  Type: 'baxter_core_msgs/EndEffectorCommand'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/EndEffectorCommand
 /robot/end_effector/right_gripper/configure:
-  Type: 'MotorControlMsgs/GripperConfiguration'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/GripperConfiguration
 /robot/end_effector/right_gripper/properties:
-  Type: 'baxter_core_msgs/EndEffectorProperties'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /rcloader_right (http://baxter.local:56870/)
+  type: baxter_core_msgs/EndEffectorProperties
 /robot/end_effector/right_gripper/rsdk/set_properties:
-  Type: 'baxter_core_msgs/EndEffectorProperties'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/EndEffectorProperties
 /robot/end_effector/right_gripper/rsdk/set_state:
-  Type: 'baxter_core_msgs/EndEffectorState'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/EndEffectorState
 /robot/end_effector/right_gripper/set_object_mass:
-  Type: 'MotorControlMsgs/ObjectMass'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/ObjectMass
+/robot/end_effector/right_gripper/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /end_effector_publisher (http://baxter.local:55013/)
+  - /rcloader_right (http://baxter.local:56870/)
+  type: baxter_core_msgs/EndEffectorState
 /robot/end_effector_names:
-  Type: 'MotorControlMsgs/StringArray'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/StringArray
 /robot/head/command_head_nod:
-  Type: 'std_msgs/Bool'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Bool
 /robot/head/command_head_pan:
-  Type: 'baxter_core_msgs/HeadPanCommand'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/HeadPanCommand
 /robot/head/head_state:
-  Type: 'baxter_core_msgs/HeadState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_core_msgs/HeadState
+/robot/head/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AssemblyState
 /robot/homing_names:
-  Type: 'MotorControlMsgs/StringArray'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/StringArray
+/robot/homing_states:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/HomingState
 /robot/joint_limits:
-  Type: 'MotorControlMsgs/JointLimits'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/JointLimits
 /robot/joint_names:
-  Type: 'MotorControlMsgs/StringArray'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/StringArray
 /robot/joint_state_publish_rate:
-  Type: 'std_msgs/UInt16'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt16
 /robot/joint_states:
-  Type: 'sensor_msgs/JointState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-    - '/end_effector_publisher (http://baxter.local:40894/)'
-
-  #Subscribers:
-    #- '/robot_state_publisher (http://baxter.local:47207/)'
-    #- '/robot/environment_server (http://baxter.local:40213/)'
-    #- '/PositionKinematicsNode_left (http://baxter.local:45535/)'
-    #- '/PositionKinematicsNode_right (http://baxter.local:41944/)'
-    #- '/rcloader_right (http://baxter.local:32861/)'
-    #- '/rcloader_left (http://baxter.local:36929/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  - /end_effector_publisher (http://baxter.local:55013/)
+  sub:
+  - /robot_state_publisher (http://baxter.local:51320/)
+  - /robot/environment_server (http://baxter.local:37048/)
+  - /PositionKinematicsNode_left (http://baxter.local:50595/)
+  - /PositionKinematicsNode_right (http://baxter.local:43427/)
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  - /baxter_ros1_bridge_okermo (http://130.66.205.156:41551/)
+  type: sensor_msgs/JointState
 /robot/limb/left/collision_avoidance_state:
-  Type: 'baxter_core_msgs/CollisionAvoidanceState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /rcloader_left (http://baxter.local:33132/)
+  - /rcloader_right (http://baxter.local:56870/)
+  type: baxter_core_msgs/CollisionAvoidanceState
 /robot/limb/left/collision_detection_state:
-  Type: 'baxter_core_msgs/CollisionDetectionState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/CollisionDetectionState
 /robot/limb/left/command_joint_position:
-  Type: 'MotorControlMsgs/JointMotionCommand'
-
-  Publishers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_left (http://baxter.local:33132/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/JointMotionCommand
 /robot/limb/left/command_nullspace_setpoint_and_twist_stamped:
-  Type: 'MotorControlMsgs/NullspaceTwistStamped'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/NullspaceTwistStamped
 /robot/limb/left/command_stiffness:
-  Type: 'std_msgs/UInt32'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt32
 /robot/limb/left/command_stiffness_limit:
-  Type: 'MotorControlMsgs/Stiffness'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/Stiffness
 /robot/limb/left/command_twist_speed_limit:
-  Type: 'MotorControlMsgs/SpeedLimit'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/SpeedLimit
 /robot/limb/left/command_twist_speed_limit_scale:
-  Type: 'MotorControlMsgs/SpeedLimitScale'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/SpeedLimitScale
 /robot/limb/left/command_twist_stamped:
-  Type: 'geometry_msgs/TwistStamped'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: geometry_msgs/TwistStamped
 /robot/limb/left/command_velocity_tozero:
-  Type: 'std_msgs/Bool'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Bool
 /robot/limb/left/commanded_endpoint_state:
-  Type: 'baxter_core_msgs/EndpointState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/collision/left/joint_collision_estimator_left (http://baxter.local:59991/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /collision/left/joint_collision_estimator_left (http://baxter.local:35048/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_core_msgs/EndpointState
 /robot/limb/left/endpoint_state:
-  Type: 'baxter_core_msgs/EndpointState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/collision/left/joint_collision_estimator_left (http://baxter.local:59991/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /collision/left/joint_collision_estimator_left (http://baxter.local:35048/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_core_msgs/EndpointState
 /robot/limb/left/gravity_compensation_torques:
-  Type: 'baxter_core_msgs/SEAJointState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/collision/left/joint_collision_estimator_left (http://baxter.local:59991/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /collision/left/joint_collision_estimator_left (http://baxter.local:35048/)
+  - /rcloader_left (http://baxter.local:33132/)
+  - /rcloader_right (http://baxter.local:56870/)
+  type: baxter_core_msgs/SEAJointState
 /robot/limb/left/inverse_dynamics_command:
-  Type: 'trajectory_msgs/JointTrajectoryPoint'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: trajectory_msgs/JointTrajectoryPoint
 /robot/limb/left/joint_command:
-  Type: 'baxter_core_msgs/JointCommand'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /baxter_ros1_bridge_okermo (http://130.66.205.156:41551/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/JointCommand
 /robot/limb/left/joint_command_timeout:
-  Type: 'std_msgs/Float64'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Float64
 /robot/limb/left/limb_state:
-  Type: 'MotorControlMsgs/LimbState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/LimbState
 /robot/limb/left/set_damping_correction_weights:
-  Type: 'MotorControlMsgs/JointPosition'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/JointPosition
 /robot/limb/left/set_dominance:
-  Type: 'std_msgs/Bool'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Bool
 /robot/limb/left/set_feed_forward_weights:
-  Type: 'MotorControlMsgs/JointPosition'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/JointPosition
 /robot/limb/left/set_speed_ratio:
-  Type: 'std_msgs/Float64'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Float64
+/robot/limb/left/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AssemblyState
 /robot/limb/left/stiffness:
-  Type: 'MotorControlMsgs/Stiffness'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/Stiffness
 /robot/limb/left/stiffness_constraint:
-  Type: 'MotorControlMsgs/StiffnessConstraint'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/StiffnessConstraint
 /robot/limb/left/suppress_body_avoidance:
-  Type: 'std_msgs/Empty'
-
-  Publishers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
-
-
+  pub:
+  - /rcloader_left (http://baxter.local:33132/)
+  type: std_msgs/Empty
 /robot/limb/left/suppress_collision_avoidance:
-  Type: 'std_msgs/Empty'
-
-  Publishers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_left (http://baxter.local:33132/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Empty
 /robot/limb/left/suppress_contact_safety:
-  Type: 'std_msgs/Empty'
-
-  Publishers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-  Subscribers:
-    - '/collision/left/joint_collision_estimator_left (http://baxter.local:59991/)'
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_left (http://baxter.local:33132/)
+  sub:
+  - /collision/left/joint_collision_estimator_left (http://baxter.local:35048/)
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Empty
 /robot/limb/left/suppress_cuff_interaction:
-  Type: 'std_msgs/Empty'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Empty
 /robot/limb/left/suppress_gravity_compensation:
-  Type: 'std_msgs/Empty'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Empty
 /robot/limb/left/suppress_hand_overwrench_safety:
-  Type: 'std_msgs/Empty'
-
-  Publishers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_left (http://baxter.local:33132/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Empty
 /robot/limb/left/twist_speed_constraint:
-  Type: 'MotorControlMsgs/SpeedConstraint'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/SpeedConstraint
 /robot/limb/left/use_default_spring_model:
-  Type: 'std_msgs/Empty'
-
-  Publishers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_left (http://baxter.local:33132/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Empty
 /robot/limb/left/velocity_controller_state:
-  Type: 'MotorControlMsgs/VelocityControllerState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/collision/left/joint_collision_estimator_left (http://baxter.local:59991/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /collision/left/joint_collision_estimator_left (http://baxter.local:35048/)
+  - /rcloader_left (http://baxter.local:33132/)
+  - /rcloader_right (http://baxter.local:56870/)
+  type: MotorControlMsgs/VelocityControllerState
 /robot/limb/left/weight_integral_terms:
-  Type: 'MotorControlMsgs/WeightIntegralTerms'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/WeightIntegralTerms
 /robot/limb/right/collision_avoidance_state:
-  Type: 'baxter_core_msgs/CollisionAvoidanceState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_core_msgs/CollisionAvoidanceState
 /robot/limb/right/collision_detection_state:
-  Type: 'baxter_core_msgs/CollisionDetectionState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/CollisionDetectionState
 /robot/limb/right/command_joint_position:
-  Type: 'MotorControlMsgs/JointMotionCommand'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/JointMotionCommand
 /robot/limb/right/command_nullspace_setpoint_and_twist_stamped:
-  Type: 'MotorControlMsgs/NullspaceTwistStamped'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/NullspaceTwistStamped
 /robot/limb/right/command_stiffness:
-  Type: 'std_msgs/UInt32'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt32
 /robot/limb/right/command_stiffness_limit:
-  Type: 'MotorControlMsgs/Stiffness'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/Stiffness
 /robot/limb/right/command_twist_speed_limit:
-  Type: 'MotorControlMsgs/SpeedLimit'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/SpeedLimit
 /robot/limb/right/command_twist_speed_limit_scale:
-  Type: 'MotorControlMsgs/SpeedLimitScale'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/SpeedLimitScale
 /robot/limb/right/command_twist_stamped:
-  Type: 'geometry_msgs/TwistStamped'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: geometry_msgs/TwistStamped
 /robot/limb/right/command_velocity_tozero:
-  Type: 'std_msgs/Bool'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Bool
 /robot/limb/right/commanded_endpoint_state:
-  Type: 'baxter_core_msgs/EndpointState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/collision/right/joint_collision_estimator_right (http://baxter.local:40008/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /collision/right/joint_collision_estimator_right (http://baxter.local:49954/)
+  - /rcloader_right (http://baxter.local:56870/)
+  type: baxter_core_msgs/EndpointState
 /robot/limb/right/endpoint_state:
-  Type: 'baxter_core_msgs/EndpointState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/collision/right/joint_collision_estimator_right (http://baxter.local:40008/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /collision/right/joint_collision_estimator_right (http://baxter.local:49954/)
+  - /rcloader_right (http://baxter.local:56870/)
+  type: baxter_core_msgs/EndpointState
 /robot/limb/right/gravity_compensation_torques:
-  Type: 'baxter_core_msgs/SEAJointState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/collision/right/joint_collision_estimator_right (http://baxter.local:40008/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /collision/right/joint_collision_estimator_right (http://baxter.local:49954/)
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_core_msgs/SEAJointState
 /robot/limb/right/inverse_dynamics_command:
-  Type: 'trajectory_msgs/JointTrajectoryPoint'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: trajectory_msgs/JointTrajectoryPoint
 /robot/limb/right/joint_command:
-  Type: 'baxter_core_msgs/JointCommand'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /baxter_ros1_bridge_okermo (http://130.66.205.156:41551/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/JointCommand
 /robot/limb/right/joint_command_timeout:
-  Type: 'std_msgs/Float64'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Float64
 /robot/limb/right/limb_state:
-  Type: 'MotorControlMsgs/LimbState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/LimbState
 /robot/limb/right/set_damping_correction_weights:
-  Type: 'MotorControlMsgs/JointPosition'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/JointPosition
 /robot/limb/right/set_dominance:
-  Type: 'std_msgs/Bool'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Bool
 /robot/limb/right/set_feed_forward_weights:
-  Type: 'MotorControlMsgs/JointPosition'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/JointPosition
 /robot/limb/right/set_speed_ratio:
-  Type: 'std_msgs/Float64'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Float64
+/robot/limb/right/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/AssemblyState
 /robot/limb/right/stiffness:
-  Type: 'MotorControlMsgs/Stiffness'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/Stiffness
 /robot/limb/right/stiffness_constraint:
-  Type: 'MotorControlMsgs/StiffnessConstraint'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/StiffnessConstraint
 /robot/limb/right/suppress_body_avoidance:
-  Type: 'std_msgs/Empty'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  type: std_msgs/Empty
 /robot/limb/right/suppress_collision_avoidance:
-  Type: 'std_msgs/Empty'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Empty
 /robot/limb/right/suppress_contact_safety:
-  Type: 'std_msgs/Empty'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-  Subscribers:
-    - '/collision/right/joint_collision_estimator_right (http://baxter.local:40008/)'
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  sub:
+  - /collision/right/joint_collision_estimator_right (http://baxter.local:49954/)
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Empty
 /robot/limb/right/suppress_cuff_interaction:
-  Type: 'std_msgs/Empty'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Empty
 /robot/limb/right/suppress_gravity_compensation:
-  Type: 'std_msgs/Empty'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Empty
 /robot/limb/right/suppress_hand_overwrench_safety:
-  Type: 'std_msgs/Empty'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Empty
 /robot/limb/right/twist_speed_constraint:
-  Type: 'MotorControlMsgs/SpeedConstraint'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/SpeedConstraint
 /robot/limb/right/use_default_spring_model:
-  Type: 'std_msgs/Empty'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Empty
 /robot/limb/right/velocity_controller_state:
-  Type: 'MotorControlMsgs/VelocityControllerState'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/collision/right/joint_collision_estimator_right (http://baxter.local:40008/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /collision/right/joint_collision_estimator_right (http://baxter.local:49954/)
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: MotorControlMsgs/VelocityControllerState
 /robot/limb/right/weight_integral_terms:
-  Type: 'MotorControlMsgs/WeightIntegralTerms'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/WeightIntegralTerms
 /robot/limb_names:
-  Type: 'MotorControlMsgs/StringArray'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: MotorControlMsgs/StringArray
+/robot/navigators/left_navigator/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/NavigatorState
+/robot/navigators/right_navigator/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/NavigatorState
+/robot/navigators/torso_left_navigator/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/NavigatorState
+/robot/navigators/torso_right_navigator/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/NavigatorState
 /robot/navigators_names:
-  Type: 'MotorControlMsgs/StringArray'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/StringArray
 /robot/navigators_states:
-  Type: 'baxter_core_msgs/NavigatorStates'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/NavigatorStates
+/robot/range/left_hand_range/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /baxter_ros1_bridge_okermo (http://130.66.205.156:41551/)
+  type: sensor_msgs/Range
+/robot/range/right_hand_range/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /baxter_ros1_bridge_okermo (http://130.66.205.156:41551/)
+  type: sensor_msgs/Range
 /robot/range_names:
-  Type: 'MotorControlMsgs/StringArray'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-  Subscribers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: MotorControlMsgs/StringArray
 /robot/ref_joint_names:
-  Type: 'MotorControlMsgs/StringArray'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
-#/robot/ref_joint_states:
-  #Type: 'sensor_msgs/JointState'
-
-  #Publishers:
-    #- '/realtime_loop (http://baxter.local:40669/)'
-    #- '/end_effector_publisher (http://baxter.local:40894/)'
-
-  #Subscribers:
-    #- '/robot_ref_publisher (http://baxter.local:38333/)'
-    #- '/rcloader_right (http://baxter.local:32861/)'
-    #- '/rcloader_left (http://baxter.local:36929/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/StringArray
+/robot/ref_joint_states:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  - /end_effector_publisher (http://baxter.local:55013/)
+  sub:
+  - /robot_ref_publisher (http://baxter.local:50997/)
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: sensor_msgs/JointState
+/robot/set_homing_mode:
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: baxter_core_msgs/HomingCommand
 /robot/set_motor_voltage_low:
-  Type: 'std_msgs/Bool'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Bool
 /robot/set_super_enable:
-  Type: 'std_msgs/Bool'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Bool
 /robot/set_super_reset:
-  Type: 'std_msgs/Empty'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Empty
 /robot/set_super_stop:
-  Type: 'std_msgs/Empty'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Empty
 /robot/sonar/head_sonar/approach_alert:
-  Type: 'Approach/ApproachAlert'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: Approach/ApproachAlert
 /robot/sonar/head_sonar/lights/green_level:
-  Type: 'std_msgs/Float32'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Float32
 /robot/sonar/head_sonar/lights/red_level:
-  Type: 'std_msgs/Float32'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Float32
 /robot/sonar/head_sonar/lights/set_green_level:
-  Type: 'std_msgs/Float32'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Float32
 /robot/sonar/head_sonar/lights/set_lights:
-  Type: 'std_msgs/UInt16'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt16
 /robot/sonar/head_sonar/lights/set_red_level:
-  Type: 'std_msgs/Float32'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/Float32
+/robot/sonar/head_sonar/lights/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt16
 /robot/sonar/head_sonar/set_sonars_enabled:
-  Type: 'std_msgs/UInt16'
-
-
-
-  Subscribers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
+  sub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt16
 /robot/sonar/head_sonar/sonars_enabled:
-  Type: 'std_msgs/UInt16'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: std_msgs/UInt16
+/robot/sonar/head_sonar/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /baxter_ros1_bridge_okermo (http://130.66.205.156:41551/)
+  type: sensor_msgs/PointCloud
 /robot/sonar_names:
-  Type: 'MotorControlMsgs/StringArray'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/StringArray
 /robot/sonar_states:
-  Type: 'MotorControlMsgs/SonarStates'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-
-
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  type: MotorControlMsgs/SonarStates
+/robot/state:
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  sub:
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_core_msgs/AssemblyState
 /robot/urdf:
-  Type: 'baxter_core_msgs/URDFConfiguration'
-
-  Publishers:
-    - '/realtime_loop (http://baxter.local:40669/)'
-    - '/end_effector_publisher (http://baxter.local:40894/)'
-
-  Subscribers:
-    - '/robot_ref_publisher (http://baxter.local:38333/)'
-    - '/robot_state_publisher (http://baxter.local:47207/)'
-    - '/realtime_loop (http://baxter.local:40669/)'
-    - '/PositionKinematicsNode_left (http://baxter.local:45535/)'
-    - '/PositionKinematicsNode_right (http://baxter.local:41944/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  pub:
+  - /realtime_loop (http://baxter.local:34339/)
+  - /end_effector_publisher (http://baxter.local:55013/)
+  sub:
+  - /robot_ref_publisher (http://baxter.local:50997/)
+  - /robot_state_publisher (http://baxter.local:51320/)
+  - /realtime_loop (http://baxter.local:34339/)
+  - /PositionKinematicsNode_left (http://baxter.local:50595/)
+  - /PositionKinematicsNode_right (http://baxter.local:43427/)
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_core_msgs/URDFConfiguration
 /robot/xdisplay:
-  Type: 'sensor_msgs/Image'
-
-
-
-  Subscribers:
-    - '/xdisplay (http://baxter.local:34842/)'
-
-
+  pub:
+  - /baxter_ros1_bridge_okermo (http://130.66.205.156:41551/)
+  sub:
+  - /xdisplay (http://baxter.local:41257/)
+  type: sensor_msgs/Image
 /robustcontroller/CalibrateArm/JointPoseAction/left/set_dc_weights:
-  Type: 'MotorControlMsgs/JointPosition'
-
-
-
-  Subscribers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  sub:
+  - /rcloader_left (http://baxter.local:33132/)
+  type: MotorControlMsgs/JointPosition
 /robustcontroller/CalibrateArm/JointPoseAction/left/set_ff_weights:
-  Type: 'MotorControlMsgs/JointPosition'
-
-
-
-  Subscribers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  sub:
+  - /rcloader_left (http://baxter.local:33132/)
+  type: MotorControlMsgs/JointPosition
 /robustcontroller/CalibrateArm/JointPoseAction/right/set_dc_weights:
-  Type: 'MotorControlMsgs/JointPosition'
-
-
-
-  Subscribers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  sub:
+  - /rcloader_right (http://baxter.local:56870/)
+  type: MotorControlMsgs/JointPosition
 /robustcontroller/CalibrateArm/JointPoseAction/right/set_ff_weights:
-  Type: 'MotorControlMsgs/JointPosition'
-
-
-
-  Subscribers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  sub:
+  - /rcloader_right (http://baxter.local:56870/)
+  type: MotorControlMsgs/JointPosition
 /robustcontroller/Tare/JointPoseAction/left/set_dc_weights:
-  Type: 'MotorControlMsgs/JointPosition'
-
-
-
-  Subscribers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  sub:
+  - /rcloader_left (http://baxter.local:33132/)
+  type: MotorControlMsgs/JointPosition
 /robustcontroller/Tare/JointPoseAction/left/set_ff_weights:
-  Type: 'MotorControlMsgs/JointPosition'
-
-
-
-  Subscribers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  sub:
+  - /rcloader_left (http://baxter.local:33132/)
+  type: MotorControlMsgs/JointPosition
 /robustcontroller/Tare/JointPoseAction/right/set_dc_weights:
-  Type: 'MotorControlMsgs/JointPosition'
-
-
-
-  Subscribers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  sub:
+  - /rcloader_right (http://baxter.local:56870/)
+  type: MotorControlMsgs/JointPosition
 /robustcontroller/Tare/JointPoseAction/right/set_ff_weights:
-  Type: 'MotorControlMsgs/JointPosition'
-
-
-
-  Subscribers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  sub:
+  - /rcloader_right (http://baxter.local:56870/)
+  type: MotorControlMsgs/JointPosition
 /robustcontroller/left/CalibrateArm/enable:
-  Type: 'baxter_maintenance_msgs/CalibrateArmEnable'
-
-
-
-  Subscribers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  sub:
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_maintenance_msgs/CalibrateArmEnable
 /robustcontroller/left/CalibrateArm/status:
-  Type: 'baxter_core_msgs/RobustControllerStatus'
-
-  Publishers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
-
-
+  pub:
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_core_msgs/RobustControllerStatus
 /robustcontroller/left/Tare/enable:
-  Type: 'baxter_maintenance_msgs/TareEnable'
-
-
-
-  Subscribers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
+  sub:
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_maintenance_msgs/TareEnable
 /robustcontroller/left/Tare/status:
-  Type: 'baxter_core_msgs/RobustControllerStatus'
-
-  Publishers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
-
-
+  pub:
+  - /rcloader_left (http://baxter.local:33132/)
+  type: baxter_core_msgs/RobustControllerStatus
 /robustcontroller/left/rc_plugins_loaded:
-  Type: 'std_msgs/Bool'
-
-  Publishers:
-    - '/rcloader_left (http://baxter.local:36929/)'
-
-
-
-
+  pub:
+  - /rcloader_left (http://baxter.local:33132/)
+  type: std_msgs/Bool
 /robustcontroller/right/CalibrateArm/enable:
-  Type: 'baxter_maintenance_msgs/CalibrateArmEnable'
-
-
-
-  Subscribers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  sub:
+  - /rcloader_right (http://baxter.local:56870/)
+  type: baxter_maintenance_msgs/CalibrateArmEnable
 /robustcontroller/right/CalibrateArm/status:
-  Type: 'baxter_core_msgs/RobustControllerStatus'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  type: baxter_core_msgs/RobustControllerStatus
 /robustcontroller/right/Tare/enable:
-  Type: 'baxter_maintenance_msgs/TareEnable'
-
-
-
-  Subscribers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
+  sub:
+  - /rcloader_right (http://baxter.local:56870/)
+  type: baxter_maintenance_msgs/TareEnable
 /robustcontroller/right/Tare/status:
-  Type: 'baxter_core_msgs/RobustControllerStatus'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  type: baxter_core_msgs/RobustControllerStatus
 /robustcontroller/right/rc_plugins_loaded:
-  Type: 'std_msgs/Bool'
-
-  Publishers:
-    - '/rcloader_right (http://baxter.local:32861/)'
-
-
-
-
+  pub:
+  - /rcloader_right (http://baxter.local:56870/)
+  type: std_msgs/Bool
 /rosout:
-  Type: 'rosgraph_msgs/Log'
-
-  Publishers:
-    - '/ref_base_to_world (http://baxter.local:46289/)'
-    - '/base_to_world (http://baxter.local:49584/)'
-    - '/robot_ref_publisher (http://baxter.local:38333/)'
-    - '/robot_state_publisher (http://baxter.local:47207/)'
-    - '/realtime_loop (http://baxter.local:40669/)'
-    - '/robot/environment_server (http://baxter.local:40213/)'
-    - '/USBService (http://baxter.local:52686/)'
-    - '/collision/right/joint_collision_estimator_right (http://baxter.local:40008/)'
-    - '/collision/left/joint_collision_estimator_left (http://baxter.local:59991/)'
-    - '/baxter_cams (http://baxter.local:35166/)'
-    - '/PositionKinematicsNode_right (http://baxter.local:41944/)'
-    - '/PositionKinematicsNode_left (http://baxter.local:45535/)'
-    - '/end_effector_publisher (http://baxter.local:40894/)'
-    - '/diagnostic_aggregator (http://baxter.local:47308/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-    - '/tf2_web_republisher (http://baxter.local:43974/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-    - '/rosbag_diagnostics (http://baxter.local:44811/)'
-    - '/rosbridge_websocket (http://baxter.local:35862/)'
-    - '/rosapi (http://baxter.local:36931/)'
-    - '/xdisplay (http://baxter.local:34842/)'
-    - '/rviz_1638784248252468919 (http://130.66.205.239:43847/)'
-    - '/rviz_1638784301742924786 (http://130.66.206.149:37769/)'
-    - '/rviz_1638784357295491079 (http://130.66.206.171:34473/)'
-    - '/rviz_1638784433134606030 (http://130.66.207.56:40699/)'
-    - '/rviz_1638784521231215555 (http://130.66.205.162:46055/)'
-
-  Subscribers:
-    - '/rosout (http://baxter.local:52564/)'
-
-
+  pub:
+  - /ref_base_to_world (http://baxter.local:57702/)
+  - /base_to_world (http://baxter.local:45152/)
+  - /robot_ref_publisher (http://baxter.local:50997/)
+  - /robot_state_publisher (http://baxter.local:51320/)
+  - /realtime_loop (http://baxter.local:34339/)
+  - /robot/environment_server (http://baxter.local:37048/)
+  - /USBService (http://baxter.local:44791/)
+  - /collision/left/joint_collision_estimator_left (http://baxter.local:35048/)
+  - /collision/right/joint_collision_estimator_right (http://baxter.local:49954/)
+  - /baxter_cams (http://baxter.local:42344/)
+  - /PositionKinematicsNode_right (http://baxter.local:43427/)
+  - /PositionKinematicsNode_left (http://baxter.local:50595/)
+  - /end_effector_publisher (http://baxter.local:55013/)
+  - /diagnostic_aggregator (http://baxter.local:49377/)
+  - /tf2_web_republisher (http://baxter.local:56147/)
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  - /rosbag_diagnostics (http://baxter.local:49083/)
+  - /rosbridge_websocket (http://baxter.local:34650/)
+  - /rosapi (http://baxter.local:53643/)
+  - /xdisplay (http://baxter.local:41257/)
+  - /baxter_ros1_bridge_okermo (http://130.66.205.156:41551/)
+  sub:
+  - /rosout (http://baxter.local:59433/)
+  type: rosgraph_msgs/Log
 /rosout_agg:
-  Type: 'rosgraph_msgs/Log'
-
-  Publishers:
-    - '/rosout (http://baxter.local:52564/)'
-
-  Subscribers:
-    - '/RethinkOut (http://baxter.local:57702/)'
-
-
+  pub:
+  - /rosout (http://baxter.local:59433/)
+  sub:
+  - /RethinkOut (http://baxter.local:46283/)
+  type: rosgraph_msgs/Log
 /tf:
-  Type: 'tf2_msgs/TFMessage'
-
-  Publishers:
-    - '/robot_state_publisher (http://baxter.local:47207/)'
-    - '/robot_ref_publisher (http://baxter.local:38333/)'
-
-  Subscribers:
-    - '/robot/environment_server (http://baxter.local:40213/)'
-    - '/PositionKinematicsNode_right (http://baxter.local:41944/)'
-    - '/PositionKinematicsNode_left (http://baxter.local:45535/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-    - '/tf2_web_republisher (http://baxter.local:43974/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-    - '/rviz_1638784248252468919 (http://130.66.205.239:43847/)'
-    - '/rviz_1638784301742924786 (http://130.66.206.149:37769/)'
-    - '/rviz_1638784357295491079 (http://130.66.206.171:34473/)'
-    - '/rviz_1638784433134606030 (http://130.66.207.56:40699/)'
-    - '/rviz_1638784521231215555 (http://130.66.205.162:46055/)'
-
-
+  pub:
+  - /robot_state_publisher (http://baxter.local:51320/)
+  - /robot_ref_publisher (http://baxter.local:50997/)
+  sub:
+  - /robot/environment_server (http://baxter.local:37048/)
+  - /PositionKinematicsNode_right (http://baxter.local:43427/)
+  - /PositionKinematicsNode_left (http://baxter.local:50595/)
+  - /tf2_web_republisher (http://baxter.local:56147/)
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: tf2_msgs/TFMessage
 /tf2_web_republisher/cancel:
-  Type: 'actionlib_msgs/GoalID'
-
-
-
-  Subscribers:
-    - '/tf2_web_republisher (http://baxter.local:43974/)'
-
-
+  sub:
+  - /tf2_web_republisher (http://baxter.local:56147/)
+  type: actionlib_msgs/GoalID
 /tf2_web_republisher/feedback:
-  Type: 'tf2_web_republisher/TFSubscriptionActionFeedback'
-
-  Publishers:
-    - '/tf2_web_republisher (http://baxter.local:43974/)'
-
-
-
-
+  pub:
+  - /tf2_web_republisher (http://baxter.local:56147/)
+  type: tf2_web_republisher/TFSubscriptionActionFeedback
 /tf2_web_republisher/goal:
-  Type: 'tf2_web_republisher/TFSubscriptionActionGoal'
-
-
-
-  Subscribers:
-    - '/tf2_web_republisher (http://baxter.local:43974/)'
-
-
+  sub:
+  - /tf2_web_republisher (http://baxter.local:56147/)
+  type: tf2_web_republisher/TFSubscriptionActionGoal
 /tf2_web_republisher/result:
-  Type: 'tf2_web_republisher/TFSubscriptionActionResult'
-
-  Publishers:
-    - '/tf2_web_republisher (http://baxter.local:43974/)'
-
-
-
-
+  pub:
+  - /tf2_web_republisher (http://baxter.local:56147/)
+  type: tf2_web_republisher/TFSubscriptionActionResult
 /tf2_web_republisher/status:
-  Type: 'actionlib_msgs/GoalStatusArray'
-
-  Publishers:
-    - '/tf2_web_republisher (http://baxter.local:43974/)'
-
-
-
-
+  pub:
+  - /tf2_web_republisher (http://baxter.local:56147/)
+  type: actionlib_msgs/GoalStatusArray
 /tf_static:
-  Type: 'tf2_msgs/TFMessage'
-
-  Publishers:
-    - '/ref_base_to_world (http://baxter.local:46289/)'
-    - '/base_to_world (http://baxter.local:49584/)'
-
-  Subscribers:
-    - '/robot/environment_server (http://baxter.local:40213/)'
-    - '/PositionKinematicsNode_right (http://baxter.local:41944/)'
-    - '/PositionKinematicsNode_left (http://baxter.local:45535/)'
-    - '/rcloader_left (http://baxter.local:36929/)'
-    - '/tf2_web_republisher (http://baxter.local:43974/)'
-    - '/rcloader_right (http://baxter.local:32861/)'
-    - '/rviz_1638784248252468919 (http://130.66.205.239:43847/)'
-    - '/rviz_1638784301742924786 (http://130.66.206.149:37769/)'
-    - '/rviz_1638784357295491079 (http://130.66.206.171:34473/)'
-    - '/rviz_1638784433134606030 (http://130.66.207.56:40699/)'
-    - '/rviz_1638784521231215555 (http://130.66.205.162:46055/)'
-
-
+  pub:
+  - /ref_base_to_world (http://baxter.local:57702/)
+  - /base_to_world (http://baxter.local:45152/)
+  sub:
+  - /robot/environment_server (http://baxter.local:37048/)
+  - /PositionKinematicsNode_right (http://baxter.local:43427/)
+  - /PositionKinematicsNode_left (http://baxter.local:50595/)
+  - /tf2_web_republisher (http://baxter.local:56147/)
+  - /rcloader_right (http://baxter.local:56870/)
+  - /rcloader_left (http://baxter.local:33132/)
+  type: tf2_msgs/TFMessage
 /update/progress:
-  Type: 'std_msgs/Int32'
-
-  Publishers:
-    - '/USBService (http://baxter.local:52686/)'
-
-
-
-
+  pub:
+  - /USBService (http://baxter.local:44791/)
+  type: std_msgs/Int32
 /update/status:
-  Type: 'std_msgs/Int32'
-
-  Publishers:
-    - '/USBService (http://baxter.local:52686/)'
-
-
-
-
+  pub:
+  - /USBService (http://baxter.local:44791/)
+  type: std_msgs/Int32
 /usb/ready:
-  Type: 'std_msgs/Bool'
-
-  Publishers:
-    - '/USBService (http://baxter.local:52686/)'
-
-
-
-
+  pub:
+  - /USBService (http://baxter.local:44791/)
+  type: std_msgs/Bool

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os
 import yaml
@@ -18,6 +18,7 @@ if '-s' in sys.argv:
         sys.exit(0)
 
     from subprocess import check_output
+
     def getlines(cmd):
         return check_output(cmd.split()).decode().splitlines()
 
@@ -29,13 +30,15 @@ if '-s' in sys.argv:
 
 pkg_dir = os.path.abspath(os.path.dirname(__file__) + '/..')
 
-ignores = ['/tf','/rosout']
-
+ignores = ['/tf','/rosout', '/tf_static','/rosout_agg', '/robot/urdf']
+deprecated = ['arm_navigation_msgs', 'MotorControlMsgs']
 builtin = ['bool','float','int','string','byte']
+
 
 def is_builtin(msg):
     is_array = msg[-1] == ']' and msg[-2] != '['
     return msg[0].islower() and not is_array and '/' not in msg and any(b in msg for b in builtin)
+
 
 def ros2_include(msg):
     # ROS 2 uses only lower case
@@ -44,12 +47,13 @@ def ros2_include(msg):
     include = ''
     for i,c in enumerate(msg):
         if c.isupper():
-            if msg[i-1].islower() or msg[i-1].isdigit(): include += '_'
+            if msg[i-1].islower() or msg[i-1].isdigit():
+                include += '_'
             include += c.lower()
         else:
             include += c
     # a few exceptions
-    for src,dst in (('/','/msg/'),('uint','u_int'),('iostates','io_states')):
+    for src,dst in (('/','/msg/'),('uint','u_int'),('iostate','io_state')):
         include = include.replace(src,dst)
     return include+'.hpp'
 
@@ -57,23 +61,49 @@ def ros2_include(msg):
 with open(pkg_dir + '/factory/baxter.yaml') as f:
     infos = yaml.safe_load(f)
 
-deprecated = ['arm_navigation_msgs']
 
+def valid_node(node):
+    return 'baxter.local' in node # and 'rcloader_' not in node
+
+
+ros1to2 = set()
+ros2to1 = set()
 topics = {'publishers': {}, 'subscribers': {}}
 for topic, info in infos.items():
-    if any(d in info['Type'] for d in deprecated): continue
+    if topic in ignores or any(d in info['type'] for d in deprecated):
+        continue
     if debug:
-        if not any(keep in info['Type'] for keep in ['Image','JointState','JointCommand','CameraInfo']):
+        if not any(keep in info['type'] for keep in ['Image','JointState','JointCommand','CameraInfo']):
             continue
 
-    if 'Publishers' in info and any(p for p in info['Publishers'] if 'baxter.local' in p):
-        topics['publishers'][topic] = info['Type']
-    if 'Subscribers' in info and any(s for s in info['Subscribers'] if 'baxter.local' in s):
-        topics['subscribers'][topic] = info['Type']
+    pubs = [p for p in info['pub'] if valid_node(p)] if 'pub' in info else []
+    subs = [s for s in info['sub'] if valid_node(s)] if 'sub' in info else []
+
+    if len(pubs) and len(subs):
+        print(f'Loop detected ({topic})')
+
+        #print(' subscribers: \n   ' + '\n   '.join([s for s in info['sub'] if valid_node(s)]))
+        #print(' publishers:\n   ' + '\n   '.join([s for s in info['pub'] if valid_node(s)]))
+        rt_pub = any('/realtime_loop' in p for p in pubs)
+        rt_sub = any('/realtime_loop' in s for s in subs)
+        if rt_pub and not rt_sub:
+            print('  -> Favoring publishing from /realtime_loop')
+            subs = []
+        elif rt_sub and not rt_pub:
+            print('  -> Favoring subscribing from /realtime_loop')
+            pubs = []
+        if len(subs):
+            topics['subscribers'][topic] = info['type']
+            ros2to1.add(info['type'])
+        if len(pubs):
+            topics['publishers'][topic] = info['type']
+            ros1to2.add(info['type'])
+
+print()
 
 # special rule for sensor_msgs/CameraInfo
 rules = {'ros1_package_name': 'sensor_msgs'}
-rules['ros1_message_name']= 'CameraInfo'
+rules['ros1_message_name'] = 'CameraInfo'
 rules['fields_1_to_2'] = {}
 for field in 'dkrp':
     rules['fields_1_to_2'][field.upper()] = field
@@ -87,12 +117,13 @@ for pkg in ('baxter_core_msgs','baxter_maintenance_msgs'):
 rules = dict((r['ros1_package_name']+'/'+r['ros1_message_name'],
               dict((v,k) for (k,v) in r['fields_1_to_2'].items())) for r in rules)
 
+
 def load_message(full_msg):
     pkg,msg = full_msg.split('/')
     if pkg.startswith('baxter_'):
         root = pkg_dir + '/..'
     else:
-        root = '/opt/ros/foxy/share'
+        root = f'/opt/ros/{os.environ["ROS_DISTRO"]}/share'
     if not os.path.exists(root + f'/{pkg}/msg/{msg}.msg'):
         return None, None
     with open(root + f'/{pkg}/msg/{msg}.msg') as f:
@@ -112,8 +143,10 @@ def load_message(full_msg):
 def toElem(msg):
     return msg.split('[')[0]
 
+
 def toROS1(msg):
     return toElem(msg.replace('/', '::'))
+
 
 def toROS2(msg):
     return toElem(msg.replace('/', '::msg::'))
@@ -135,13 +168,10 @@ class Factory:
 
     def add(self, topic, msg):
 
-        # remove strange messages / topics
-        if msg[0].isupper(): return
-        if any(topic.startswith(i) for i in ignores): return
-
         self.topics[topic] = msg
 
-        if msg+'.h' in self.includes: return
+        if msg+'.h' in self.includes:
+            return
 
         # ROS 1 uses raw message name as include
         self.includes.append(msg+'.h')
@@ -162,14 +192,14 @@ class Factory:
 
         msg = toElem(msg)
 
-        if msg in self.msgs_done: return True
+        if msg in self.msgs_done:
+            return True
 
         fields, rule = load_message(msg)
-        if fields is None: return True
+        if fields is None:
+            return True
 
         to2 = self.tag == '1to2'
-
-        pkg = msg[:msg.find('/')]
         src = toROS2(msg)
         dst = toROS1(msg)
 
@@ -261,6 +291,7 @@ class Factory:
                 f.write(content)
         else:
             print('Not changing ' + self.src)
+
 
 f12 = Factory(pkg_dir + '/src/factory_1to2.cpp')
 f21 = Factory(pkg_dir + '/src/factory_2to1.cpp')
