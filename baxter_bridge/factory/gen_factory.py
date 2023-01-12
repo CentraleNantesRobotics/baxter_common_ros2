@@ -127,6 +127,7 @@ def load_message(full_msg):
     else:
         root = f'/opt/ros/{os.environ["ROS_DISTRO"]}/share'
     if not os.path.exists(root + f'/{pkg}/msg/{msg}.msg'):
+        print('Could not find ' + full_msg)
         return None, None
     with open(root + f'/{pkg}/msg/{msg}.msg') as f:
         definition = [line.split('#')[0].strip() for line in f.read().splitlines() if '=' not in line]
@@ -170,6 +171,9 @@ class Factory:
 
     def add(self, topic, msg):
 
+        if not self.build_fwd(msg):
+            return
+
         self.topics[topic] = msg
 
         if msg+'.h' in self.includes:
@@ -182,7 +186,7 @@ class Factory:
         msg1 = toROS1(msg)
         msg2 = toROS2(msg)
 
-        self.build_fwd(msg)
+
 
         self.fact.append(f'''if(msg == "{msg}")
   {{
