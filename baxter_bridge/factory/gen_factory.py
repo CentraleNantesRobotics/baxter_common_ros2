@@ -6,7 +6,6 @@ import sys
 
 debug = '-d' in sys.argv
 
-
 if '-s' in sys.argv:
     # scan topics, make sure to be on a ROS 1 terminal connected to Baxter
     if 'ROS_MASTER_URI' not in os.environ or 'baxter.local' not in os.environ['ROS_MASTER_URI']:
@@ -87,17 +86,19 @@ for topic, info in infos.items():
         rt_pub = any('/realtime_loop' in p for p in pubs)
         rt_sub = any('/realtime_loop' in s for s in subs)
         if rt_pub and not rt_sub:
-            print('  -> Favoring publishing from /realtime_loop')
+            print('  -> Favoring publishing from /realtime_loop\n')
             subs = []
         elif rt_sub and not rt_pub:
-            print('  -> Favoring subscribing from /realtime_loop')
+            print('  -> Favoring subscribing from /realtime_loop\n')
             pubs = []
-        if len(subs):
-            topics['subscribers'][topic] = info['type']
-            ros2to1.add(info['type'])
-        if len(pubs):
-            topics['publishers'][topic] = info['type']
-            ros1to2.add(info['type'])
+        else:
+            print('  -> /realtime_loop is both subscriber and publisher\n')
+    if len(subs):
+        topics['subscribers'][topic] = info['type']
+        ros2to1.add(info['type'])
+    if len(pubs):
+        topics['publishers'][topic] = info['type']
+        ros1to2.add(info['type'])
 
 print()
 
@@ -119,6 +120,7 @@ rules = dict((r['ros1_package_name']+'/'+r['ros1_message_name'],
 
 
 def load_message(full_msg):
+
     pkg,msg = full_msg.split('/')
     if pkg.startswith('baxter_'):
         root = pkg_dir + '/..'
@@ -246,7 +248,7 @@ class Factory:
                 fwd.append(f'  convertMsg({src_field}, {dst_field});')
 
         if valid:
-            print(f'Generating convertMsg<{src}, {dst}>\n')
+            print(f'{src} -> {dst}\n')
             fwd.append('}\n')
             self.forwards.append('\n'.join(fwd))
             self.msgs_done.append(msg)
@@ -258,7 +260,7 @@ class Factory:
 
         print(f'{self.tag}: {len(self.topics)} topics using {len(self.includes)} messages')
 
-        content = ['//Generated from baxter_io.yaml, edit is not recommended']
+        content = ['//Generated with gen_factory.py, edit is not recommended']
         content += [f'#include <baxter_bridge/bridge_{self.tag}.h>', '#include <baxter_bridge/factory.h>', '//messages']
         for include in self.includes:
             content.append(f'#include <{include}>')
