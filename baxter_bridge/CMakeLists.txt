@@ -17,6 +17,7 @@ find_package(baxter_maintenance_msgs REQUIRED)
 find_package(diagnostic_msgs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
 find_package(robot_state_publisher REQUIRED)
+find_package(actionlib_msgs REQUIRED)
 
 find_package(OpenCV REQUIRED)
 
@@ -41,7 +42,7 @@ target_link_directories(baxter_bridge PUBLIC ${ROS1_ROOT}/lib)
 target_link_libraries(baxter_bridge ${ROS1_LIBS} ${OpenCV_LIBS})
 
 ament_target_dependencies(baxter_bridge
-rclcpp sensor_msgs baxter_core_msgs baxter_maintenance_msgs diagnostic_msgs trajectory_msgs robot_state_publisher)
+rclcpp sensor_msgs baxter_core_msgs baxter_maintenance_msgs diagnostic_msgs trajectory_msgs robot_state_publisher actionlib_msgs)
 
 install(TARGETS baxter_bridge
 ARCHIVE DESTINATION lib

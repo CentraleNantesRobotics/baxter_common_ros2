@@ -2,10 +2,6 @@
 #include <baxter_bridge/bridge_1to2.h>
 #include <baxter_bridge/factory.h>
 //messages
-#include <RosMsgToolsMsgs/Reply.h>
-#include <_ros_msg_tools_msgs/msg/reply.hpp>
-#include <sensor_msgs/CameraInfo.h>
-#include <sensor_msgs/msg/camera_info.hpp>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/msg/image.hpp>
 #include <diagnostic_msgs/DiagnosticArray.h>
@@ -14,8 +10,6 @@
 #include <diagnostic_msgs/msg/diagnostic_status.hpp>
 #include <std_msgs/UInt8MultiArray.h>
 #include <std_msgs/msg/u_int8_multi_array.hpp>
-#include <sensor_msgs/Imu.h>
-#include <sensor_msgs/msg/imu.hpp>
 #include <baxter_core_msgs/AnalogIOState.h>
 #include <baxter_core_msgs/msg/analog_io_state.hpp>
 #include <std_msgs/UInt32.h>
@@ -34,8 +28,6 @@
 #include <baxter_core_msgs/msg/end_effector_state.hpp>
 #include <baxter_core_msgs/HeadState.h>
 #include <baxter_core_msgs/msg/head_state.hpp>
-#include <baxter_core_msgs/HomingState.h>
-#include <baxter_core_msgs/msg/homing_state.hpp>
 #include <sensor_msgs/JointState.h>
 #include <sensor_msgs/msg/joint_state.hpp>
 #include <baxter_core_msgs/CollisionAvoidanceState.h>
@@ -64,10 +56,6 @@
 #include <baxter_core_msgs/msg/robust_controller_status.hpp>
 #include <std_msgs/Bool.h>
 #include <std_msgs/msg/bool.hpp>
-#include <tf2_web_republisher/TFSubscriptionActionFeedback.h>
-#include <tf2_web_republisher/msg/tfsubscription_action_feedback.hpp>
-#include <tf2_web_republisher/TFSubscriptionActionResult.h>
-#include <tf2_web_republisher/msg/tfsubscription_action_result.hpp>
 #include <actionlib_msgs/GoalStatusArray.h>
 #include <actionlib_msgs/msg/goal_status_array.hpp>
 #include <std_msgs/Int32.h>
@@ -81,32 +69,6 @@ void convertMsg(const std_msgs::Header &src, std_msgs::msg::Header &dst)
 {
   dst.stamp = Bridge::ros2_now();
   dst.frame_id = src.frame_id;
-}
-
-template<>
-void convertMsg(const sensor_msgs::RegionOfInterest &src, sensor_msgs::msg::RegionOfInterest &dst)
-{
-  dst.x_offset = src.x_offset;
-  dst.y_offset = src.y_offset;
-  dst.height = src.height;
-  dst.width = src.width;
-  dst.do_rectify = src.do_rectify;
-}
-
-template<>
-void convertMsg(const sensor_msgs::CameraInfo &src, sensor_msgs::msg::CameraInfo &dst)
-{
-  convertMsg(src.header, dst.header);
-  dst.height = src.height;
-  dst.width = src.width;
-  dst.distortion_model = src.distortion_model;
-  dst.d = src.D;
-  convertMsg(src.K, dst.k);
-  convertMsg(src.R, dst.r);
-  convertMsg(src.P, dst.p);
-  dst.binning_x = src.binning_x;
-  dst.binning_y = src.binning_y;
-  convertMsg(src.roi, dst.roi);
 }
 
 template<>
@@ -174,26 +136,6 @@ void convertMsg(const geometry_msgs::Quaternion &src, geometry_msgs::msg::Quater
   dst.y = src.y;
   dst.z = src.z;
   dst.w = src.w;
-}
-
-template<>
-void convertMsg(const geometry_msgs::Vector3 &src, geometry_msgs::msg::Vector3 &dst)
-{
-  dst.x = src.x;
-  dst.y = src.y;
-  dst.z = src.z;
-}
-
-template<>
-void convertMsg(const sensor_msgs::Imu &src, sensor_msgs::msg::Imu &dst)
-{
-  convertMsg(src.header, dst.header);
-  convertMsg(src.orientation, dst.orientation);
-  convertMsg(src.orientation_covariance, dst.orientation_covariance);
-  convertMsg(src.angular_velocity, dst.angular_velocity);
-  convertMsg(src.angular_velocity_covariance, dst.angular_velocity_covariance);
-  convertMsg(src.linear_acceleration, dst.linear_acceleration);
-  convertMsg(src.linear_acceleration_covariance, dst.linear_acceleration_covariance);
 }
 
 template<>
@@ -330,6 +272,14 @@ void convertMsg(const geometry_msgs::Pose &src, geometry_msgs::msg::Pose &dst)
 {
   convertMsg(src.position, dst.position);
   convertMsg(src.orientation, dst.orientation);
+}
+
+template<>
+void convertMsg(const geometry_msgs::Vector3 &src, geometry_msgs::msg::Vector3 &dst)
+{
+  dst.x = src.x;
+  dst.y = src.y;
+  dst.z = src.z;
 }
 
 template<>
@@ -488,19 +438,11 @@ void convertMsg(const std_msgs::Int32 &src, std_msgs::msg::Int32 &dst)
 }
 
 std::map<std::string, std::string> Factory::topics_1to2 = {
-  {"/ExternalTools/left/PositionKinematicsNode/FKServer/reply", "RosMsgToolsMsgs/Reply"},
-  {"/ExternalTools/left/PositionKinematicsNode/IKServer/reply", "RosMsgToolsMsgs/Reply"},
-  {"/ExternalTools/right/PositionKinematicsNode/FKServer/reply", "RosMsgToolsMsgs/Reply"},
-  {"/ExternalTools/right/PositionKinematicsNode/IKServer/reply", "RosMsgToolsMsgs/Reply"},
-  {"/cameras/right_hand_camera/camera_info", "sensor_msgs/CameraInfo"},
-  {"/cameras/right_hand_camera/camera_info_std", "sensor_msgs/CameraInfo"},
   {"/cameras/right_hand_camera/image", "sensor_msgs/Image"},
   {"/diagnostics", "diagnostic_msgs/DiagnosticArray"},
   {"/diagnostics_agg", "diagnostic_msgs/DiagnosticArray"},
   {"/diagnostics_toplevel_state", "diagnostic_msgs/DiagnosticStatus"},
   {"/hdraw", "std_msgs/UInt8MultiArray"},
-  {"/robot/accelerometer/left_accelerometer/state", "sensor_msgs/Imu"},
-  {"/robot/accelerometer/right_accelerometer/state", "sensor_msgs/Imu"},
   {"/robot/analog_io/left_hand_range/state", "baxter_core_msgs/AnalogIOState"},
   {"/robot/analog_io/left_hand_range/value_uint32", "std_msgs/UInt32"},
   {"/robot/analog_io/left_vacuum_sensor_analog/state", "baxter_core_msgs/AnalogIOState"},
@@ -590,7 +532,6 @@ std::map<std::string, std::string> Factory::topics_1to2 = {
   {"/robot/end_effector/right_gripper/state", "baxter_core_msgs/EndEffectorState"},
   {"/robot/head/head_state", "baxter_core_msgs/HeadState"},
   {"/robot/head/state", "baxter_core_msgs/AssemblyState"},
-  {"/robot/homing_states", "baxter_core_msgs/HomingState"},
   {"/robot/joint_states", "sensor_msgs/JointState"},
   {"/robot/limb/left/collision_avoidance_state", "baxter_core_msgs/CollisionAvoidanceState"},
   {"/robot/limb/left/collision_detection_state", "baxter_core_msgs/CollisionDetectionState"},
@@ -626,8 +567,6 @@ std::map<std::string, std::string> Factory::topics_1to2 = {
   {"/robustcontroller/right/CalibrateArm/status", "baxter_core_msgs/RobustControllerStatus"},
   {"/robustcontroller/right/Tare/status", "baxter_core_msgs/RobustControllerStatus"},
   {"/robustcontroller/right/rc_plugins_loaded", "std_msgs/Bool"},
-  {"/tf2_web_republisher/feedback", "tf2_web_republisher/TFSubscriptionActionFeedback"},
-  {"/tf2_web_republisher/result", "tf2_web_republisher/TFSubscriptionActionResult"},
   {"/tf2_web_republisher/status", "actionlib_msgs/GoalStatusArray"},
   {"/update/progress", "std_msgs/Int32"},
   {"/update/status", "std_msgs/Int32"},
@@ -635,17 +574,7 @@ std::map<std::string, std::string> Factory::topics_1to2 = {
 
 void Factory::createBridge_1to2(const std::string &topic, const std::string &msg)
 {
-  if(msg == "RosMsgToolsMsgs/Reply")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<RosMsgToolsMsgs::Reply, RosMsgToolsMsgs::msg::Reply>>
-        (topic));
-  }
-  else if(msg == "sensor_msgs/CameraInfo")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::CameraInfo, sensor_msgs::msg::CameraInfo>>
-        (topic));
-  }
-  else if(msg == "sensor_msgs/Image")
+  if(msg == "sensor_msgs/Image")
   {
     bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::Image, sensor_msgs::msg::Image>>
         (topic));
@@ -663,11 +592,6 @@ void Factory::createBridge_1to2(const std::string &topic, const std::string &msg
   else if(msg == "std_msgs/UInt8MultiArray")
   {
     bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::UInt8MultiArray, std_msgs::msg::UInt8MultiArray>>
-        (topic));
-  }
-  else if(msg == "sensor_msgs/Imu")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::Imu, sensor_msgs::msg::Imu>>
         (topic));
   }
   else if(msg == "baxter_core_msgs/AnalogIOState")
@@ -713,11 +637,6 @@ void Factory::createBridge_1to2(const std::string &topic, const std::string &msg
   else if(msg == "baxter_core_msgs/HeadState")
   {
     bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::HeadState, baxter_core_msgs::msg::HeadState>>
-        (topic));
-  }
-  else if(msg == "baxter_core_msgs/HomingState")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::HomingState, baxter_core_msgs::msg::HomingState>>
         (topic));
   }
   else if(msg == "sensor_msgs/JointState")
@@ -788,16 +707,6 @@ void Factory::createBridge_1to2(const std::string &topic, const std::string &msg
   else if(msg == "std_msgs/Bool")
   {
     bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::Bool, std_msgs::msg::Bool>>
-        (topic));
-  }
-  else if(msg == "tf2_web_republisher/TFSubscriptionActionFeedback")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<tf2_web_republisher::TFSubscriptionActionFeedback, tf2_web_republisher::msg::TFSubscriptionActionFeedback>>
-        (topic));
-  }
-  else if(msg == "tf2_web_republisher/TFSubscriptionActionResult")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<tf2_web_republisher::TFSubscriptionActionResult, tf2_web_republisher::msg::TFSubscriptionActionResult>>
         (topic));
   }
   else if(msg == "actionlib_msgs/GoalStatusArray")

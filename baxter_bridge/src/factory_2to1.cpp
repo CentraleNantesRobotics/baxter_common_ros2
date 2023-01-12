@@ -2,8 +2,6 @@
 #include <baxter_bridge/bridge_2to1.h>
 #include <baxter_bridge/factory.h>
 //messages
-#include <RosMsgToolsMsgs/Request.h>
-#include <_ros_msg_tools_msgs/msg/request.hpp>
 #include <baxter_core_msgs/AnalogOutputCommand.h>
 #include <baxter_core_msgs/msg/analog_output_command.hpp>
 #include <baxter_core_msgs/DigitalOutputCommand.h>
@@ -32,10 +30,6 @@
 #include <std_msgs/msg/float64.hpp>
 #include <std_msgs/Empty.h>
 #include <std_msgs/msg/empty.hpp>
-#include <baxter_core_msgs/HomingCommand.h>
-#include <baxter_core_msgs/msg/homing_command.hpp>
-#include <Approach/ApproachAlert.h>
-#include <_approach/msg/approach_alert.hpp>
 #include <std_msgs/Float32.h>
 #include <std_msgs/msg/float32.hpp>
 #include <sensor_msgs/Image.h>
@@ -46,8 +40,6 @@
 #include <baxter_maintenance_msgs/msg/tare_enable.hpp>
 #include <actionlib_msgs/GoalID.h>
 #include <actionlib_msgs/msg/goal_id.hpp>
-#include <tf2_web_republisher/TFSubscriptionActionGoal.h>
-#include <tf2_web_republisher/msg/tfsubscription_action_goal.hpp>
 
 namespace baxter_bridge
 {
@@ -256,10 +248,6 @@ void convertMsg(const actionlib_msgs::msg::GoalID &src, actionlib_msgs::GoalID &
 }
 
 std::map<std::string, std::string> Factory::topics_2to1 = {
-  {"/ExternalTools/left/PositionKinematicsNode/FKServer/request", "RosMsgToolsMsgs/Request"},
-  {"/ExternalTools/left/PositionKinematicsNode/IKServer/request", "RosMsgToolsMsgs/Request"},
-  {"/ExternalTools/right/PositionKinematicsNode/FKServer/request", "RosMsgToolsMsgs/Request"},
-  {"/ExternalTools/right/PositionKinematicsNode/IKServer/request", "RosMsgToolsMsgs/Request"},
   {"/robot/analog_io/command", "baxter_core_msgs/AnalogOutputCommand"},
   {"/robot/digital_io/command", "baxter_core_msgs/DigitalOutputCommand"},
   {"/robot/end_effector/left_gripper/command", "baxter_core_msgs/EndEffectorCommand"},
@@ -299,12 +287,10 @@ std::map<std::string, std::string> Factory::topics_2to1 = {
   {"/robot/limb/right/suppress_gravity_compensation", "std_msgs/Empty"},
   {"/robot/limb/right/suppress_hand_overwrench_safety", "std_msgs/Empty"},
   {"/robot/limb/right/use_default_spring_model", "std_msgs/Empty"},
-  {"/robot/set_homing_mode", "baxter_core_msgs/HomingCommand"},
   {"/robot/set_motor_voltage_low", "std_msgs/Bool"},
   {"/robot/set_super_enable", "std_msgs/Bool"},
   {"/robot/set_super_reset", "std_msgs/Empty"},
   {"/robot/set_super_stop", "std_msgs/Empty"},
-  {"/robot/sonar/head_sonar/approach_alert", "Approach/ApproachAlert"},
   {"/robot/sonar/head_sonar/lights/set_green_level", "std_msgs/Float32"},
   {"/robot/sonar/head_sonar/lights/set_lights", "std_msgs/UInt16"},
   {"/robot/sonar/head_sonar/lights/set_red_level", "std_msgs/Float32"},
@@ -314,17 +300,11 @@ std::map<std::string, std::string> Factory::topics_2to1 = {
   {"/robustcontroller/left/Tare/enable", "baxter_maintenance_msgs/TareEnable"},
   {"/robustcontroller/right/CalibrateArm/enable", "baxter_maintenance_msgs/CalibrateArmEnable"},
   {"/robustcontroller/right/Tare/enable", "baxter_maintenance_msgs/TareEnable"},
-  {"/tf2_web_republisher/cancel", "actionlib_msgs/GoalID"},
-  {"/tf2_web_republisher/goal", "tf2_web_republisher/TFSubscriptionActionGoal"}};
+  {"/tf2_web_republisher/cancel", "actionlib_msgs/GoalID"}};
 
 void Factory::createBridge_2to1(const std::string &topic, const std::string &msg)
 {
-  if(msg == "RosMsgToolsMsgs/Request")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<RosMsgToolsMsgs::Request, RosMsgToolsMsgs::msg::Request>>
-        (topic));
-  }
-  else if(msg == "baxter_core_msgs/AnalogOutputCommand")
+  if(msg == "baxter_core_msgs/AnalogOutputCommand")
   {
     bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::AnalogOutputCommand, baxter_core_msgs::msg::AnalogOutputCommand>>
         (topic));
@@ -394,16 +374,6 @@ void Factory::createBridge_2to1(const std::string &topic, const std::string &msg
     bridges.push_back(std::make_unique<Bridge_2to1<std_msgs::Empty, std_msgs::msg::Empty>>
         (topic));
   }
-  else if(msg == "baxter_core_msgs/HomingCommand")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::HomingCommand, baxter_core_msgs::msg::HomingCommand>>
-        (topic));
-  }
-  else if(msg == "Approach/ApproachAlert")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<Approach::ApproachAlert, Approach::msg::ApproachAlert>>
-        (topic));
-  }
   else if(msg == "std_msgs/Float32")
   {
     bridges.push_back(std::make_unique<Bridge_2to1<std_msgs::Float32, std_msgs::msg::Float32>>
@@ -427,11 +397,6 @@ void Factory::createBridge_2to1(const std::string &topic, const std::string &msg
   else if(msg == "actionlib_msgs/GoalID")
   {
     bridges.push_back(std::make_unique<Bridge_2to1<actionlib_msgs::GoalID, actionlib_msgs::msg::GoalID>>
-        (topic));
-  }
-  else if(msg == "tf2_web_republisher/TFSubscriptionActionGoal")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<tf2_web_republisher::TFSubscriptionActionGoal, tf2_web_republisher::msg::TFSubscriptionActionGoal>>
         (topic));
   }
 }

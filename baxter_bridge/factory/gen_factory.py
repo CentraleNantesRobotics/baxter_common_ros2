@@ -127,7 +127,6 @@ def load_message(full_msg):
     else:
         root = f'/opt/ros/{os.environ["ROS_DISTRO"]}/share'
     if not os.path.exists(root + f'/{pkg}/msg/{msg}.msg'):
-        print('Could not find ' + full_msg)
         return None, None
     with open(root + f'/{pkg}/msg/{msg}.msg') as f:
         definition = [line.split('#')[0].strip() for line in f.read().splitlines() if '=' not in line]
@@ -186,8 +185,6 @@ class Factory:
         msg1 = toROS1(msg)
         msg2 = toROS2(msg)
 
-
-
         self.fact.append(f'''if(msg == "{msg}")
   {{
     bridges.push_back(std::make_unique<Bridge_{self.tag}<{msg1}, {msg2}>>
@@ -203,7 +200,8 @@ class Factory:
 
         fields, rule = load_message(msg)
         if fields is None:
-            return True
+            print('Cannot load incomplete message ' + msg)
+            return False
 
         to2 = self.tag == '1to2'
         src = toROS2(msg)
@@ -257,7 +255,7 @@ class Factory:
             self.forwards.append('\n'.join(fwd))
             self.msgs_done.append(msg)
             return True
-
+        print('Cannot load incomplete message ' + msg)
         return False
 
     def write(self):
