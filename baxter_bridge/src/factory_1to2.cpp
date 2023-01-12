@@ -570,7 +570,9 @@ std::map<std::string, std::string> Factory::topics_1to2 = {
   {"/tf2_web_republisher/status", "actionlib_msgs/GoalStatusArray"},
   {"/update/progress", "std_msgs/Int32"},
   {"/update/status", "std_msgs/Int32"},
-  {"/usb/ready", "std_msgs/Bool"}};
+  {"/usb/ready", "std_msgs/Bool"},
+  {"/cameras/head_camera/image", "sensor_msgs/Image"},
+  {"/cameras/left_hand_camera/image", "sensor_msgs/Image"}};
 
 void Factory::createBridge_1to2(const std::string &topic, const std::string &msg)
 {

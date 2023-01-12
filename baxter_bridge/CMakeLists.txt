@@ -31,7 +31,7 @@ set(ROS1_LIBS roscpp rosconsole roscpp_serialization rostime xmlrpcpp)
 if(EXISTS ${ROS1_ROOT})
     foreach(ROS1_LIB ${ROS1_LIBS})
         add_library(${ROS1_LIB} UNKNOWN IMPORTED)
-        set_property(TARGET ${ROS1_LIB} PROPERTY IMPORTED_LOCATION "${ROS1_ROOT}/lib")
+        set_property(TARGET ${ROS1_LIB} PROPERTY IMPORTED_LOCATION "${ROS1_ROOT}/lib/lib${ROS1_LIB}.so")
     endforeach()
 endif()
 

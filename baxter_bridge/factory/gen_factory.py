@@ -60,6 +60,18 @@ def ros2_include(msg):
 with open(pkg_dir + '/factory/baxter.yaml') as f:
     infos = yaml.safe_load(f)
 
+# add all cameras which may not be activated
+for cam in ('head_camera', 'right_hand_camera', 'left_hand_camera'):
+
+    base_topic = f'/cameras/{cam}/'
+
+    for sub, msg in (('camera_info', 'CameraInfo'),
+                     ('camera_info_std', 'CameraInfo'),
+                     ('image', 'Image')):
+        topic = base_topic + sub
+        infos[topic] = {'pub': ['/baxter_cams (http://baxter.local:42344/)'],
+                        'type': 'sensor_msgs/' + msg}
+
 
 def valid_node(node):
     return 'baxter.local' in node # and 'rcloader_' not in node
