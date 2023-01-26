@@ -31,12 +31,28 @@ pkg_dir = os.path.abspath(os.path.dirname(__file__) + '/..')
 
 ignores = ['/tf','/rosout', '/tf_static','/rosout_agg', '/robot/urdf']
 deprecated = ['arm_navigation_msgs', 'MotorControlMsgs']
-builtin = ['bool','float','int','string','byte']
+
+builtin = ['bool','string','byte','float32','float64']
+builtin += [f'{i}{s}' for i in ('int','uint') for s in (8,16,32,64)]
+
+MSG_BASE = 0
+MSG_BASE_ARRAY = 1
+MSG_CUSTOM = 2
 
 
-def is_builtin(msg):
+def check_msg_type(msg):
     is_array = msg[-1] == ']' and msg[-2] != '['
-    return msg[0].islower() and not is_array and '/' not in msg and any(b in msg for b in builtin)
+    if '[' in msg:
+        msg = msg.split('[')[0]
+    base_type = msg in builtin
+
+    if base_type:
+        if is_array:
+            return MSG_BASE_ARRAY
+        return MSG_BASE
+    return MSG_CUSTOM
+
+    #return msg[0].islower() and not is_array and '/' not in msg and any(b in msg for b in builtin)
 
 
 def ros2_include(msg):
@@ -138,14 +154,17 @@ def load_message(full_msg):
         root = pkg_dir + '/..'
     else:
         root = f'/opt/ros/{os.environ["ROS_DISTRO"]}/share'
+
     if not os.path.exists(root + f'/{pkg}/msg/{msg}.msg'):
         return None, None
+
     with open(root + f'/{pkg}/msg/{msg}.msg') as f:
         definition = [line.split('#')[0].strip() for line in f.read().splitlines() if '=' not in line]
     fields = dict(reversed(line.split()[:2]) for line in definition if line)
 
     for field,sub in fields.items():
-        if '/' not in sub and not is_builtin(sub):
+        msg_type = check_msg_type(sub)
+        if '/' not in sub and msg_type == MSG_CUSTOM:
             fields[field] = f'{pkg}/{sub}'
 
     rule = dict((f,f) for f in fields)
@@ -241,6 +260,7 @@ class Factory:
                 dst_field = f'dst.{rule[field2]}'
 
             # some special cases
+            msg_type = check_msg_type(sub)
             if sub == 'builtin_interfaces/Time':
                 if to2:
                     fwd.append(f'  {dst_field} = Bridge::ros2_now();')
@@ -252,20 +272,21 @@ class Factory:
                     fwd.append(f'  {dst_field}.nanosec = {src_field}.nsec;')
                 else:
                     fwd.append(f'  {dst_field}.nsec = {src_field}.nanosec;')
-            elif is_builtin(sub):
-                if 'bool[' in sub:
-                    fwd.append(f'  convertMsg({src_field}, {dst_field});')
-                else:
-                    fwd.append(f'  {dst_field} = {src_field};')
+
+            elif msg_type == MSG_BASE_ARRAY or 'bool[' in sub:
+                fwd.append(f'  convertMsg({src_field}, {dst_field});')
+            elif msg_type == MSG_BASE:
+                fwd.append(f'  {dst_field} = {src_field};')
             else:
                 valid = valid and self.build_fwd(sub)
                 fwd.append(f'  convertMsg({src_field}, {dst_field});')
+
+        self.msgs_done.append(msg)
 
         if valid:
             print(f'{src} -> {dst}\n')
             fwd.append('}\n')
             self.forwards.append('\n'.join(fwd))
-            self.msgs_done.append(msg)
             return True
         print('Cannot load incomplete message ' + msg)
         return False
