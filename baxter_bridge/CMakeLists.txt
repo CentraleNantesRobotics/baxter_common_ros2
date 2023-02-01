@@ -3,24 +3,32 @@ project(baxter_bridge)
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
 endif()
-
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 # ROS 2 pkgs
-find_package(ament_cmake REQUIRED)
-find_package(sensor_msgs REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(baxter_core_msgs REQUIRED)
-find_package(baxter_maintenance_msgs REQUIRED)
-find_package(diagnostic_msgs REQUIRED)
-find_package(trajectory_msgs REQUIRED)
-find_package(robot_state_publisher REQUIRED)
-find_package(actionlib_msgs REQUIRED)
+find_package(ament_cmake_auto REQUIRED)
+ament_auto_find_build_dependencies()
+
+# Service files
+rosidl_generate_interfaces(${PROJECT_NAME}
+    "srv/Open.srv"
+    "srv/Exists.srv")
+ament_export_dependencies(rosidl_default_runtime)
+
+# use custom services as node dependencies
+if("$ENV{ROS_DISTRO}" STREQUAL "galactic" OR "$ENV{ROS_DISTRO}" STREQUAL "foxy")
+    set(LEGACY_IDL TRUE)
+else()
+    set(LEGACY_IDL FALSE)
+endif()
+if(NOT ${LEGACY_IDL})
+    rosidl_get_typesupport_target(cpp_typesupport_target "${PROJECT_NAME}" "rosidl_typesupport_cpp")
+endif()
 
 find_package(OpenCV REQUIRED)
-
 set(CMAKE_BUILD_TYPE Release)
 
 # find ROS 1 packages we depend on
@@ -35,28 +43,24 @@ if(EXISTS ${ROS1_ROOT})
     endforeach()
 endif()
 
-add_executable(baxter_bridge    src/baxter_bridge.cpp
+ament_auto_add_executable(bridge    src/baxter_bridge.cpp
                                 src/bridge.cpp
                                 src/monitor.cpp
                                 src/factory.cpp
                                 src/factory_1to2.cpp
                                 src/factory_2to1.cpp
-                                src/topic_poller.cpp)
-target_include_directories(baxter_bridge PRIVATE
+                                src/topic_poller.cpp)                                    
+target_include_directories(bridge PRIVATE
                             ${ROS1_ROOT}/include
                             include include/ros1_msgs
                             ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
-
-target_link_libraries(baxter_bridge ${ROS1_LIBS} ${OpenCV_LIBS})
-
-ament_target_dependencies(baxter_bridge
-rclcpp sensor_msgs baxter_core_msgs baxter_maintenance_msgs diagnostic_msgs trajectory_msgs robot_state_publisher actionlib_msgs)
-
-install(TARGETS baxter_bridge
-ARCHIVE DESTINATION lib
-LIBRARY DESTINATION lib
-RUNTIME DESTINATION lib/${PROJECT_NAME})
+target_link_libraries(bridge ${ROS1_LIBS} ${OpenCV_LIBS})
+if(${LEGACY_IDL})
+    rosidl_target_interfaces(bridge ${PROJECT_NAME} "rosidl_typesupport_cpp")
+else()
+    target_link_libraries(bridge "${cpp_typesupport_target}")
+endif()
 
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
 
-ament_package()
+ament_auto_package()

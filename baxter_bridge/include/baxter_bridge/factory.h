@@ -5,18 +5,18 @@
 #include <memory>
 #include <map>
 #include <vector>
+#include <baxter_bridge/bridge.h>
 
 namespace baxter_bridge
 {
 
-class Bridge;
-
 class Factory
 {
 public:
+
   static void createRemainingBridges();
 
-  static void createBridge(const std::string &topic);
+  static bool createBridge(const std::string &topic);
 
   inline static bool isSubscribedByBaxter(const std::string &topic)
   {
@@ -26,6 +26,8 @@ public:
   {
     return topics_1to2.find(topic) != topics_1to2.end();
   }
+
+  static std::optional<Bridge::Direction> exists(const std::string &topic);
 
 private:
 

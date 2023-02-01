@@ -20,10 +20,11 @@ template <class Src, class Dst>
 std::enable_if_t<!std::is_same_v<Src,Dst>, void>
 convertMsg(const std::vector<Src>& src, std::vector<Dst> &dst)
 {
+  dst.clear();
   dst.reserve(src.size());
   std::transform(src.begin(), src.end(), std::back_inserter(dst),
-                 [](const auto &elem)
-  {Dst converted;convertMsg(elem,converted);return converted;});
+                   [](const auto &elem)
+    {Dst converted;convertMsg(elem,converted);return converted;});
 }
 
 // arrays are std in ROS 2 vs boost in ROS 1

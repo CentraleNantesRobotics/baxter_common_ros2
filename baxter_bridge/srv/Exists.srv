@@ -1,0 +1,6 @@
+string topic
+---
+char ROS_1_TO_2 = 1
+char ROS_2_TO_1 = 2
+char NONE = 3
+char direction

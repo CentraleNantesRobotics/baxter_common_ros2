@@ -76,18 +76,6 @@ def ros2_include(msg):
 with open(pkg_dir + '/factory/baxter.yaml') as f:
     infos = yaml.safe_load(f)
 
-# add all cameras which may not be activated
-for cam in ('head_camera', 'right_hand_camera', 'left_hand_camera'):
-
-    base_topic = f'/cameras/{cam}/'
-
-    for sub, msg in (('camera_info', 'CameraInfo'),
-                     ('camera_info_std', 'CameraInfo'),
-                     ('image', 'Image')):
-        topic = base_topic + sub
-        infos[topic] = {'pub': ['/baxter_cams (http://baxter.local:42344/)'],
-                        'type': 'sensor_msgs/' + msg}
-
 
 def valid_node(node):
     return 'baxter.local' in node # and 'rcloader_' not in node
@@ -193,7 +181,7 @@ class Factory:
 
         self.msgs_done = []
 
-        self.tag = '2to1' if '2to1' in src else '1to2'
+        self.direction = '2to1' if '2to1' in src else '1to2'
 
         self.fact = []
 
@@ -204,7 +192,8 @@ class Factory:
         if not self.build_fwd(msg):
             return
 
-        self.topics[topic] = msg
+        if topic is not None:
+            self.topics[topic] = msg
 
         if msg+'.h' in self.includes:
             return
@@ -216,11 +205,9 @@ class Factory:
         msg1 = toROS1(msg)
         msg2 = toROS2(msg)
 
-        self.fact.append(f'''if(msg == "{msg}")
-  {{
-    bridges.push_back(std::make_unique<Bridge_{self.tag}<{msg1}, {msg2}>>
-        (topic));
-  }}''')
+        if topic is not None:
+            self.fact.append(f'''if(msg == "{msg}")
+    bridges.push_back(std::make_unique<Bridge_{self.direction}<{msg1}, {msg2}>>(topic));''')
 
     def build_fwd(self, msg):
 
@@ -234,7 +221,7 @@ class Factory:
             print('Cannot load incomplete message ' + msg)
             return False
 
-        to2 = self.tag == '1to2'
+        to2 = self.direction == '1to2'
         src = toROS2(msg)
         dst = toROS1(msg)
 
@@ -288,15 +275,15 @@ class Factory:
             fwd.append('}\n')
             self.forwards.append('\n'.join(fwd))
             return True
-        print('Cannot load incomplete message ' + msg)
+        #print('Cannot load incomplete message ' + msg)
         return False
 
-    def write(self):
+    def write(self, src):
 
-        print(f'{self.tag}: {len(self.topics)} topics using {len(self.includes)} messages')
+        print(f'{self.direction}: {len(self.topics)} topics using {len(self.includes)} messages')
 
         content = ['//Generated with gen_factory.py, edit is not recommended']
-        content += [f'#include <baxter_bridge/bridge_{self.tag}.h>', '#include <baxter_bridge/factory.h>', '//messages']
+        content += [f'#include <baxter_bridge/bridge_{self.direction}.h>', '#include <baxter_bridge/factory.h>', '//messages']
         for include in self.includes:
             content.append(f'#include <{include}>')
         content.append('\nnamespace baxter_bridge\n{')
@@ -305,33 +292,49 @@ class Factory:
         content.append('// converters')
         content += self.forwards
 
+        if src is None:
+            print(content)
+            return
+
         # topics
-        content.append('std::map<std::string, std::string> Factory::topics_' + self.tag + ' = {')
+        content.append('std::map<std::string, std::string> Factory::topics_' + self.direction + ' = {')
         for topic, msg in self.topics.items():
             content.append(f'  {{"{topic}", "{msg}"}},')
         content[-1] = content[-1][:-1] + '};\n'
 
         # finish createBridge fct
-        content.append(f'void Factory::createBridge_{self.tag}(const std::string &topic, const std::string &msg)')
+        content.append(f'void Factory::createBridge_{self.direction}(const std::string &topic, const std::string &msg)')
         content.append('{')
         content.append('  ' + '\n  else '.join(self.fact))
         content.append('}\n}')
 
         content = '\n'.join(content)
 
-        with open(self.src) as f:
+        with open(src) as f:
             same = f.read() == content
 
         if not same:
-            print('Updating ' + self.src)
-            with open(self.src, 'w') as f:
+            print('Updating ' + src)
+            with open(src, 'w') as f:
                 f.write(content)
         else:
-            print('Not changing ' + self.src)
+            print('Not changing ' + src)
 
 
-f12 = Factory(pkg_dir + '/src/factory_1to2.cpp')
-f21 = Factory(pkg_dir + '/src/factory_2to1.cpp')
+f12 = Factory('1to2')
+f21 = Factory('2to1')
+
+# add all cameras which may not be activated
+for cam in ('head', 'right_hand', 'left_hand'):
+    base_topic = f'/cameras/{cam}_camera/'
+    for sub, msg in (('camera_info', 'CameraInfo'),
+                     ('camera_info_std', 'CameraInfo'),
+                     ('image', 'Image')):
+        f12.add(base_topic + sub, 'sensor_msgs/' + msg)
+
+# messages used for IK bridge, no attached topic
+f21.add(None, 'sensor_msgs/JointState')
+f21.add(None, 'geometry_msgs/PoseStamped')
 
 for topic, msg in topics['publishers'].items():
     f12.add(topic, msg)
@@ -340,5 +343,5 @@ for topic, msg in topics['subscribers'].items():
     f21.add(topic, msg)
 
 
-f12.write()
-f21.write()
+f12.write(pkg_dir + '/src/factory_1to2.cpp')
+f21.write(pkg_dir + '/src/factory_2to1.cpp')

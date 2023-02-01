@@ -2,6 +2,10 @@
 #include <baxter_bridge/bridge_2to1.h>
 #include <baxter_bridge/factory.h>
 //messages
+#include <sensor_msgs/JointState.h>
+#include <sensor_msgs/msg/joint_state.hpp>
+#include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/msg/pose_stamped.hpp>
 #include <baxter_core_msgs/AnalogOutputCommand.h>
 #include <baxter_core_msgs/msg/analog_output_command.hpp>
 #include <baxter_core_msgs/DigitalOutputCommand.h>
@@ -44,6 +48,54 @@
 namespace baxter_bridge
 {
 // converters
+template<>
+void convertMsg(const std_msgs::msg::Header &src, std_msgs::Header &dst)
+{
+  dst.stamp = Bridge::ros1_now();
+  dst.frame_id = src.frame_id;
+}
+
+template<>
+void convertMsg(const sensor_msgs::msg::JointState &src, sensor_msgs::JointState &dst)
+{
+  convertMsg(src.header, dst.header);
+  dst.name = src.name;
+  dst.position = src.position;
+  dst.velocity = src.velocity;
+  dst.effort = src.effort;
+}
+
+template<>
+void convertMsg(const geometry_msgs::msg::Point &src, geometry_msgs::Point &dst)
+{
+  dst.x = src.x;
+  dst.y = src.y;
+  dst.z = src.z;
+}
+
+template<>
+void convertMsg(const geometry_msgs::msg::Quaternion &src, geometry_msgs::Quaternion &dst)
+{
+  dst.x = src.x;
+  dst.y = src.y;
+  dst.z = src.z;
+  dst.w = src.w;
+}
+
+template<>
+void convertMsg(const geometry_msgs::msg::Pose &src, geometry_msgs::Pose &dst)
+{
+  convertMsg(src.position, dst.position);
+  convertMsg(src.orientation, dst.orientation);
+}
+
+template<>
+void convertMsg(const geometry_msgs::msg::PoseStamped &src, geometry_msgs::PoseStamped &dst)
+{
+  convertMsg(src.header, dst.header);
+  convertMsg(src.pose, dst.pose);
+}
+
 template<>
 void convertMsg(const baxter_core_msgs::msg::AnalogOutputCommand &src, baxter_core_msgs::AnalogOutputCommand &dst)
 {
@@ -133,13 +185,6 @@ template<>
 void convertMsg(const std_msgs::msg::UInt32 &src, std_msgs::UInt32 &dst)
 {
   dst.data = src.data;
-}
-
-template<>
-void convertMsg(const std_msgs::msg::Header &src, std_msgs::Header &dst)
-{
-  dst.stamp = Bridge::ros1_now();
-  dst.frame_id = src.frame_id;
 }
 
 template<>
@@ -305,99 +350,42 @@ std::map<std::string, std::string> Factory::topics_2to1 = {
 void Factory::createBridge_2to1(const std::string &topic, const std::string &msg)
 {
   if(msg == "baxter_core_msgs/AnalogOutputCommand")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::AnalogOutputCommand, baxter_core_msgs::msg::AnalogOutputCommand>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::AnalogOutputCommand, baxter_core_msgs::msg::AnalogOutputCommand>>(topic));
   else if(msg == "baxter_core_msgs/DigitalOutputCommand")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::DigitalOutputCommand, baxter_core_msgs::msg::DigitalOutputCommand>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::DigitalOutputCommand, baxter_core_msgs::msg::DigitalOutputCommand>>(topic));
   else if(msg == "baxter_core_msgs/EndEffectorCommand")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::EndEffectorCommand, baxter_core_msgs::msg::EndEffectorCommand>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::EndEffectorCommand, baxter_core_msgs::msg::EndEffectorCommand>>(topic));
   else if(msg == "baxter_core_msgs/EndEffectorProperties")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::EndEffectorProperties, baxter_core_msgs::msg::EndEffectorProperties>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::EndEffectorProperties, baxter_core_msgs::msg::EndEffectorProperties>>(topic));
   else if(msg == "baxter_core_msgs/EndEffectorState")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::EndEffectorState, baxter_core_msgs::msg::EndEffectorState>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::EndEffectorState, baxter_core_msgs::msg::EndEffectorState>>(topic));
   else if(msg == "std_msgs/Bool")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<std_msgs::Bool, std_msgs::msg::Bool>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<std_msgs::Bool, std_msgs::msg::Bool>>(topic));
   else if(msg == "baxter_core_msgs/HeadPanCommand")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::HeadPanCommand, baxter_core_msgs::msg::HeadPanCommand>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::HeadPanCommand, baxter_core_msgs::msg::HeadPanCommand>>(topic));
   else if(msg == "std_msgs/UInt16")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<std_msgs::UInt16, std_msgs::msg::UInt16>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<std_msgs::UInt16, std_msgs::msg::UInt16>>(topic));
   else if(msg == "std_msgs/UInt32")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<std_msgs::UInt32, std_msgs::msg::UInt32>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<std_msgs::UInt32, std_msgs::msg::UInt32>>(topic));
   else if(msg == "geometry_msgs/TwistStamped")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<geometry_msgs::TwistStamped, geometry_msgs::msg::TwistStamped>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<geometry_msgs::TwistStamped, geometry_msgs::msg::TwistStamped>>(topic));
   else if(msg == "trajectory_msgs/JointTrajectoryPoint")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<trajectory_msgs::JointTrajectoryPoint, trajectory_msgs::msg::JointTrajectoryPoint>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<trajectory_msgs::JointTrajectoryPoint, trajectory_msgs::msg::JointTrajectoryPoint>>(topic));
   else if(msg == "baxter_core_msgs/JointCommand")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::JointCommand, baxter_core_msgs::msg::JointCommand>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::JointCommand, baxter_core_msgs::msg::JointCommand>>(topic));
   else if(msg == "std_msgs/Float64")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<std_msgs::Float64, std_msgs::msg::Float64>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<std_msgs::Float64, std_msgs::msg::Float64>>(topic));
   else if(msg == "std_msgs/Empty")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<std_msgs::Empty, std_msgs::msg::Empty>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<std_msgs::Empty, std_msgs::msg::Empty>>(topic));
   else if(msg == "std_msgs/Float32")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<std_msgs::Float32, std_msgs::msg::Float32>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<std_msgs::Float32, std_msgs::msg::Float32>>(topic));
   else if(msg == "sensor_msgs/Image")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<sensor_msgs::Image, sensor_msgs::msg::Image>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<sensor_msgs::Image, sensor_msgs::msg::Image>>(topic));
   else if(msg == "baxter_maintenance_msgs/CalibrateArmEnable")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<baxter_maintenance_msgs::CalibrateArmEnable, baxter_maintenance_msgs::msg::CalibrateArmEnable>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<baxter_maintenance_msgs::CalibrateArmEnable, baxter_maintenance_msgs::msg::CalibrateArmEnable>>(topic));
   else if(msg == "baxter_maintenance_msgs/TareEnable")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<baxter_maintenance_msgs::TareEnable, baxter_maintenance_msgs::msg::TareEnable>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<baxter_maintenance_msgs::TareEnable, baxter_maintenance_msgs::msg::TareEnable>>(topic));
   else if(msg == "actionlib_msgs/GoalID")
-  {
-    bridges.push_back(std::make_unique<Bridge_2to1<actionlib_msgs::GoalID, actionlib_msgs::msg::GoalID>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_2to1<actionlib_msgs::GoalID, actionlib_msgs::msg::GoalID>>(topic));
 }
 }

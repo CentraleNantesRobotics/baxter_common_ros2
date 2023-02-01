@@ -23,6 +23,15 @@ struct Bridge_1to2 : public Bridge
     });
   }
 
+  inline std::string topic() const override
+  {
+    return sub.getTopic();
+  }
+
+  inline Direction direction() const override
+  {
+    return Direction::ROS_1_TO_2;
+  }
 
 private:
   // ros 1

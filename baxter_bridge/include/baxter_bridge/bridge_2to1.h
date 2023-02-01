@@ -23,6 +23,15 @@ struct Bridge_2to1 : public Bridge
         pub.publish(msg1);
     }});
   }
+
+  inline std::string topic() const override
+  {
+    return pub.getTopic();
+  }
+  inline Direction direction() const override
+  {
+    return Direction::ROS_2_TO_1;
+  }
 private:
   ros::Publisher pub;
   typename rclcpp::Subscription<Msg2>::SharedPtr sub;

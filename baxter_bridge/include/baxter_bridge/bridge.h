@@ -13,6 +13,9 @@ namespace baxter_bridge
 class Bridge
 {
 public:
+
+  enum class Direction{ROS_1_TO_2, ROS_2_TO_1};
+
   static bool init(int argc, char** argv);
 
   inline static void spinOnce()
@@ -21,7 +24,6 @@ public:
   }
 
   inline static bool onBaxter() {return on_baxter;}
-
   inline static bool isStatic() {return is_static;}
 
   inline static ros::NodeHandle* ros1() {return ros1_node.get();}
@@ -36,6 +38,10 @@ public:
   {
     return ros::Time::now();
   }
+
+  virtual std::string topic() const = 0;
+  virtual Direction direction() const = 0;
+
 protected:
 
   static bool initRSP();

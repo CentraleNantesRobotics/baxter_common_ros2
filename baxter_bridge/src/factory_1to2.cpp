@@ -2,6 +2,8 @@
 #include <baxter_bridge/bridge_1to2.h>
 #include <baxter_bridge/factory.h>
 //messages
+#include <sensor_msgs/CameraInfo.h>
+#include <sensor_msgs/msg/camera_info.hpp>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/msg/image.hpp>
 #include <diagnostic_msgs/DiagnosticArray.h>
@@ -10,6 +12,8 @@
 #include <diagnostic_msgs/msg/diagnostic_status.hpp>
 #include <std_msgs/UInt8MultiArray.h>
 #include <std_msgs/msg/u_int8_multi_array.hpp>
+#include <sensor_msgs/Imu.h>
+#include <sensor_msgs/msg/imu.hpp>
 #include <baxter_core_msgs/AnalogIOState.h>
 #include <baxter_core_msgs/msg/analog_io_state.hpp>
 #include <std_msgs/UInt32.h>
@@ -69,6 +73,32 @@ void convertMsg(const std_msgs::Header &src, std_msgs::msg::Header &dst)
 {
   dst.stamp = Bridge::ros2_now();
   dst.frame_id = src.frame_id;
+}
+
+template<>
+void convertMsg(const sensor_msgs::RegionOfInterest &src, sensor_msgs::msg::RegionOfInterest &dst)
+{
+  dst.x_offset = src.x_offset;
+  dst.y_offset = src.y_offset;
+  dst.height = src.height;
+  dst.width = src.width;
+  dst.do_rectify = src.do_rectify;
+}
+
+template<>
+void convertMsg(const sensor_msgs::CameraInfo &src, sensor_msgs::msg::CameraInfo &dst)
+{
+  convertMsg(src.header, dst.header);
+  dst.height = src.height;
+  dst.width = src.width;
+  dst.distortion_model = src.distortion_model;
+  dst.d = src.D;
+  convertMsg(src.K, dst.k);
+  convertMsg(src.R, dst.r);
+  convertMsg(src.P, dst.p);
+  dst.binning_x = src.binning_x;
+  dst.binning_y = src.binning_y;
+  convertMsg(src.roi, dst.roi);
 }
 
 template<>
@@ -136,6 +166,26 @@ void convertMsg(const geometry_msgs::Quaternion &src, geometry_msgs::msg::Quater
   dst.y = src.y;
   dst.z = src.z;
   dst.w = src.w;
+}
+
+template<>
+void convertMsg(const geometry_msgs::Vector3 &src, geometry_msgs::msg::Vector3 &dst)
+{
+  dst.x = src.x;
+  dst.y = src.y;
+  dst.z = src.z;
+}
+
+template<>
+void convertMsg(const sensor_msgs::Imu &src, sensor_msgs::msg::Imu &dst)
+{
+  convertMsg(src.header, dst.header);
+  convertMsg(src.orientation, dst.orientation);
+  convertMsg(src.orientation_covariance, dst.orientation_covariance);
+  convertMsg(src.angular_velocity, dst.angular_velocity);
+  convertMsg(src.angular_velocity_covariance, dst.angular_velocity_covariance);
+  convertMsg(src.linear_acceleration, dst.linear_acceleration);
+  convertMsg(src.linear_acceleration_covariance, dst.linear_acceleration_covariance);
 }
 
 template<>
@@ -272,14 +322,6 @@ void convertMsg(const geometry_msgs::Pose &src, geometry_msgs::msg::Pose &dst)
 {
   convertMsg(src.position, dst.position);
   convertMsg(src.orientation, dst.orientation);
-}
-
-template<>
-void convertMsg(const geometry_msgs::Vector3 &src, geometry_msgs::msg::Vector3 &dst)
-{
-  dst.x = src.x;
-  dst.y = src.y;
-  dst.z = src.z;
 }
 
 template<>
@@ -438,11 +480,21 @@ void convertMsg(const std_msgs::Int32 &src, std_msgs::msg::Int32 &dst)
 }
 
 std::map<std::string, std::string> Factory::topics_1to2 = {
+  {"/cameras/head_camera/camera_info", "sensor_msgs/CameraInfo"},
+  {"/cameras/head_camera/camera_info_std", "sensor_msgs/CameraInfo"},
+  {"/cameras/head_camera/image", "sensor_msgs/Image"},
+  {"/cameras/right_hand_camera/camera_info", "sensor_msgs/CameraInfo"},
+  {"/cameras/right_hand_camera/camera_info_std", "sensor_msgs/CameraInfo"},
   {"/cameras/right_hand_camera/image", "sensor_msgs/Image"},
+  {"/cameras/left_hand_camera/camera_info", "sensor_msgs/CameraInfo"},
+  {"/cameras/left_hand_camera/camera_info_std", "sensor_msgs/CameraInfo"},
+  {"/cameras/left_hand_camera/image", "sensor_msgs/Image"},
   {"/diagnostics", "diagnostic_msgs/DiagnosticArray"},
   {"/diagnostics_agg", "diagnostic_msgs/DiagnosticArray"},
   {"/diagnostics_toplevel_state", "diagnostic_msgs/DiagnosticStatus"},
   {"/hdraw", "std_msgs/UInt8MultiArray"},
+  {"/robot/accelerometer/left_accelerometer/state", "sensor_msgs/Imu"},
+  {"/robot/accelerometer/right_accelerometer/state", "sensor_msgs/Imu"},
   {"/robot/analog_io/left_hand_range/state", "baxter_core_msgs/AnalogIOState"},
   {"/robot/analog_io/left_hand_range/value_uint32", "std_msgs/UInt32"},
   {"/robot/analog_io/left_vacuum_sensor_analog/state", "baxter_core_msgs/AnalogIOState"},
@@ -570,156 +622,71 @@ std::map<std::string, std::string> Factory::topics_1to2 = {
   {"/tf2_web_republisher/status", "actionlib_msgs/GoalStatusArray"},
   {"/update/progress", "std_msgs/Int32"},
   {"/update/status", "std_msgs/Int32"},
-  {"/usb/ready", "std_msgs/Bool"},
-  {"/cameras/head_camera/image", "sensor_msgs/Image"},
-  {"/cameras/left_hand_camera/image", "sensor_msgs/Image"}};
+  {"/usb/ready", "std_msgs/Bool"}};
 
 void Factory::createBridge_1to2(const std::string &topic, const std::string &msg)
 {
-  if(msg == "sensor_msgs/Image")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::Image, sensor_msgs::msg::Image>>
-        (topic));
-  }
+  if(msg == "sensor_msgs/CameraInfo")
+    bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::CameraInfo, sensor_msgs::msg::CameraInfo>>(topic));
+  else if(msg == "sensor_msgs/Image")
+    bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::Image, sensor_msgs::msg::Image>>(topic));
   else if(msg == "diagnostic_msgs/DiagnosticArray")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<diagnostic_msgs::DiagnosticArray, diagnostic_msgs::msg::DiagnosticArray>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<diagnostic_msgs::DiagnosticArray, diagnostic_msgs::msg::DiagnosticArray>>(topic));
   else if(msg == "diagnostic_msgs/DiagnosticStatus")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<diagnostic_msgs::DiagnosticStatus, diagnostic_msgs::msg::DiagnosticStatus>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<diagnostic_msgs::DiagnosticStatus, diagnostic_msgs::msg::DiagnosticStatus>>(topic));
   else if(msg == "std_msgs/UInt8MultiArray")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::UInt8MultiArray, std_msgs::msg::UInt8MultiArray>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::UInt8MultiArray, std_msgs::msg::UInt8MultiArray>>(topic));
+  else if(msg == "sensor_msgs/Imu")
+    bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::Imu, sensor_msgs::msg::Imu>>(topic));
   else if(msg == "baxter_core_msgs/AnalogIOState")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::AnalogIOState, baxter_core_msgs::msg::AnalogIOState>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::AnalogIOState, baxter_core_msgs::msg::AnalogIOState>>(topic));
   else if(msg == "std_msgs/UInt32")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::UInt32, std_msgs::msg::UInt32>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::UInt32, std_msgs::msg::UInt32>>(topic));
   else if(msg == "baxter_core_msgs/AnalogIOStates")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::AnalogIOStates, baxter_core_msgs::msg::AnalogIOStates>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::AnalogIOStates, baxter_core_msgs::msg::AnalogIOStates>>(topic));
   else if(msg == "baxter_core_msgs/AssemblyState")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::AssemblyState, baxter_core_msgs::msg::AssemblyState>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::AssemblyState, baxter_core_msgs::msg::AssemblyState>>(topic));
   else if(msg == "baxter_core_msgs/DigitalIOState")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::DigitalIOState, baxter_core_msgs::msg::DigitalIOState>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::DigitalIOState, baxter_core_msgs::msg::DigitalIOState>>(topic));
   else if(msg == "baxter_core_msgs/DigitalIOStates")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::DigitalIOStates, baxter_core_msgs::msg::DigitalIOStates>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::DigitalIOStates, baxter_core_msgs::msg::DigitalIOStates>>(topic));
   else if(msg == "baxter_core_msgs/EndEffectorProperties")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::EndEffectorProperties, baxter_core_msgs::msg::EndEffectorProperties>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::EndEffectorProperties, baxter_core_msgs::msg::EndEffectorProperties>>(topic));
   else if(msg == "baxter_core_msgs/EndEffectorState")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::EndEffectorState, baxter_core_msgs::msg::EndEffectorState>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::EndEffectorState, baxter_core_msgs::msg::EndEffectorState>>(topic));
   else if(msg == "baxter_core_msgs/HeadState")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::HeadState, baxter_core_msgs::msg::HeadState>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::HeadState, baxter_core_msgs::msg::HeadState>>(topic));
   else if(msg == "sensor_msgs/JointState")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::JointState, sensor_msgs::msg::JointState>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::JointState, sensor_msgs::msg::JointState>>(topic));
   else if(msg == "baxter_core_msgs/CollisionAvoidanceState")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::CollisionAvoidanceState, baxter_core_msgs::msg::CollisionAvoidanceState>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::CollisionAvoidanceState, baxter_core_msgs::msg::CollisionAvoidanceState>>(topic));
   else if(msg == "baxter_core_msgs/CollisionDetectionState")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::CollisionDetectionState, baxter_core_msgs::msg::CollisionDetectionState>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::CollisionDetectionState, baxter_core_msgs::msg::CollisionDetectionState>>(topic));
   else if(msg == "baxter_core_msgs/EndpointState")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::EndpointState, baxter_core_msgs::msg::EndpointState>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::EndpointState, baxter_core_msgs::msg::EndpointState>>(topic));
   else if(msg == "baxter_core_msgs/SEAJointState")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::SEAJointState, baxter_core_msgs::msg::SEAJointState>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::SEAJointState, baxter_core_msgs::msg::SEAJointState>>(topic));
   else if(msg == "std_msgs/Empty")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::Empty, std_msgs::msg::Empty>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::Empty, std_msgs::msg::Empty>>(topic));
   else if(msg == "baxter_core_msgs/NavigatorState")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::NavigatorState, baxter_core_msgs::msg::NavigatorState>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::NavigatorState, baxter_core_msgs::msg::NavigatorState>>(topic));
   else if(msg == "baxter_core_msgs/NavigatorStates")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::NavigatorStates, baxter_core_msgs::msg::NavigatorStates>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::NavigatorStates, baxter_core_msgs::msg::NavigatorStates>>(topic));
   else if(msg == "sensor_msgs/Range")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::Range, sensor_msgs::msg::Range>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::Range, sensor_msgs::msg::Range>>(topic));
   else if(msg == "std_msgs/Float32")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::Float32, std_msgs::msg::Float32>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::Float32, std_msgs::msg::Float32>>(topic));
   else if(msg == "std_msgs/UInt16")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::UInt16, std_msgs::msg::UInt16>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::UInt16, std_msgs::msg::UInt16>>(topic));
   else if(msg == "sensor_msgs/PointCloud")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::PointCloud, sensor_msgs::msg::PointCloud>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::PointCloud, sensor_msgs::msg::PointCloud>>(topic));
   else if(msg == "baxter_core_msgs/RobustControllerStatus")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::RobustControllerStatus, baxter_core_msgs::msg::RobustControllerStatus>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::RobustControllerStatus, baxter_core_msgs::msg::RobustControllerStatus>>(topic));
   else if(msg == "std_msgs/Bool")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::Bool, std_msgs::msg::Bool>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::Bool, std_msgs::msg::Bool>>(topic));
   else if(msg == "actionlib_msgs/GoalStatusArray")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<actionlib_msgs::GoalStatusArray, actionlib_msgs::msg::GoalStatusArray>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<actionlib_msgs::GoalStatusArray, actionlib_msgs::msg::GoalStatusArray>>(topic));
   else if(msg == "std_msgs/Int32")
-  {
-    bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::Int32, std_msgs::msg::Int32>>
-        (topic));
-  }
+    bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::Int32, std_msgs::msg::Int32>>(topic));
 }
 }
