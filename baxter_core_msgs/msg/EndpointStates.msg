@@ -1,2 +1,2 @@
-string[] names
-EndpointState[] states
+string[] names 
+EndpointState[] states 

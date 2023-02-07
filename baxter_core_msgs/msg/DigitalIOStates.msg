@@ -1,2 +1,2 @@
-string[] names
-DigitalIOState[] states
+string[] names 
+DigitalIOState[] states 

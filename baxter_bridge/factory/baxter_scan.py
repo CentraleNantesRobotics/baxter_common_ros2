@@ -2,16 +2,28 @@
 
 from subprocess import check_output
 import yaml
+import os
+import sys
+
 
 def run(cmd):
     return check_output(cmd.split()).decode('utf-8')
+
         
+if 'ROS_MASTER_URI' not in os.environ or 'baxter.local' not in os.environ['ROS_MASTER_URI']:
+    print('Not connected to Baxter')
+    sys.exit(0)
+
+if os.environ['ROS_DISTRO'] not in ('melodic','noetic'):
+    print('Not in a ROS 1 terminal')
+    sys.exit(0)
+
 topics = run('rostopic list').splitlines()
 
 infos = {}
 cnt = 0
 for topic in topics:
-    cnt+=1
+    cnt += 1
     print(f'Scanning {cnt} / {len(topics)}')
     infos[topic] = run(f'rostopic info {topic}')
     
@@ -36,7 +48,7 @@ for topic in infos:
             node = line.split(' * ')[1]
             if step not in topic_info:
                 topic_info[step] = []
-            topic_info[step].append(node) 
+            topic_info[step].append(node)
         infos[topic] = topic_info
 
 with open('baxter.yaml','w') as f:

@@ -16,10 +16,10 @@ struct Bridge_2to1 : public Bridge
     sub = ros2()->create_subscription<Msg2>(topic, 10, [&](typename Msg2::SharedPtr msg2)
     {
       // ask monitor if we can publish there
-      if(canPublishOn(pub.getTopic()))
+      if(canPublishOn(this->topic()))
       {
-        Msg1 msg1;
-        convertMsg(*msg2, msg1);
+        static Msg1 msg1;
+        convert(*msg2, msg1);
         pub.publish(msg1);
     }});
   }

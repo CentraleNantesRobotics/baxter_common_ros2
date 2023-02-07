@@ -21,7 +21,9 @@ int main(int argc, char** argv)
     // makes it easier to spawn in RViz2 if they are advertized in ROS 2
     Factory::createBridge("/robot/range/left_hand_range/state");
     Factory::createBridge("/robot/range/right_hand_range/state");
-    Factory::createBridge("/robot/sonar/head_sonar/state");
+    Factory::createBridge("/robot/sonar/head_sonar/state");    
+    Factory::createBridge("/robot/joint_states");
+    Factory::createBridge("/tf_manual");
 
     if(Bridge::isStatic())
       Factory::createRemainingBridges();
@@ -35,8 +37,6 @@ int main(int argc, char** argv)
 
   // basic command and inverse kinematics for both arms
   SolveIK left("left"), right("right");
-  // we always like to have joint states
-  Factory::createBridge("/robot/joint_states");
 
   // service to spawn a topic on demand
   auto open_srv = Bridge::ros2()->create_service<Open>("bridge_open",

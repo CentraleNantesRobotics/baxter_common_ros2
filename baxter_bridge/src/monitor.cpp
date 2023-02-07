@@ -6,10 +6,17 @@ constexpr double timeout_s{1.};
 
 using namespace baxter_bridge;
 
-
-Monitor::Monitor(std::string name, bool display) : name{name}, display{display}
+void eraseSideTopics(BridgePublishersAuth::Response::_publishers_type &publishers, const Monitor::Side &side)
 {
-  client = nh.serviceClient<baxter_bridge::BaxterPublishers>("/monitor", true);
+  using baxter_core_msgs::BridgePublisher;
+  publishers.erase(std::remove_if(publishers.begin(), publishers.end(), [&](const BridgePublisher &pub)
+  {return Monitor::getSide(pub.topic) == side;}), publishers.end());
+}
+
+Monitor::Monitor(const std::string &name, bool display) : display{display}
+{
+  publish_req.user = name;
+  client = nh.serviceClient<BridgePublishersAuth>(AUTH_SRV, true);
 
   im_timer = nh.createTimer(ros::Duration(timeout_s/2),
                             [&](const ros::TimerEvent&)
@@ -22,66 +29,75 @@ Monitor::Monitor(std::string name, bool display) : name{name}, display{display}
 // local call to the monitor
 bool Monitor::canPublishOn(const std::string &topic, bool test_client)
 {
+  const auto side{getSide(topic)};
   if(server)
   {
     // I am the one monitor, call service locally
-    parsePublishRequest(name, topic);
+    parsePublishRequest(currentUser(), topic, side);
   }
   else if(client.exists())
   {
     // the one monitor is available outside
-    BaxterPublishersRequest req;
-    req.user = name;
-    req.topic = topic;
-    client.call(req, pub_state);
+    publish_req.topic = topic;
+    client.call(publish_req, authorized_publishers);
   }
   else if(test_client)
   {
     // try to re-establish connection
     if(!client.isValid())
-      client = nh.serviceClient<baxter_bridge::BaxterPublishers>("/monitor", true);
+      client = nh.serviceClient<BridgePublishersAuth>(AUTH_SRV, true);
     return canPublishOn(topic, false);
   }
   else
   {
     // no (more?) monitor, let it be me
-    server = std::make_unique<ros::ServiceServer>(
-               nh.advertiseService("/monitor", &Monitor::userCallback, this));
+    //server = std::make_unique<ros::ServiceServer>(
+    //           nh.advertiseService("/monitor", &Monitor::userCallback, this));
+    server = std::make_unique<Server>(this);
+
     if(display)
       im_pub = std::make_unique<ros::Publisher>(nh.advertise<sensor_msgs::Image>("/robot/xdisplay", 1));
 
-    parsePublishRequest(name, topic);
+    parsePublishRequest(currentUser(), topic, side);
   }
 
-  if(pub_state.authorized_user == name)
+  if(side == Side::LEFT && leftUser() == currentUser())
+    return true;
+
+  if(side == Side::RIGHT && rightUser() == currentUser())
+    return true;
+
+  const auto authorized{findPublisher(topic)};
+
+  if(authorized->user == currentUser())
     return true;
 
   std::cout << "Cannot publish on " << topic
-            << ": already published by " << pub_state.authorized_user << std::endl;
+            << ": already published by " << authorized->user << std::endl;
   return false;
 }
 
 // all calls to the monitor
-void Monitor::parsePublishRequest(const std::string &user, const std::string &topic)
+void Monitor::parsePublishRequest(const std::string &user, const std::string &topic, const Side &side)
 {
-  // check nobody has published recently
-  auto prev{std::find_if(pub_state.publishers.begin(), pub_state.publishers.end(),
-                         [topic](const auto &pub){return pub.topic == topic;})};
+  // first deal with forced users
+  if(side == Side::LEFT && !leftUser().empty())
+    return;
+  if(side == Side::RIGHT && !rightUser().empty())
+    return;
+
+  // find it by hand
+  auto prev{findPublisher(topic)};
   const auto now_s{ros::Time::now().toSec()};
 
-  //auto change{false};
-  std::string user_authorized{user};
-
-  if(prev == pub_state.publishers.end())
+  // check nobody has published recently
+  if(prev == authorized_publishers.publishers.end())
   {
     // new topic!
-    //change = true;
-    pub_state.publishers.push_back({});
-    auto &last{pub_state.publishers.back()};
+    auto &last{authorized_publishers.publishers.emplace_back()};
     last.topic = topic;
     last.user = user;
     last.time = now_s;
-    pub_state.authorized_user = user;
   }
   else
   {
@@ -89,29 +105,35 @@ void Monitor::parsePublishRequest(const std::string &user, const std::string &to
     {
       // was the last publisher anyway / no change
       prev->time = now_s;
-      pub_state.authorized_user = user;
     }
     else if(now_s - prev->time > timeout_s)
     {
       // previous user has not published for 1 sec
-      prev->user = pub_state.authorized_user = user;
+      prev->user = user;
       prev->time = now_s;
-      //change = true;
-    }
-    else
-    {
-      // previous user has just published
-      pub_state.authorized_user = prev->user;
     }
   }
 }
 
-bool Monitor::userCallback(baxter_bridge::BaxterPublishersRequest &req,
-                           baxter_bridge::BaxterPublishersResponse &res)
+bool Monitor::userCallback(BridgePublishersAuth::Request &req,
+                           BridgePublishersAuth::Response &res)
 {
   std::cout << req.user << " wants to publish on " << req.topic << std::endl;
-  parsePublishRequest(req.user, req.topic);
-  res = pub_state;
+  parsePublishRequest(req.user, req.topic, getSide(req.topic));
+  res = authorized_publishers;
+  return true;
+}
+
+bool Monitor::forceCallback(BridgePublishersForce::Request &req,
+                          [[maybe_unused]] BridgePublishersForceResponse &res)
+{
+  authorized_publishers.forced_left = req.left_user;
+  authorized_publishers.forced_right = req.right_user;
+
+  if(!req.left_user.empty())
+    eraseSideTopics(authorized_publishers.publishers, Side::LEFT);
+  if(!req.right_user.empty())
+    eraseSideTopics(authorized_publishers.publishers, Side::RIGHT);
   return true;
 }
 
@@ -149,7 +171,7 @@ void Monitor::publishXDisplay()
 
   auto row{40};
   const auto now_s = ros::Time::now().toSec();
-  for(const auto &[topic, user, time]: pub_state.publishers)
+  for(const auto &[topic, user, time]: authorized_publishers.publishers)
   {
     const auto timeout{now_s-time > timeout_s};
 

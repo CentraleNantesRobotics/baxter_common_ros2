@@ -29,6 +29,6 @@ float32 FORCE_MAX = 100.0
 string state # JSON: other state information
 #
 string command # from the last command message
-string command_sender
-uint32 command_sequence
+string command_sender 
+uint32 command_sequence 
 #

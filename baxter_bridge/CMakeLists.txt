@@ -52,7 +52,7 @@ ament_auto_add_executable(bridge    src/baxter_bridge.cpp
                                 src/topic_poller.cpp)                                    
 target_include_directories(bridge PRIVATE
                             ${ROS1_ROOT}/include
-                            include include/ros1_msgs
+                            include
                             ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
 target_link_libraries(bridge ${ROS1_LIBS} ${OpenCV_LIBS})
 if(${LEGACY_IDL})

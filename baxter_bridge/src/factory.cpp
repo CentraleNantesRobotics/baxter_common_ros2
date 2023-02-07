@@ -26,7 +26,7 @@ void Factory::createRemainingBridges()
 std::optional<Bridge::Direction> Factory::exists(const std::string &topic)
 {
   const auto bridge = std::find_if(bridges.begin(), bridges.end(),
-                                  [&](auto &bridge){return bridge->topic() == topic;});
+                                   [&](auto &bridge){return bridge->topic() == topic;});
 
   if(bridge == bridges.end())
     return std::nullopt;
@@ -34,11 +34,12 @@ std::optional<Bridge::Direction> Factory::exists(const std::string &topic)
   return (*bridge)->direction();
 }
 
-bool Factory::createBridge(const std::string &topic)
+bool Factory::createBridge(const std::string &topic, const std::string &msg)
 {
+  // known Baxter topics are checked first
   if(const auto bridge = topics_1to2.find(topic);bridge != topics_1to2.end())
   {
-    const auto msg{topics_1to2[topic]};
+    const auto msg{bridge->second};
     topics_1to2.erase(bridge);
     RCLCPP_INFO(Bridge::ros2()->get_logger(), "Creating bridge 1->2 %s", topic.c_str());
     createBridge_1to2(topic, msg);
@@ -47,13 +48,21 @@ bool Factory::createBridge(const std::string &topic)
 
   if(const auto bridge = topics_2to1.find(topic);bridge != topics_2to1.end())
   {
-    const auto msg{topics_2to1[topic]};
+    const auto msg{bridge->second};
     topics_2to1.erase(bridge);
     RCLCPP_INFO(Bridge::ros2()->get_logger(), "Creating bridge 2->1 %s", topic.c_str());
     createBridge_2to1(topic, msg);
     return true;
   }
 
-  return false;
+  // we might open any bridge as long as it does not exists yet
+  if(const auto bridge = std::find_if(bridges.begin(), bridges.end(),
+                                      [&](auto &bridge){return bridge->topic() == topic;});
+     bridge != bridges.end())
+    return false;
+
+  const auto prev_bridges_count{bridges.size()};
+  createBridge_1to2(topic, msg);
+  return bridges.size() != prev_bridges_count;
 }
 }

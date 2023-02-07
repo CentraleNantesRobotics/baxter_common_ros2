@@ -2,30 +2,6 @@
 
 import os
 import yaml
-import sys
-
-debug = '-d' in sys.argv
-
-if '-s' in sys.argv:
-    # scan topics, make sure to be on a ROS 1 terminal connected to Baxter
-    if 'ROS_MASTER_URI' not in os.environ or 'baxter.local' not in os.environ['ROS_MASTER_URI']:
-        print('Not connected to Baxter')
-        sys.exit(0)
-
-    if os.environ['ROS_DISTRO'] not in ('melodic','noetic'):
-        print('Not in a ROS 1 terminal')
-        sys.exit(0)
-
-    from subprocess import check_output
-
-    def getlines(cmd):
-        return check_output(cmd.split()).decode().splitlines()
-
-    topics = getlines('rostopic list')
-    infos = []
-    for i,topic in enumerate(topics):
-        print(f'Checking {topic} ({i+1}/{len(topics)})')
-        infos += getlines(f'rostopic info {topic}')
 
 pkg_dir = os.path.abspath(os.path.dirname(__file__) + '/..')
 
@@ -40,45 +16,40 @@ MSG_BASE_ARRAY = 1
 MSG_CUSTOM = 2
 
 
-def check_msg_type(msg):
+def check_msg_type(msg: str):
     is_array = msg[-1] == ']' and msg[-2] != '['
     if '[' in msg:
         msg = msg.split('[')[0]
     base_type = msg in builtin
-
     if base_type:
         if is_array:
             return MSG_BASE_ARRAY
         return MSG_BASE
     return MSG_CUSTOM
 
-    #return msg[0].islower() and not is_array and '/' not in msg and any(b in msg for b in builtin)
 
+def ros2_header(msg: str):
+    # adapt to snake_case
+    def should_prefix(p,n):
+        if p.isdigit():
+            return True
+        return p.isalpha() and (p.islower() or n.islower())
 
-def ros2_include(msg):
-    # ROS 2 uses only lower case
-    for src,dst in (('URDF','urdf'),('SEA','sea')):
-        msg = msg.replace(src,dst)
-    include = ''
-    for i,c in enumerate(msg):
-        if c.isupper():
-            if msg[i-1].islower() or msg[i-1].isdigit():
-                include += '_'
-            include += c.lower()
-        else:
-            include += c
-    # a few exceptions
-    for src,dst in (('/','/msg/'),('uint','u_int'),('iostate','io_state')):
-        include = include.replace(src,dst)
-    return include+'.hpp'
+    include = msg[0]
+    for i,c in enumerate(msg[1:]):
+        if c.isupper() and should_prefix(msg[i], msg[min(i+2, len(msg)-1)]):
+            include += '_'
+        include += c.lower()
+
+    return include.replace('/','/msg/')+'.hpp'
 
 
 with open(pkg_dir + '/factory/baxter.yaml') as f:
     infos = yaml.safe_load(f)
 
 
-def valid_node(node):
-    return 'baxter.local' in node # and 'rcloader_' not in node
+def valid_node(node: str):
+    return 'baxter.local' in node
 
 
 ros1to2 = set()
@@ -87,18 +58,12 @@ topics = {'publishers': {}, 'subscribers': {}}
 for topic, info in infos.items():
     if topic in ignores or any(d in info['type'] for d in deprecated):
         continue
-    if debug:
-        if not any(keep in info['type'] for keep in ['Image','JointState','JointCommand','CameraInfo']):
-            continue
 
     pubs = [p for p in info['pub'] if valid_node(p)] if 'pub' in info else []
     subs = [s for s in info['sub'] if valid_node(s)] if 'sub' in info else []
 
     if len(pubs) and len(subs):
         print(f'Loop detected ({topic})')
-
-        #print(' subscribers: \n   ' + '\n   '.join([s for s in info['sub'] if valid_node(s)]))
-        #print(' publishers:\n   ' + '\n   '.join([s for s in info['pub'] if valid_node(s)]))
         rt_pub = any('/realtime_loop' in p for p in pubs)
         rt_sub = any('/realtime_loop' in s for s in subs)
         if rt_pub and not rt_sub:
@@ -127,7 +92,7 @@ for field in 'dkrp':
 
 rules = [rules]
 for pkg in ('baxter_core_msgs','baxter_maintenance_msgs'):
-    with open(pkg_dir + f'/../{pkg}/mapping_rules.yaml') as f:
+    with open(f'{pkg_dir}/../{pkg}/mapping_rules.yaml') as f:
         rules += yaml.safe_load(f)
 
 # simplify + invert 2 to 1
@@ -135,7 +100,7 @@ rules = dict((r['ros1_package_name']+'/'+r['ros1_message_name'],
               dict((v,k) for (k,v) in r['fields_1_to_2'].items())) for r in rules)
 
 
-def load_message(full_msg):
+def load_message(full_msg: str):
 
     pkg,msg = full_msg.split('/')
     if pkg.startswith('baxter_'):
@@ -143,10 +108,12 @@ def load_message(full_msg):
     else:
         root = f'/opt/ros/{os.environ["ROS_DISTRO"]}/share'
 
-    if not os.path.exists(root + f'/{pkg}/msg/{msg}.msg'):
+    msg_path = f'{root}/{pkg}/msg/{msg}.msg'
+
+    if not os.path.exists(msg_path):
         return None, None
 
-    with open(root + f'/{pkg}/msg/{msg}.msg') as f:
+    with open(msg_path) as f:
         definition = [line.split('#')[0].strip() for line in f.read().splitlines() if '=' not in line]
     fields = dict(reversed(line.split()[:2]) for line in definition if line)
 
@@ -200,7 +167,7 @@ class Factory:
 
         # ROS 1 uses raw message name as include
         self.includes.append(msg+'.h')
-        self.includes.append(ros2_include(msg))
+        self.includes.append(ros2_header(msg))
 
         msg1 = toROS1(msg)
         msg2 = toROS2(msg)
@@ -232,10 +199,10 @@ class Factory:
 
         if msg == 'std_msgs/Empty':
             # nothing to do here
-            fwd = [f'template<>\nvoid convertMsg(const {src} &, {dst} &)\n{{']
+            fwd = [f'template<>\nvoid convert(const {src} &, {dst} &)\n{{']
 
         else:
-            fwd = [f'template<>\nvoid convertMsg(const {src} &src, {dst} &dst)\n{{']
+            fwd = [f'template<>\nvoid convert(const {src} &src, {dst} &dst)\n{{']
 
         for field2,sub in fields.items():
 
@@ -260,13 +227,13 @@ class Factory:
                 else:
                     fwd.append(f'  {dst_field}.nsec = {src_field}.nanosec;')
 
-            elif msg_type == MSG_BASE_ARRAY or 'bool[' in sub:
-                fwd.append(f'  convertMsg({src_field}, {dst_field});')
+            elif msg_type in (MSG_BASE, MSG_BASE_ARRAY) or 'bool[' in sub or 'byte[' in sub:
+                fwd.append(f'  convert({src_field}, {dst_field});')
             elif msg_type == MSG_BASE:
                 fwd.append(f'  {dst_field} = {src_field};')
             else:
                 valid = valid and self.build_fwd(sub)
-                fwd.append(f'  convertMsg({src_field}, {dst_field});')
+                fwd.append(f'  convert({src_field}, {dst_field});')
 
         self.msgs_done.append(msg)
 
@@ -332,9 +299,22 @@ for cam in ('head', 'right_hand', 'left_hand'):
                      ('image', 'Image')):
         f12.add(base_topic + sub, 'sensor_msgs/' + msg)
 
+# if we want to forward a particular tf message
+f12.add('/tf_manual', 'tf2_msgs/TFMessage')
+
 # messages used for IK bridge, no attached topic
 f21.add(None, 'sensor_msgs/JointState')
 f21.add(None, 'geometry_msgs/PoseStamped')
+
+# we might want to forward any classical message from ROS 1 to 2
+# used to have all ROS 2 bridge receive / forward a global topic
+msg_root = f'/opt/ros/{os.environ["ROS_DISTRO"]}/share'
+for pkg in ('sensor_msgs', 'std_msgs', 'geometry_msgs'):
+    msg_pkg = f'{msg_root}/{pkg}/msg'
+    for msg in os.listdir(msg_pkg):
+        if msg.endswith('.msg'):
+            f12.add(None, f'{pkg}/{msg[:-4]}')
+
 
 for topic, msg in topics['publishers'].items():
     f12.add(topic, msg)

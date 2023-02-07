@@ -20,41 +20,44 @@ find_package(ament_cmake REQUIRED)
 find_package(builtin_interfaces REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
-find_package(rclcpp_action REQUIRED)
+find_package(std_msgs REQUIRED)
 
 find_package(rosidl_default_generators REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-"msg/RobustControllerStatus.msg"
-"msg/EndEffectorState.msg"
-"msg/HeadState.msg"
-"msg/AnalogOutputCommand.msg"
-"msg/URDFConfiguration.msg"
-"msg/DigitalIOStates.msg"
-"msg/NavigatorState.msg"
-"msg/JointCommand.msg"
-"msg/CameraControl.msg"
-"msg/DigitalOutputCommand.msg"
-"msg/NavigatorStates.msg"
-"msg/AssemblyStates.msg"
-"msg/EndEffectorCommand.msg"
-"msg/AssemblyState.msg"
-"msg/EndpointState.msg"
-"msg/CollisionDetectionState.msg"
-"msg/AnalogIOStates.msg"
-"msg/AnalogIOState.msg"
-"msg/EndEffectorProperties.msg"
-"msg/CollisionAvoidanceState.msg"
-"msg/HeadPanCommand.msg"
-"msg/SEAJointState.msg"
-"msg/CameraSettings.msg"
-"msg/DigitalIOState.msg"
-"msg/EndpointStates.msg"
-"srv/OpenCamera.srv"
-"srv/CloseCamera.srv"
+"msg/EndEffectorState.msg"  
+"msg/EndEffectorProperties.msg"  
+"msg/DigitalIOStates.msg"  
+"msg/EndEffectorCommand.msg"  
+"msg/NavigatorState.msg"  
+"msg/AnalogOutputCommand.msg"  
+"msg/EndpointState.msg"  
+"msg/CollisionDetectionState.msg"  
+"msg/SEAJointState.msg"  
+"msg/CollisionAvoidanceState.msg"  
+"msg/URDFConfiguration.msg"  
+"msg/CameraControl.msg"  
+"msg/NavigatorStates.msg"  
+"msg/AnalogIOState.msg"  
+"msg/CameraSettings.msg"  
+"msg/JointCommand.msg"  
+"msg/DigitalIOState.msg"  
+"msg/RobustControllerStatus.msg"  
+"msg/AssemblyStates.msg"  
+"msg/DigitalOutputCommand.msg"  
+"msg/HeadPanCommand.msg"  
+"msg/AssemblyState.msg"  
+"msg/HeadState.msg"  
+"msg/AnalogIOStates.msg"  
+"msg/BridgePublisher.msg"  
+"msg/EndpointStates.msg"  
+"srv/ListCameras.srv"  
+"srv/CloseCamera.srv"  
+"srv/OpenCamera.srv"  
+"srv/BridgePublishersForce.srv"  
+"srv/BridgePublishersAuth.srv"  
 "srv/SolvePositionIK.srv"
-"srv/ListCameras.srv"
-DEPENDENCIES builtin_interfaces geometry_msgs sensor_msgs)
+DEPENDENCIES builtin_interfaces geometry_msgs sensor_msgs std_msgs)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

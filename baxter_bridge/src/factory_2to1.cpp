@@ -49,247 +49,247 @@ namespace baxter_bridge
 {
 // converters
 template<>
-void convertMsg(const std_msgs::msg::Header &src, std_msgs::Header &dst)
+void convert(const std_msgs::msg::Header &src, std_msgs::Header &dst)
 {
   dst.stamp = Bridge::ros1_now();
-  dst.frame_id = src.frame_id;
+  convert(src.frame_id, dst.frame_id);
 }
 
 template<>
-void convertMsg(const sensor_msgs::msg::JointState &src, sensor_msgs::JointState &dst)
+void convert(const sensor_msgs::msg::JointState &src, sensor_msgs::JointState &dst)
 {
-  convertMsg(src.header, dst.header);
-  dst.name = src.name;
-  dst.position = src.position;
-  dst.velocity = src.velocity;
-  dst.effort = src.effort;
+  convert(src.header, dst.header);
+  convert(src.name, dst.name);
+  convert(src.position, dst.position);
+  convert(src.velocity, dst.velocity);
+  convert(src.effort, dst.effort);
 }
 
 template<>
-void convertMsg(const geometry_msgs::msg::Point &src, geometry_msgs::Point &dst)
+void convert(const geometry_msgs::msg::Point &src, geometry_msgs::Point &dst)
 {
-  dst.x = src.x;
-  dst.y = src.y;
-  dst.z = src.z;
+  convert(src.x, dst.x);
+  convert(src.y, dst.y);
+  convert(src.z, dst.z);
 }
 
 template<>
-void convertMsg(const geometry_msgs::msg::Quaternion &src, geometry_msgs::Quaternion &dst)
+void convert(const geometry_msgs::msg::Quaternion &src, geometry_msgs::Quaternion &dst)
 {
-  dst.x = src.x;
-  dst.y = src.y;
-  dst.z = src.z;
-  dst.w = src.w;
+  convert(src.x, dst.x);
+  convert(src.y, dst.y);
+  convert(src.z, dst.z);
+  convert(src.w, dst.w);
 }
 
 template<>
-void convertMsg(const geometry_msgs::msg::Pose &src, geometry_msgs::Pose &dst)
+void convert(const geometry_msgs::msg::Pose &src, geometry_msgs::Pose &dst)
 {
-  convertMsg(src.position, dst.position);
-  convertMsg(src.orientation, dst.orientation);
+  convert(src.position, dst.position);
+  convert(src.orientation, dst.orientation);
 }
 
 template<>
-void convertMsg(const geometry_msgs::msg::PoseStamped &src, geometry_msgs::PoseStamped &dst)
+void convert(const geometry_msgs::msg::PoseStamped &src, geometry_msgs::PoseStamped &dst)
 {
-  convertMsg(src.header, dst.header);
-  convertMsg(src.pose, dst.pose);
+  convert(src.header, dst.header);
+  convert(src.pose, dst.pose);
 }
 
 template<>
-void convertMsg(const baxter_core_msgs::msg::AnalogOutputCommand &src, baxter_core_msgs::AnalogOutputCommand &dst)
+void convert(const baxter_core_msgs::msg::AnalogOutputCommand &src, baxter_core_msgs::AnalogOutputCommand &dst)
 {
-  dst.name = src.name;
-  dst.value = src.value;
+  convert(src.name, dst.name);
+  convert(src.value, dst.value);
 }
 
 template<>
-void convertMsg(const baxter_core_msgs::msg::DigitalOutputCommand &src, baxter_core_msgs::DigitalOutputCommand &dst)
+void convert(const baxter_core_msgs::msg::DigitalOutputCommand &src, baxter_core_msgs::DigitalOutputCommand &dst)
 {
-  dst.name = src.name;
-  dst.value = src.value;
+  convert(src.name, dst.name);
+  convert(src.value, dst.value);
 }
 
 template<>
-void convertMsg(const baxter_core_msgs::msg::EndEffectorCommand &src, baxter_core_msgs::EndEffectorCommand &dst)
+void convert(const baxter_core_msgs::msg::EndEffectorCommand &src, baxter_core_msgs::EndEffectorCommand &dst)
 {
-  dst.id = src.id;
-  dst.command = src.command;
-  dst.args = src.args;
-  dst.sender = src.sender;
-  dst.sequence = src.sequence;
+  convert(src.id, dst.id);
+  convert(src.command, dst.command);
+  convert(src.args, dst.args);
+  convert(src.sender, dst.sender);
+  convert(src.sequence, dst.sequence);
 }
 
 template<>
-void convertMsg(const baxter_core_msgs::msg::EndEffectorProperties &src, baxter_core_msgs::EndEffectorProperties &dst)
+void convert(const baxter_core_msgs::msg::EndEffectorProperties &src, baxter_core_msgs::EndEffectorProperties &dst)
 {
-  dst.id = src.id;
-  dst.ui_type = src.ui_type;
-  dst.manufacturer = src.manufacturer;
-  dst.product = src.product;
-  dst.serial_number = src.serial_number;
-  dst.hardware_rev = src.hardware_rev;
-  dst.firmware_rev = src.firmware_rev;
-  dst.firmware_date = src.firmware_date;
-  dst.has_calibration = src.has_calibration;
-  dst.controls_grip = src.controls_grip;
-  dst.senses_grip = src.senses_grip;
-  dst.reverses_grip = src.reverses_grip;
-  dst.controls_force = src.controls_force;
-  dst.senses_force = src.senses_force;
-  dst.controls_position = src.controls_position;
-  dst.senses_position = src.senses_position;
-  dst.properties = src.properties;
+  convert(src.id, dst.id);
+  convert(src.ui_type, dst.ui_type);
+  convert(src.manufacturer, dst.manufacturer);
+  convert(src.product, dst.product);
+  convert(src.serial_number, dst.serial_number);
+  convert(src.hardware_rev, dst.hardware_rev);
+  convert(src.firmware_rev, dst.firmware_rev);
+  convert(src.firmware_date, dst.firmware_date);
+  convert(src.has_calibration, dst.has_calibration);
+  convert(src.controls_grip, dst.controls_grip);
+  convert(src.senses_grip, dst.senses_grip);
+  convert(src.reverses_grip, dst.reverses_grip);
+  convert(src.controls_force, dst.controls_force);
+  convert(src.senses_force, dst.senses_force);
+  convert(src.controls_position, dst.controls_position);
+  convert(src.senses_position, dst.senses_position);
+  convert(src.properties, dst.properties);
 }
 
 template<>
-void convertMsg(const baxter_core_msgs::msg::EndEffectorState &src, baxter_core_msgs::EndEffectorState &dst)
+void convert(const baxter_core_msgs::msg::EndEffectorState &src, baxter_core_msgs::EndEffectorState &dst)
 {
   dst.timestamp = Bridge::ros1_now();
-  dst.id = src.id;
-  dst.enabled = src.enabled;
-  dst.calibrated = src.calibrated;
-  dst.ready = src.ready;
-  dst.moving = src.moving;
-  dst.gripping = src.gripping;
-  dst.missed = src.missed;
-  dst.error = src.error;
-  dst.reverse = src.reverse;
-  dst.state = src.state;
-  dst.command = src.command;
-  dst.command_sender = src.command_sender;
-  dst.command_sequence = src.command_sequence;
+  convert(src.id, dst.id);
+  convert(src.enabled, dst.enabled);
+  convert(src.calibrated, dst.calibrated);
+  convert(src.ready, dst.ready);
+  convert(src.moving, dst.moving);
+  convert(src.gripping, dst.gripping);
+  convert(src.missed, dst.missed);
+  convert(src.error, dst.error);
+  convert(src.reverse, dst.reverse);
+  convert(src.state, dst.state);
+  convert(src.command, dst.command);
+  convert(src.command_sender, dst.command_sender);
+  convert(src.command_sequence, dst.command_sequence);
 }
 
 template<>
-void convertMsg(const std_msgs::msg::Bool &src, std_msgs::Bool &dst)
+void convert(const std_msgs::msg::Bool &src, std_msgs::Bool &dst)
 {
-  dst.data = src.data;
+  convert(src.data, dst.data);
 }
 
 template<>
-void convertMsg(const baxter_core_msgs::msg::HeadPanCommand &src, baxter_core_msgs::HeadPanCommand &dst)
+void convert(const baxter_core_msgs::msg::HeadPanCommand &src, baxter_core_msgs::HeadPanCommand &dst)
 {
-  dst.target = src.target;
-  dst.speed_ratio = src.speed_ratio;
-  dst.enable_pan_request = src.enable_pan_request;
+  convert(src.target, dst.target);
+  convert(src.speed_ratio, dst.speed_ratio);
+  convert(src.enable_pan_request, dst.enable_pan_request);
 }
 
 template<>
-void convertMsg(const std_msgs::msg::UInt16 &src, std_msgs::UInt16 &dst)
+void convert(const std_msgs::msg::UInt16 &src, std_msgs::UInt16 &dst)
 {
-  dst.data = src.data;
+  convert(src.data, dst.data);
 }
 
 template<>
-void convertMsg(const std_msgs::msg::UInt32 &src, std_msgs::UInt32 &dst)
+void convert(const std_msgs::msg::UInt32 &src, std_msgs::UInt32 &dst)
 {
-  dst.data = src.data;
+  convert(src.data, dst.data);
 }
 
 template<>
-void convertMsg(const geometry_msgs::msg::Vector3 &src, geometry_msgs::Vector3 &dst)
+void convert(const geometry_msgs::msg::Vector3 &src, geometry_msgs::Vector3 &dst)
 {
-  dst.x = src.x;
-  dst.y = src.y;
-  dst.z = src.z;
+  convert(src.x, dst.x);
+  convert(src.y, dst.y);
+  convert(src.z, dst.z);
 }
 
 template<>
-void convertMsg(const geometry_msgs::msg::Twist &src, geometry_msgs::Twist &dst)
+void convert(const geometry_msgs::msg::Twist &src, geometry_msgs::Twist &dst)
 {
-  convertMsg(src.linear, dst.linear);
-  convertMsg(src.angular, dst.angular);
+  convert(src.linear, dst.linear);
+  convert(src.angular, dst.angular);
 }
 
 template<>
-void convertMsg(const geometry_msgs::msg::TwistStamped &src, geometry_msgs::TwistStamped &dst)
+void convert(const geometry_msgs::msg::TwistStamped &src, geometry_msgs::TwistStamped &dst)
 {
-  convertMsg(src.header, dst.header);
-  convertMsg(src.twist, dst.twist);
+  convert(src.header, dst.header);
+  convert(src.twist, dst.twist);
 }
 
 template<>
-void convertMsg(const trajectory_msgs::msg::JointTrajectoryPoint &src, trajectory_msgs::JointTrajectoryPoint &dst)
+void convert(const trajectory_msgs::msg::JointTrajectoryPoint &src, trajectory_msgs::JointTrajectoryPoint &dst)
 {
-  dst.positions = src.positions;
-  dst.velocities = src.velocities;
-  dst.accelerations = src.accelerations;
-  dst.effort = src.effort;
+  convert(src.positions, dst.positions);
+  convert(src.velocities, dst.velocities);
+  convert(src.accelerations, dst.accelerations);
+  convert(src.effort, dst.effort);
   dst.time_from_start.sec = src.time_from_start.sec;
   dst.time_from_start.nsec = src.time_from_start.nanosec;
 }
 
 template<>
-void convertMsg(const baxter_core_msgs::msg::JointCommand &src, baxter_core_msgs::JointCommand &dst)
+void convert(const baxter_core_msgs::msg::JointCommand &src, baxter_core_msgs::JointCommand &dst)
 {
-  dst.mode = src.mode;
-  dst.command = src.command;
-  dst.names = src.names;
+  convert(src.mode, dst.mode);
+  convert(src.command, dst.command);
+  convert(src.names, dst.names);
 }
 
 template<>
-void convertMsg(const std_msgs::msg::Float64 &src, std_msgs::Float64 &dst)
+void convert(const std_msgs::msg::Float64 &src, std_msgs::Float64 &dst)
 {
-  dst.data = src.data;
+  convert(src.data, dst.data);
 }
 
 template<>
-void convertMsg(const std_msgs::msg::Empty &, std_msgs::Empty &)
+void convert(const std_msgs::msg::Empty &, std_msgs::Empty &)
 {
 }
 
 template<>
-void convertMsg(const std_msgs::msg::Float32 &src, std_msgs::Float32 &dst)
+void convert(const std_msgs::msg::Float32 &src, std_msgs::Float32 &dst)
 {
-  dst.data = src.data;
+  convert(src.data, dst.data);
 }
 
 template<>
-void convertMsg(const sensor_msgs::msg::Image &src, sensor_msgs::Image &dst)
+void convert(const sensor_msgs::msg::Image &src, sensor_msgs::Image &dst)
 {
-  convertMsg(src.header, dst.header);
-  dst.height = src.height;
-  dst.width = src.width;
-  dst.encoding = src.encoding;
-  dst.is_bigendian = src.is_bigendian;
-  dst.step = src.step;
-  dst.data = src.data;
+  convert(src.header, dst.header);
+  convert(src.height, dst.height);
+  convert(src.width, dst.width);
+  convert(src.encoding, dst.encoding);
+  convert(src.is_bigendian, dst.is_bigendian);
+  convert(src.step, dst.step);
+  convert(src.data, dst.data);
 }
 
 template<>
-void convertMsg(const baxter_maintenance_msgs::msg::CalibrateArmData &src, baxter_maintenance_msgs::CalibrateArmData &dst)
+void convert(const baxter_maintenance_msgs::msg::CalibrateArmData &src, baxter_maintenance_msgs::CalibrateArmData &dst)
 {
-  dst.suppressWriteToFile = src.suppress_write_to_file;
+  convert(src.suppress_write_to_file, dst.suppressWriteToFile);
 }
 
 template<>
-void convertMsg(const baxter_maintenance_msgs::msg::CalibrateArmEnable &src, baxter_maintenance_msgs::CalibrateArmEnable &dst)
+void convert(const baxter_maintenance_msgs::msg::CalibrateArmEnable &src, baxter_maintenance_msgs::CalibrateArmEnable &dst)
 {
-  dst.isEnabled = src.is_enabled;
-  dst.uid = src.uid;
-  convertMsg(src.data, dst.data);
+  convert(src.is_enabled, dst.isEnabled);
+  convert(src.uid, dst.uid);
+  convert(src.data, dst.data);
 }
 
 template<>
-void convertMsg(const baxter_maintenance_msgs::msg::TareData &src, baxter_maintenance_msgs::TareData &dst)
+void convert(const baxter_maintenance_msgs::msg::TareData &src, baxter_maintenance_msgs::TareData &dst)
 {
-  dst.tuneGravitySpring = src.tune_gravity_spring;
+  convert(src.tune_gravity_spring, dst.tuneGravitySpring);
 }
 
 template<>
-void convertMsg(const baxter_maintenance_msgs::msg::TareEnable &src, baxter_maintenance_msgs::TareEnable &dst)
+void convert(const baxter_maintenance_msgs::msg::TareEnable &src, baxter_maintenance_msgs::TareEnable &dst)
 {
-  dst.isEnabled = src.is_enabled;
-  dst.uid = src.uid;
-  convertMsg(src.data, dst.data);
+  convert(src.is_enabled, dst.isEnabled);
+  convert(src.uid, dst.uid);
+  convert(src.data, dst.data);
 }
 
 template<>
-void convertMsg(const actionlib_msgs::msg::GoalID &src, actionlib_msgs::GoalID &dst)
+void convert(const actionlib_msgs::msg::GoalID &src, actionlib_msgs::GoalID &dst)
 {
   dst.stamp = Bridge::ros1_now();
-  dst.id = src.id;
+  convert(src.id, dst.id);
 }
 
 std::map<std::string, std::string> Factory::topics_2to1 = {

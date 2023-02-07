@@ -18,23 +18,23 @@
 # states.
 
 
-std_msgs/Header header
+std_msgs/Header header 
 
-string[] name
-float64[] commanded_position
-float64[] commanded_velocity
-float64[] commanded_acceleration
-float64[] commanded_effort
-float64[] actual_position
-float64[] actual_velocity
-float64[] actual_effort
+string[] name 
+float64[] commanded_position 
+float64[] commanded_velocity 
+float64[] commanded_acceleration 
+float64[] commanded_effort 
+float64[] actual_position 
+float64[] actual_velocity 
+float64[] actual_effort 
 # This includes the inertial feed forward torques when applicable.
-float64[] gravity_model_effort
+float64[] gravity_model_effort 
 # This is the torque required to hold the arm against gravity returned by KDL
 # if the arm was stationary.  This does not include inertial feed forward
 # torques (even when we have them) or any of the corrections (i.e. spring
 # hysteresis, crosstalk, etc) we make to the KDL model.
-float64[] gravity_only
-float64[] hysteresis_model_effort
-float64[] crosstalk_model_effort
-float64 hyst_state
+float64[] gravity_only 
+float64[] hysteresis_model_effort 
+float64[] crosstalk_model_effort 
+float64 hyst_state 

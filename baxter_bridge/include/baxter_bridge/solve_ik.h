@@ -18,13 +18,13 @@ using SolveIK2 = baxter_core_msgs::srv::SolvePositionIK;
 using SolveIK1 = baxter_core_msgs::SolvePositionIK;
 
 template<>
-void convertMsg(const sensor_msgs::msg::JointState &src, sensor_msgs::JointState &dst);
+void convert(const sensor_msgs::msg::JointState &src, sensor_msgs::JointState &dst);
 
 template<>
-void convertMsg(const geometry_msgs::msg::PoseStamped &src, geometry_msgs::PoseStamped &dst);
+void convert(const geometry_msgs::msg::PoseStamped &src, geometry_msgs::PoseStamped &dst);
 
 template<>
-void convertMsg(const sensor_msgs::JointState &src, sensor_msgs::msg::JointState &dst);
+void convert(const sensor_msgs::JointState &src, sensor_msgs::msg::JointState &dst);
 
 struct SolveIK
 {
@@ -56,16 +56,16 @@ private:
 
     // convert request from 2 to 1
     req1.seed_mode = req2->seed_mode;
-    convertMsg(req2->pose_stamp, req1.pose_stamp);
-    convertMsg(req2->seed_angles, req1.seed_angles);
+    convert(req2->pose_stamp, req1.pose_stamp);
+    convert(req2->seed_angles, req1.seed_angles);
 
     // call ROS 1 solver
     ik_client.call(req1, res1);
 
     // remap to ROS 2 response
-    convertMsg(res1.joints, res2->joints);
-    convertMsg(res1.isValid, res2->is_valid);
-    convertMsg(res1.result_type, res2->result_type);
+    convert(res1.joints, res2->joints);
+    convert(res1.isValid, res2->is_valid);
+    convert(res1.result_type, res2->result_type);
   }
 };
 }

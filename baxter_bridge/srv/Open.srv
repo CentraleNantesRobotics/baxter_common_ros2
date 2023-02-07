@@ -1,3 +1,4 @@
 string topic
+string msg
 ---
 bool open

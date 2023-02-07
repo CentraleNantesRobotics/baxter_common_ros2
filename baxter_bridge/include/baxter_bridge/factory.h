@@ -16,7 +16,7 @@ public:
 
   static void createRemainingBridges();
 
-  static bool createBridge(const std::string &topic);
+  static bool createBridge(const std::string &topic, const std::string &msg = "");
 
   inline static bool isSubscribedByBaxter(const std::string &topic)
   {

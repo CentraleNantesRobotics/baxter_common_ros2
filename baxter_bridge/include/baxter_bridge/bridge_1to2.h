@@ -18,7 +18,7 @@ struct Bridge_1to2 : public Bridge
     sub = ros1()->subscribe<Msg1>(topic, 10, [&](const typename Msg1::ConstPtr &msg)
     {
       Msg2 msg2;
-      convertMsg(*msg, msg2);
+      convert(*msg, msg2);
       pub->publish(msg2);
     });
   }
