@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
-<robot name="pedistal" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="pedestal" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <!-- Arguments and Defaults-->
-  <xacro:arg name="gazebo" default="false"/>
+<!--   <xacro:arg name="gazebo" default="false"/> -->
   <link name="pedestal">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -29,12 +29,11 @@
     <parent link="torso"/>
     <child link="pedestal"/>
   </joint>
-  <xacro:if value="$(arg gazebo)">
-    <!-- When using the pedistal, fix Baxter to Gazebo world with 'base' frame -->
+  <!--<xacro:if value="$(arg gazebo)">
     <link name="world"/>
     <joint name="fixed" type="fixed">
       <parent link="world"/>
       <child link="base"/>
     </joint>
-  </xacro:if>
+  </xacro:if>-->
 </robot>

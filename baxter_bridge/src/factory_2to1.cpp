@@ -349,7 +349,11 @@ std::map<std::string, std::string> Factory::topics_2to1 = {
 
 void Factory::createBridge_2to1(const std::string &topic, const std::string &msg)
 {
-  if(msg == "baxter_core_msgs/AnalogOutputCommand")
+  if(msg == "sensor_msgs/JointState")
+    bridges.push_back(std::make_unique<Bridge_2to1<sensor_msgs::JointState, sensor_msgs::msg::JointState>>(topic));
+  else if(msg == "geometry_msgs/PoseStamped")
+    bridges.push_back(std::make_unique<Bridge_2to1<geometry_msgs::PoseStamped, geometry_msgs::msg::PoseStamped>>(topic));
+  else if(msg == "baxter_core_msgs/AnalogOutputCommand")
     bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::AnalogOutputCommand, baxter_core_msgs::msg::AnalogOutputCommand>>(topic));
   else if(msg == "baxter_core_msgs/DigitalOutputCommand")
     bridges.push_back(std::make_unique<Bridge_2to1<baxter_core_msgs::DigitalOutputCommand, baxter_core_msgs::msg::DigitalOutputCommand>>(topic));

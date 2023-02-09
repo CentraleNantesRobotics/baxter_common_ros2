@@ -150,7 +150,7 @@ class Factory:
 
         self.direction = '2to1' if '2to1' in src else '1to2'
 
-        self.fact = []
+        self.fact = {}
 
         self.topics = {}
 
@@ -162,19 +162,17 @@ class Factory:
         if topic is not None:
             self.topics[topic] = msg
 
-        if msg+'.h' in self.includes:
-            return
-
-        # ROS 1 uses raw message name as include
-        self.includes.append(msg+'.h')
-        self.includes.append(ros2_header(msg))
+        if msg+'.h' not in self.includes:
+            # ROS 1 uses raw message name as include
+            self.includes.append(msg+'.h')
+            self.includes.append(ros2_header(msg))
 
         msg1 = toROS1(msg)
         msg2 = toROS2(msg)
 
-        if topic is not None:
-            self.fact.append(f'''if(msg == "{msg}")
-    bridges.push_back(std::make_unique<Bridge_{self.direction}<{msg1}, {msg2}>>(topic));''')
+        if msg1 not in self.fact:
+            self.fact[msg1] = f'''if(msg == "{msg}")
+    bridges.push_back(std::make_unique<Bridge_{self.direction}<{msg1}, {msg2}>>(topic));'''
 
     def build_fwd(self, msg):
 
@@ -272,7 +270,7 @@ class Factory:
         # finish createBridge fct
         content.append(f'void Factory::createBridge_{self.direction}(const std::string &topic, const std::string &msg)')
         content.append('{')
-        content.append('  ' + '\n  else '.join(self.fact))
+        content.append('  ' + '\n  else '.join(self.fact.values()))
         content.append('}\n}')
 
         content = '\n'.join(content)
@@ -291,6 +289,8 @@ class Factory:
 f12 = Factory('1to2')
 f21 = Factory('2to1')
 
+
+
 # add all cameras which may not be activated
 for cam in ('head', 'right_hand', 'left_hand'):
     base_topic = f'/cameras/{cam}_camera/'
@@ -306,6 +306,10 @@ f12.add('/tf_manual', 'tf2_msgs/TFMessage')
 f21.add(None, 'sensor_msgs/JointState')
 f21.add(None, 'geometry_msgs/PoseStamped')
 
+
+for topic, msg in topics['publishers'].items():
+    f12.add(topic, msg)
+
 # we might want to forward any classical message from ROS 1 to 2
 # used to have all ROS 2 bridge receive / forward a global topic
 msg_root = f'/opt/ros/{os.environ["ROS_DISTRO"]}/share'
@@ -314,10 +318,6 @@ for pkg in ('sensor_msgs', 'std_msgs', 'geometry_msgs'):
     for msg in os.listdir(msg_pkg):
         if msg.endswith('.msg'):
             f12.add(None, f'{pkg}/{msg[:-4]}')
-
-
-for topic, msg in topics['publishers'].items():
-    f12.add(topic, msg)
 
 for topic, msg in topics['subscribers'].items():
     f21.add(topic, msg)

@@ -1,10 +1,14 @@
 <?xml version="1.0" ?>
 <robot name="baxter" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:arg name="gazebo" default="false"/>
-  <xacro:if value="$(arg gazebo)">
-    <!-- Gazebo Tags -->
+
+<!--  <xacro:if value="$(arg gazebo)">
+    <xacro:property name="mass_scale" value=".1"/>
     <xacro:include filename="$(find baxter_description)/urdf/baxter_base/baxter_base.gazebo.xacro" />
   </xacro:if>
+  <xacro:unless value="$(arg gazebo)">
+    <xacro:property name="mass_scale" value=".1"/>
+  </xacro:unless>-->
+
   <link name="base">
   </link>
   <link name="torso">
@@ -489,6 +493,7 @@
       <mass value="0.0001"/>
       <inertia ixx="1e-08" ixy="0" ixz="0" iyy="1e-08" iyz="0" izz="1e-08"/>
     </inertial>
+
   </link>
   <link name="right_hand_accelerometer">
     <visual>

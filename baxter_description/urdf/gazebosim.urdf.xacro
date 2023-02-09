@@ -2,25 +2,30 @@
 <robot name="gazebosim" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 
-     <xacro:macro name="joint_controller" params="joint">
+     <xacro:macro name="joint_controller" params="joint p i d cmd_max">
 
         <!-- Position control -->
+       <gazebo>
         <plugin filename="libignition-gazebo-joint-position-controller-system.so" name="ignition::gazebo::systems::JointPositionController">
             <joint_name>${joint}</joint_name>
-            <p_gain>10.</p_gain>
-            <i_gain>1.</i_gain>
-            <d_gain>1.</d_gain>
-            <i_max>100</i_max>
-            <i_min>-100</i_min>
+            <p_gain>${p}</p_gain>
+            <i_gain>${i}</i_gain>
+            <d_gain>${d}</d_gain>
+            <i_max>${cmd_max}</i_max>
+            <i_min>${-cmd_max}</i_min>
+            <cmd_max>${cmd_max}</cmd_max>
+            <cmd_min>${-cmd_max}</cmd_min>
         </plugin>
+        </gazebo>
 
         <!-- Velocity control -->
 <!--        <plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
             <joint_name>${joint}</joint_name>
             <topic>${joint}_cmd_vel</topic>
-        </plugin>  -->
+        </plugin>-->
 
      </xacro:macro>
+
 
      <xacro:macro name="camera_plugin" params="link">
         <gazebo reference="${link}">
@@ -57,36 +62,61 @@
     </gazebo>
     </xacro:macro>
 
-     <xacro:macro name="range" params="link">
-        <!-- Not supported -->
-    </xacro:macro>
+    <xacro:macro name="arm_plugins" params="side">
+        <!-- gains from baxter_sim_hardware
+      https://github.com/RethinkRobotics/baxter_simulator/blob/master/baxter_sim_hardware/config/baxter_sim_controllers.yaml -->
+        <xacro:joint_controller joint="${side}_s0" cmd_max="50" p="700" i="0.01" d="10"/>
+        <xacro:joint_controller joint="${side}_s1" cmd_max="50" p="10000" i="10" d="10"/>
+        <xacro:joint_controller joint="${side}_e0" cmd_max="50" p="4500" i="35" d="1"/>
+        <xacro:joint_controller joint="${side}_e1" cmd_max="50" p="5500" i="60" d="2"/>
+        <xacro:joint_controller joint="${side}_w0" cmd_max="15" p="1000" i="30" d="0.01"/>
+        <xacro:joint_controller joint="${side}_w1" cmd_max="15" p="900" i=".1" d=".01"/>
+        <xacro:joint_controller joint="${side}_w2" cmd_max="15" p="1000" i=".01" d=".01"/>
+
+        <xacro:camera_plugin link="${side}_hand_camera"/>
+
+  <gazebo reference="${side}_hand_range">
+  <sensor name="range_${side}" type="gpu_lidar">
+<!--     <pose relative_to="${side}_hand_range">0 0 0 0 ${PI/2} 0</pose> -->
+    <pose >0 0 0 0 ${PI/2} 0</pose>
+    <topic>${side}_range</topic>
+    <update_rate>10</update_rate>
+    <ray>
+        <scan>
+<horizontal>
+                <samples>10</samples>
+                <resolution>1</resolution>
+                <min_angle>-1.396263</min_angle>
+                <max_angle>1.396263</max_angle>
+            </horizontal>
+            <vertical>
+                <samples>1</samples>
+                <resolution>0.01</resolution>
+                <min_angle>0</min_angle>
+                <max_angle>0</max_angle>
+            </vertical>
+        </scan>
+        <range>
+            <min>0.1</min>
+            <max>1.</max>
+            <resolution>0.01</resolution>
+        </range>
+    </ray>
+    <always_on>1</always_on>
+    <visualize>true</visualize>
+</sensor>
+</gazebo>
+     </xacro:macro>
 
     <gazebo>
-
         <plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher"/>
+</gazebo>
 
-        <xacro:joint_controller joint="head_pan"/>
-        <xacro:joint_controller joint="right_s0"/>
-        <xacro:joint_controller joint="right_s1"/>
-        <xacro:joint_controller joint="right_e0"/>
-        <xacro:joint_controller joint="right_e1"/>
-        <xacro:joint_controller joint="right_w0"/>
-        <xacro:joint_controller joint="right_w1"/>
-        <xacro:joint_controller joint="right_w2"/>
-        <xacro:joint_controller joint="left_s0"/>
-        <xacro:joint_controller joint="left_s1"/>
-        <xacro:joint_controller joint="left_e0"/>
-        <xacro:joint_controller joint="left_e1"/>
-        <xacro:joint_controller joint="left_w0"/>
-        <xacro:joint_controller joint="left_w1"/>
-        <xacro:joint_controller joint="left_w2"/>
+        <xacro:arm_plugins side="left"/>
+        <xacro:arm_plugins side="right"/>
 
-        <xacro:range link="left_hand_range"/>
-        <xacro:range link="right_hand_range"/>
 
-    </gazebo>
 
 <!--         <xacro:camera_plugin link="head_camera"/> -->
-        <xacro:camera_plugin link="left_hand_camera"/>
 <!--         <xacro:camera_plugin link="right_hand_camera_axis"/> -->
 </robot>
