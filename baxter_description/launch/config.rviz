@@ -392,16 +392,22 @@ Visualization Manager:
           Value: false
         left_lower_elbow:
           Value: false
+        left_lower_forearm:
+          Value: true
         left_lower_shoulder:
           Value: false
         left_torso_itb:
           Value: false
+        left_upper_elbow:
+          Value: true
         left_upper_elbow_visual:
           Value: false
         left_upper_forearm:
           Value: false
         left_upper_forearm_visual:
           Value: false
+        left_upper_shoulder:
+          Value: true
         left_wrist:
           Value: false
         pedestal:
@@ -434,16 +440,22 @@ Visualization Manager:
           Value: false
         right_lower_elbow:
           Value: false
+        right_lower_forearm:
+          Value: true
         right_lower_shoulder:
           Value: false
         right_torso_itb:
           Value: false
+        right_upper_elbow:
+          Value: true
         right_upper_elbow_visual:
           Value: false
         right_upper_forearm:
           Value: false
         right_upper_forearm_visual:
           Value: false
+        right_upper_shoulder:
+          Value: true
         right_wrist:
           Value: false
         screen:
@@ -465,19 +477,115 @@ Visualization Manager:
             collision_head_link_2:
               {}
             torso:
+              head:
+                dummyhead1:
+                  {}
+                head_camera:
+                  {}
+                screen:
+                  display:
+                    {}
               left_arm_mount:
-                {}
+                left_upper_shoulder:
+                  left_lower_shoulder:
+                    left_upper_elbow:
+                      left_lower_elbow:
+                        left_upper_forearm:
+                          left_arm_itb:
+                            {}
+                          left_lower_forearm:
+                            left_wrist:
+                              left_hand:
+                                left_gripper_base:
+                                  l_gripper_l_finger:
+                                    l_gripper_l_finger_tip:
+                                      {}
+                                  l_gripper_r_finger:
+                                    l_gripper_r_finger_tip:
+                                      {}
+                                  left_gripper:
+                                    {}
+                                left_hand_accelerometer:
+                                  {}
+                                left_hand_camera:
+                                  {}
+                                left_hand_camera_axis:
+                                  {}
+                                left_hand_range:
+                                  {}
+                        left_upper_forearm_visual:
+                          {}
+                    left_upper_elbow_visual:
+                      {}
               left_torso_itb:
                 {}
               pedestal:
                 {}
               right_arm_mount:
-                {}
+                right_upper_shoulder:
+                  right_lower_shoulder:
+                    right_upper_elbow:
+                      right_lower_elbow:
+                        right_upper_forearm:
+                          right_arm_itb:
+                            {}
+                          right_lower_forearm:
+                            right_wrist:
+                              right_hand:
+                                right_gripper_base:
+                                  r_gripper_l_finger:
+                                    r_gripper_l_finger_tip:
+                                      {}
+                                  r_gripper_r_finger:
+                                    r_gripper_r_finger_tip:
+                                      {}
+                                  right_gripper:
+                                    {}
+                                right_hand_accelerometer:
+                                  {}
+                                right_hand_camera:
+                                  {}
+                                right_hand_camera_axis:
+                                  {}
+                                right_hand_range:
+                                  {}
+                        right_upper_forearm_visual:
+                          {}
+                    right_upper_elbow_visual:
+                      {}
               right_torso_itb:
                 {}
               sonar_ring:
                 {}
       Update Interval: 0
+      Value: true
+    - Alpha: 0.5
+      Buffer Length: 1
+      Class: rviz_default_plugins/Range
+      Color: 255; 255; 255
+      Enabled: true
+      Name: Range
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /robot/range/left_hand_range/state
+      Value: true
+    - Alpha: 0.5
+      Buffer Length: 1
+      Class: rviz_default_plugins/Range
+      Color: 255; 255; 255
+      Enabled: true
+      Name: Range
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /robot/range/right_hand_range/state
       Value: true
   Enabled: true
   Global Options:

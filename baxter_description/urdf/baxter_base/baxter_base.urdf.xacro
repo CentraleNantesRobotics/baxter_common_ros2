@@ -9,6 +9,40 @@
     <xacro:property name="mass_scale" value=".1"/>
   </xacro:unless>-->
 
+  <xacro:macro name="range_sensor" params="side">
+ <!-- <gazebo>
+  <sensor name="range_${side}" type="gpu_lidar">
+    <pose >1 0 0 0 ${PI/2} 0</pose>
+    <topic>${side}_range</topic>
+    <update_rate>10</update_rate>
+    <ray>
+        <scan>
+<horizontal>
+                <samples>10</samples>
+                <resolution>1</resolution>
+                <min_angle>-1.396263</min_angle>
+                <max_angle>1.396263</max_angle>
+            </horizontal>
+            <vertical>
+                <samples>1</samples>
+                <resolution>0.01</resolution>
+                <min_angle>0</min_angle>
+                <max_angle>0</max_angle>
+            </vertical>
+        </scan>
+        <range>
+            <min>0.1</min>
+            <max>1.</max>
+            <resolution>0.01</resolution>
+        </range>
+    </ray>
+    <always_on>1</always_on>
+    <visualize>true</visualize>
+</sensor>
+</gazebo>-->
+</xacro:macro>
+
+
   <link name="base">
   </link>
   <link name="torso">
@@ -493,7 +527,7 @@
       <mass value="0.0001"/>
       <inertia ixx="1e-08" ixy="0" ixz="0" iyy="1e-08" iyz="0" izz="1e-08"/>
     </inertial>
-
+    <xacro:range_sensor side="right"/>
   </link>
   <link name="right_hand_accelerometer">
     <visual>
@@ -878,6 +912,7 @@
       <mass value="0.0001"/>
       <inertia ixx="1e-08" ixy="0" ixz="0" iyy="1e-08" iyz="0" izz="1e-08"/>
     </inertial>
+    <xacro:range_sensor side="left"/>
   </link>
   <joint name="left_torso_arm_mount" type="fixed">
     <origin rpy="0 0 0.7854" xyz="0.024645 0.219645 0.118588"/>
