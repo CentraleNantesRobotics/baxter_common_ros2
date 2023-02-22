@@ -7,7 +7,7 @@ Panels:
         - /Global Options1
         - /Status1
         - /RobotModel1/Description Topic1
-        - /TF1
+        - /TF1/Frames1
         - /TF1/Tree1
       Splitter Ratio: 0.5
     Tree Height: 740
@@ -151,6 +151,10 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        left_hand_camera_gz:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         left_hand_range:
           Alpha: 1
           Show Axes: false
@@ -263,6 +267,10 @@ Visualization Manager:
           Show Trail: false
           Value: true
         right_hand_camera_axis:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        right_hand_camera_gz:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -388,6 +396,8 @@ Visualization Manager:
           Value: false
         left_hand_camera_axis:
           Value: false
+        left_hand_camera_gz:
+          Value: false
         left_hand_range:
           Value: false
         left_lower_elbow:
@@ -436,6 +446,8 @@ Visualization Manager:
           Value: false
         right_hand_camera_axis:
           Value: false
+        right_hand_camera_gz:
+          Value: true
         right_hand_range:
           Value: false
         right_lower_elbow:
@@ -510,7 +522,8 @@ Visualization Manager:
                                 left_hand_camera:
                                   {}
                                 left_hand_camera_axis:
-                                  {}
+                                  left_hand_camera_gz:
+                                    {}
                                 left_hand_range:
                                   {}
                         left_upper_forearm_visual:
@@ -546,7 +559,8 @@ Visualization Manager:
                                 right_hand_camera:
                                   {}
                                 right_hand_camera_axis:
-                                  {}
+                                  right_hand_camera_gz:
+                                    {}
                                 right_hand_range:
                                   {}
                         right_upper_forearm_visual:
@@ -648,10 +662,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4703981876373291
+      Pitch: 0.4753981828689575
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.20039932429790497
+      Yaw: 0.18539932370185852
     Saved: ~
 Window Geometry:
   Displays:

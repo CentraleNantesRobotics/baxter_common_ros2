@@ -39,8 +39,15 @@
         <xacro:joint_controller joint="${side}_w1" cmd_max="15" p="900" i=".1" d=".01"/>
         <xacro:joint_controller joint="${side}_w2" cmd_max="15" p="1000" i=".01" d=".01"/>
 
+        <link name="${side}_hand_camera_gz"/>
+        <joint name="${side}_camera" type="fixed">
+          <parent link="${side}_hand_camera_axis"/>
+          <child link="${side}_hand_camera_gz"/>
+          <origin rpy="0 ${-PI/2} 0"/>
+        </joint>
 
-        <gazebo reference="${side}_hand_camera_axis">
+
+        <gazebo reference="${side}_hand_camera_gz">
          <sensor name="${side}_camera" type="camera">
           <camera>
             <horizontal_fov>1.047</horizontal_fov>
