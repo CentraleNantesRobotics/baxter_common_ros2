@@ -7,7 +7,7 @@
       <visual>
         <origin rpy="0 0 ${-pi/2*(reflect+1)}" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="package://rethink_ee_description/meshes/electric_gripper/fingers/standard_wide.DAE" />
+          <mesh filename="file://$(find rethink_ee_description)/meshes/electric_gripper/fingers/standard_wide.DAE" />
         </geometry>
       </visual>
       <xacro:property name="finger_box_height" value="0.01" scope="local"/>

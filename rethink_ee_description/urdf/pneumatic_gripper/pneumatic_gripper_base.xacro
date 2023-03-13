@@ -9,7 +9,7 @@
       <visual>
         <origin rpy="0 ${pi} ${pi}" xyz="0 0 0"/>
         <geometry>
-          <mesh filename="package://rethink_ee_description/meshes/pneumatic_gripper/pneumatic_gripper_base.DAE"/>
+          <mesh filename="file://$(find rethink_ee_description)/meshes/pneumatic_gripper/pneumatic_gripper_base.DAE"/>
         </geometry>
       </visual>
       <collision>
@@ -30,7 +30,7 @@
     </link>
 
     <!-- Pneumatic Gripper Base Joint -->
-    <joint name="${side}_gripper_base" type="fixed">
+    <joint name="${side}_gripper_base_fixed" type="fixed">
       <origin rpy="0 0 0" xyz="0 0 0.0"/>
       <parent link="${side}_hand"/>
       <child link="${side}_gripper_base"/>

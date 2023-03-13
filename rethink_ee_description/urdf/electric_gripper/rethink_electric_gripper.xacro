@@ -40,7 +40,7 @@
     </xacro:if>
 
     <!-- Electric Gripper Base Joint -->
-    <joint name="${side}_gripper_base" type="fixed">
+    <joint name="${side}_gripper_base_fixed" type="fixed">
       <origin rpy="0 0 0" xyz="0 0 0.025"/>
       <parent link="${side}_hand"/>
       <child link="${side}_gripper_base"/>

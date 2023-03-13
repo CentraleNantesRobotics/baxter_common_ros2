@@ -24,7 +24,6 @@ def generate_launch_description():
         Node(
             package='baxter_bridge',
             executable='bridge',
-            name='baxter_bridge',
             output='screen'),
         GroupAction([IncludeLaunchDescription(PythonLaunchDescriptionSource(rviz))],
                     condition=IfCondition(LaunchConfiguration("rviz")))])

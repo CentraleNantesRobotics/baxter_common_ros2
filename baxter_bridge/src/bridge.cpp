@@ -66,7 +66,7 @@ namespace baxter_bridge
 
     if(on_baxter && !allow_multiple)
     {
-      monitor = std::make_unique<Monitor>(name, baxter_display);
+      monitor = std::make_unique<Monitor>(name, ros1_node.get(), baxter_display);
     }
     return true;
   }

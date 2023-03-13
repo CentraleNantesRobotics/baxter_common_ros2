@@ -48,7 +48,7 @@ with open(pkg_dir + '/factory/baxter.yaml') as f:
     infos = yaml.safe_load(f)
 
 
-def valid_node(node: str):
+def valid_node(node: str) -> bool:
     return 'baxter.local' in node
 
 

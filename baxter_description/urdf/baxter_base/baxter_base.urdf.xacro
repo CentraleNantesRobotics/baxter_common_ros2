@@ -265,7 +265,7 @@
     <parent link="head"/>
     <child link="screen"/>
   </joint>
-  <joint name="head_camera" type="fixed">
+  <joint name="head_camera_fixed" type="fixed">
     <origin rpy="1.75057 0 1.57079632679" xyz="0.12839 0 0.06368"/>
     <parent link="head"/>
     <child link="head_camera"/>
@@ -624,28 +624,28 @@
     <limit effort="15.0" lower="-3.059" upper="3.059" velocity="4.0"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
-  <joint name="right_hand" type="fixed">
+  <joint name="right_hand_fixed" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0.11355"/>
     <axis xyz="0 0 1"/>
     <parent link="right_wrist"/>
     <child link="right_hand"/>
   </joint>
-  <joint name="right_hand_camera" type="fixed">
+  <joint name="right_hand_camera_fixed" type="fixed">
     <origin rpy="0 0 -1.57079633" xyz="0.03825 0.012 0.015355"/>
     <parent link="right_hand"/>
     <child link="right_hand_camera"/>
   </joint>
-  <joint name="right_hand_camera_axis" type="fixed">
+  <joint name="right_hand_camera_axis_fixed" type="fixed">
     <origin rpy="0 0 0" xyz="0.03825 0.012 0.015355"/>
     <parent link="right_hand"/>
     <child link="right_hand_camera_axis"/>
   </joint>
-  <joint name="right_hand_range" type="fixed">
+  <joint name="right_hand_range_fixed" type="fixed">
     <origin rpy="0 -1.57079632679 -1.57079632679" xyz="0.032 -0.020245 0.0288"/>
     <parent link="right_hand"/>
     <child link="right_hand_range"/>
   </joint>
-  <joint name="right_hand_accelerometer" type="fixed">
+  <joint name="right_hand_accelerometer_fixed" type="fixed">
     <origin rpy="0 0 0" xyz="0.00198 0.000133 -0.0146"/>
     <parent link="right_hand"/>
     <child link="right_hand_accelerometer"/>
@@ -993,28 +993,28 @@
     <limit effort="15.0" lower="-3.059" upper="3.059" velocity="4.0"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
-  <joint name="left_hand" type="fixed">
+  <joint name="left_hand_fixed" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0.11355"/>
     <axis xyz="0 0 1"/>
     <parent link="left_wrist"/>
     <child link="left_hand"/>
   </joint>
-  <joint name="left_hand_camera" type="fixed">
+  <joint name="left_hand_camera_fixed" type="fixed">
     <origin rpy="0 0 -1.57079633" xyz="0.03825 0.012 0.015355"/>
     <parent link="left_hand"/>
     <child link="left_hand_camera"/>
   </joint>
-  <joint name="left_hand_camera_axis" type="fixed">
+  <joint name="left_hand_camera_axis_fixed" type="fixed">
     <origin rpy="0 0 0" xyz="0.03825 0.012 0.015355"/>
     <parent link="left_hand"/>
     <child link="left_hand_camera_axis"/>
   </joint>
-  <joint name="left_hand_range" type="fixed">
+  <joint name="left_hand_range_fixed" type="fixed">
     <origin rpy="0 -1.57079632679 -1.57079632679" xyz="0.032 -0.020245 0.0288"/>
     <parent link="left_hand"/>
     <child link="left_hand_range"/>
   </joint>
-  <joint name="left_hand_accelerometer" type="fixed">
+  <joint name="left_hand_accelerometer_fixed" type="fixed">
     <origin rpy="0 0 0" xyz="0.00198 0.000133 -0.0146"/>
     <parent link="left_hand"/>
     <child link="left_hand_accelerometer"/>

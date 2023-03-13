@@ -13,12 +13,12 @@ void eraseSideTopics(BridgePublishersAuth::Response::_publishers_type &publisher
   {return Monitor::getSide(pub.topic) == side;}), publishers.end());
 }
 
-Monitor::Monitor(const std::string &name, bool display) : display{display}
+Monitor::Monitor(const std::string &name, ros::NodeHandle *nh, bool display) : display{display}
 {
   publish_req.user = name;
-  client = nh.serviceClient<BridgePublishersAuth>(AUTH_SRV, true);
+  client = nh->serviceClient<BridgePublishersAuth>(AUTH_SRV, true);
 
-  im_timer = nh.createTimer(ros::Duration(timeout_s/2),
+  im_timer = nh->createTimer(ros::Duration(timeout_s/2),
                             [&](const ros::TimerEvent&)
   {
     if(im_pub.get())
@@ -45,7 +45,7 @@ bool Monitor::canPublishOn(const std::string &topic, bool test_client)
   {
     // try to re-establish connection
     if(!client.isValid())
-      client = nh.serviceClient<BridgePublishersAuth>(AUTH_SRV, true);
+      client = nh->serviceClient<BridgePublishersAuth>(AUTH_SRV, true);
     return canPublishOn(topic, false);
   }
   else
@@ -56,7 +56,7 @@ bool Monitor::canPublishOn(const std::string &topic, bool test_client)
     server = std::make_unique<Server>(this);
 
     if(display)
-      im_pub = std::make_unique<ros::Publisher>(nh.advertise<sensor_msgs::Image>("/robot/xdisplay", 1));
+      im_pub = std::make_unique<ros::Publisher>(nh->advertise<sensor_msgs::Image>("/robot/xdisplay", 1));
 
     parsePublishRequest(currentUser(), topic, side);
   }

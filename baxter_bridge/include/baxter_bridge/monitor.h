@@ -20,15 +20,15 @@ struct Server
 
   template <class Monitor>
   inline explicit Server(Monitor *monitor)
-    : auth{monitor->nh.advertiseService(AUTH_SRV, &Monitor::userCallback, monitor)},
-      force{monitor->nh.advertiseService(FORCE_SRV, &Monitor::userCallback, monitor)}
+    : auth{monitor->nh->advertiseService(AUTH_SRV, &Monitor::userCallback, monitor)},
+      force{monitor->nh->advertiseService(FORCE_SRV, &Monitor::userCallback, monitor)}
   {}
 };
 
 struct Monitor
 {
   friend struct Server;
-  Monitor(const std::string &name, bool display);
+  Monitor(const std::string &name, ros::NodeHandle* nh, bool display);
   inline bool canPublishOn(const std::string &topic)
   {
     return canPublishOn(topic, true);
@@ -47,7 +47,7 @@ struct Monitor
 
 private:
 
-  ros::NodeHandle nh;
+  ros::NodeHandle* nh;
   BridgePublishersAuth::Request publish_req;
 
   std::unique_ptr<Server> server;
