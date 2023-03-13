@@ -2,6 +2,7 @@
 #include <rclcpp/node.hpp>
 #include <baxter_bridge/bridge.h>
 #include <baxter_bridge/factory.h>
+#include <robot_state_publisher/robot_state_publisher.hpp>
 #include <fstream>
 
 namespace baxter_bridge
@@ -9,16 +10,14 @@ namespace baxter_bridge
 
   std::unique_ptr<ros::NodeHandle> Bridge::ros1_node{};
   rclcpp::Node::SharedPtr Bridge::ros2_node{};
-  bool Bridge::on_baxter{false}, Bridge::is_static{false};
   rclcpp::executors::SingleThreadedExecutor::SharedPtr Bridge::exec;
-  robot_state_publisher::RobotStatePublisher::SharedPtr Bridge::rsp_node;
 
-  std::unique_ptr<Monitor> Bridge::monitor;
+  std::unique_ptr<Monitor> Monitored::monitor;
 
-  bool Bridge::init(int argc, char** argv)
+  std::tuple<bool,bool,bool> Bridge::init(int argc, char** argv)
   {
     // parse raw args to call the node easily from cmd line
-    bool baxter_display{true};
+    auto baxter_display{true}, on_baxter{true}, is_static{false};
     for(int idx = 0; idx < argc; ++idx)
     {
       const auto arg{std::string(argv[idx])};
@@ -59,16 +58,15 @@ namespace baxter_bridge
     exec->add_node(ros2_node);
 
     if(!initRSP())
-      return false;
+      return {false,false,false};
 
     // let some people configure Baxter before running the bridge
     const auto allow_multiple{ros1_node->param<bool>("allow_multiple", false)};
 
     if(on_baxter && !allow_multiple)
-    {
-      monitor = std::make_unique<Monitor>(name, ros1_node.get(), baxter_display);
-    }
-    return true;
+      Monitored::init(name, ros1_node.get(), baxter_display);
+
+    return {true, on_baxter, is_static};
   }
 
   // init internal robot state publisher
@@ -97,9 +95,7 @@ namespace baxter_bridge
     // instanciate local robot_state_publisher
     auto rsp_arg{rclcpp::NodeOptions()
           .arguments({"--ros-args", "-r", "__ns:=/robot", "-p", "robot_description:='" + description + "'"})};
-    rsp_node = std::make_shared<robot_state_publisher::RobotStatePublisher>(rsp_arg);
-
-    exec->add_node(rsp_node);
+    exec->add_node(std::make_shared<robot_state_publisher::RobotStatePublisher>(rsp_arg));
 
     return true;
   }

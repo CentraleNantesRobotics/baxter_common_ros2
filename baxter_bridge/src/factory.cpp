@@ -55,7 +55,7 @@ bool Factory::createBridge(const std::string &topic, const std::string &msg)
     return true;
   }
 
-  // we might open any bridge as long as it does not exists yet
+  // we might open any bridge as long as it does not exist yet
   if(const auto bridge = std::find_if(bridges.begin(), bridges.end(),
                                       [&](auto &bridge){return bridge->topic() == topic;});
      bridge != bridges.end())

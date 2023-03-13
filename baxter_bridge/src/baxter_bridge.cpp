@@ -10,22 +10,23 @@ using namespace baxter_bridge::srv;
 
 int main(int argc, char** argv)
 {
-  if(!Bridge::init(argc, argv))
-    return 0;
+  const auto [ok,on_baxter,is_static] = Bridge::init(argc, argv); {}
+  if(ok)
+  return 0;
 
   std::unique_ptr<TopicPoller> poller;
-  if(Bridge::onBaxter())
+  if(on_baxter)
   {
     RCLCPP_INFO(Bridge::ros2()->get_logger(), "Connected to real Baxter");
     // other cheap bridges we are usually interested in
     // makes it easier to spawn in RViz2 if they are advertized in ROS 2
     Factory::createBridge("/robot/range/left_hand_range/state");
     Factory::createBridge("/robot/range/right_hand_range/state");
-    Factory::createBridge("/robot/sonar/head_sonar/state");    
+    Factory::createBridge("/robot/sonar/head_sonar/state");
     Factory::createBridge("/robot/joint_states");
     Factory::createBridge("/tf_manual");
 
-    if(Bridge::isStatic())
+    if(is_static)
       Factory::createRemainingBridges();
     else
       poller = std::make_unique<TopicPoller>(Bridge::ros2());

@@ -8,9 +8,9 @@ namespace baxter_bridge
 {
 
 template<class Msg1, class Msg2>
-struct Bridge_2to1 : public Bridge
+struct Bridge_2to1 : public Bridge, public Monitored
 {
-  Bridge_2to1(std::string topic)
+  Bridge_2to1(const std::string &topic)
   {
     pub = ros1()->advertise<Msg1>(topic, 10);
     sub = ros2()->create_subscription<Msg2>(topic, 10, [&](typename Msg2::SharedPtr msg2)
