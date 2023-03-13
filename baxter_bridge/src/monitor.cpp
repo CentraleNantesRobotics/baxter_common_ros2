@@ -6,14 +6,15 @@ constexpr double timeout_s{1.};
 
 using namespace baxter_bridge;
 
-void eraseSideTopics(BridgePublishersAuth::Response::_publishers_type &publishers, const Monitor::Side &side)
+void eraseSideTopics(baxter_core_msgs::BridgePublishersAuth::Response::_publishers_type &publishers,
+                     const Monitor::Side &side)
 {
   using baxter_core_msgs::BridgePublisher;
   publishers.erase(std::remove_if(publishers.begin(), publishers.end(), [&](const BridgePublisher &pub)
   {return Monitor::getSide(pub.topic) == side;}), publishers.end());
 }
 
-Monitor::Monitor(const std::string &name, ros::NodeHandle *nh, bool display) : display{display}
+Monitor::Monitor(const std::string &name, ros::NodeHandle *nh, bool display) : nh{nh}, display{display}
 {
   publish_req.user = name;
   client = nh->serviceClient<BridgePublishersAuth>(AUTH_SRV, true);
@@ -125,7 +126,7 @@ bool Monitor::userCallback(BridgePublishersAuth::Request &req,
 }
 
 bool Monitor::forceCallback(BridgePublishersForce::Request &req,
-                          [[maybe_unused]] BridgePublishersForceResponse &res)
+                          [[maybe_unused]] BridgePublishersForce::Response &res)
 {
   authorized_publishers.forced_left = req.left_user;
   authorized_publishers.forced_right = req.right_user;

@@ -1,5 +1,5 @@
-#ifndef BAXTER_BRIDGE_DISPLAY_H
-#define BAXTER_BRIDGE_DISPLAY_H
+#ifndef BAXTER_BRIDGE_MONITOR_H
+#define BAXTER_BRIDGE_MONITOR_H
 
 #include <ros/ros.h>
 #include <rclcpp/node.hpp>
@@ -12,22 +12,21 @@ namespace baxter_bridge
 constexpr auto AUTH_SRV{"/bridge_auth"};
 constexpr auto FORCE_SRV{"/bridge_force"};
 
-using namespace baxter_core_msgs;
-
-struct Server
-{
-  ros::ServiceServer auth, force;
-
-  template <class Monitor>
-  inline explicit Server(Monitor *monitor)
-    : auth{monitor->nh->advertiseService(AUTH_SRV, &Monitor::userCallback, monitor)},
-      force{monitor->nh->advertiseService(FORCE_SRV, &Monitor::userCallback, monitor)}
-  {}
-};
-
 struct Monitor
 {
-  friend struct Server;
+  using BridgePublishersAuth = baxter_core_msgs::BridgePublishersAuth;
+  using BridgePublishersForce = baxter_core_msgs::BridgePublishersForce;
+
+  struct Server
+  {
+    ros::ServiceServer auth, force;
+
+    inline explicit Server(Monitor *monitor)
+      : auth{monitor->nh->advertiseService(AUTH_SRV, &Monitor::userCallback, monitor)},
+        force{monitor->nh->advertiseService(FORCE_SRV, &Monitor::userCallback, monitor)}
+    {}
+  };
+
   Monitor(const std::string &name, ros::NodeHandle* nh, bool display);
   inline bool canPublishOn(const std::string &topic)
   {
@@ -84,7 +83,7 @@ private:
                     BridgePublishersAuth::Response &res);
 
   bool forceCallback(BridgePublishersForce::Request &req,
-                            [[maybe_unused]] BridgePublishersForceResponse &res);
+                            [[maybe_unused]] BridgePublishersForce::Response &res);
   bool canPublishOn(const std::string &topic, bool test_client);
 
 };
