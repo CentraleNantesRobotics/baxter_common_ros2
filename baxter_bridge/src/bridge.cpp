@@ -95,7 +95,8 @@ namespace baxter_bridge
     // instanciate local robot_state_publisher
     auto rsp_arg{rclcpp::NodeOptions()
           .arguments({"--ros-args", "-r", "__ns:=/robot", "-p", "robot_description:='" + description + "'"})};
-    exec->add_node(std::make_shared<robot_state_publisher::RobotStatePublisher>(rsp_arg));
+    static auto rsp{std::make_shared<robot_state_publisher::RobotStatePublisher>(rsp_arg)};
+    exec->add_node(rsp);
 
     return true;
   }
