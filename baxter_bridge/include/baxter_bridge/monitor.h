@@ -46,7 +46,7 @@ struct Monitor
 
 private:
 
-  ros::NodeHandle* nh;
+  ros::NodeHandle* nh {};
   BridgePublishersAuth::Request publish_req;
 
   std::unique_ptr<Server> server;

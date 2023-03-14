@@ -11,8 +11,8 @@ using namespace baxter_bridge::srv;
 int main(int argc, char** argv)
 {
   const auto [ok,on_baxter,is_static] = Bridge::init(argc, argv); {}
-  if(ok)
-  return 0;
+  if(!ok)
+    return 0;
 
   std::unique_ptr<TopicPoller> poller;
   if(on_baxter)
