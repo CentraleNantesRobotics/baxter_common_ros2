@@ -72,4 +72,6 @@ int main(int argc, char** argv)
         Factory::createBridge(topic);
     }
   }
+  ros::shutdown();
+  rclcpp::shutdown();
 }
