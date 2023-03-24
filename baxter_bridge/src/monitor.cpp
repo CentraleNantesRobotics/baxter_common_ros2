@@ -20,7 +20,7 @@ Monitor::Monitor(const std::string &name, ros::NodeHandle *nh, bool display) : n
   client = nh->serviceClient<BridgePublishersAuth>(AUTH_SRV, true);
 
   im_timer = nh->createTimer(ros::Duration(timeout_s/2),
-                            [&](const ros::TimerEvent&)
+                             [&](const ros::TimerEvent&)
   {
     if(im_pub.get())
       publishXDisplay();
@@ -62,11 +62,11 @@ bool Monitor::canPublishOn(const std::string &topic, bool test_client)
     parsePublishRequest(currentUser(), topic, side);
   }
 
-  if(side == Side::LEFT && leftUser() == currentUser())
-    return true;
+  if(side == Side::LEFT && !leftUser().empty())
+    return leftUser() == currentUser();
 
-  if(side == Side::RIGHT && rightUser() == currentUser())
-    return true;
+  if(side == Side::RIGHT && !rightUser().empty())
+    return rightUser() == currentUser();
 
   const auto authorized{findPublisher(topic)};
 
@@ -119,14 +119,17 @@ void Monitor::parsePublishRequest(const std::string &user, const std::string &to
 bool Monitor::userCallback(BridgePublishersAuth::Request &req,
                            BridgePublishersAuth::Response &res)
 {
-  std::cout << req.user << " wants to publish on " << req.topic << std::endl;
-  parsePublishRequest(req.user, req.topic, getSide(req.topic));
+  if(!req.user.empty() && !req.topic.empty())
+  {
+    std::cout << req.user << " wants to publish on " << req.topic << std::endl;
+    parsePublishRequest(req.user, req.topic, getSide(req.topic));
+  }
   res = authorized_publishers;
   return true;
 }
 
 bool Monitor::forceCallback(BridgePublishersForce::Request &req,
-                          [[maybe_unused]] BridgePublishersForce::Response &res)
+                            [[maybe_unused]] BridgePublishersForce::Response &res)
 {
   authorized_publishers.forced_left = req.left_user;
   authorized_publishers.forced_right = req.right_user;
