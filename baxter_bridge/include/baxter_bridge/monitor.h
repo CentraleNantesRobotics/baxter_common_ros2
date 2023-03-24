@@ -20,29 +20,18 @@ struct Monitor
   struct Server
   {
     ros::ServiceServer auth, force;
+    ros::Timer im_timer;
 
-    inline explicit Server(Monitor *monitor)
-      : auth{monitor->nh->advertiseService(AUTH_SRV, &Monitor::userCallback, monitor)},
-        force{monitor->nh->advertiseService(FORCE_SRV, &Monitor::forceCallback, monitor)}
-    {}
+    explicit Server(Monitor *monitor);
   };
 
-  Monitor(const std::string &name, ros::NodeHandle* nh, bool display);
+  Monitor(const std::string &name, ros::NodeHandle* nh, bool init_server = false);
   inline bool canPublishOn(const std::string &topic)
   {
     return canPublishOn(topic, true);
   }
 
   enum class Side{LEFT,RIGHT,NONE};
-
-  static inline Side getSide(const std::string &topic)
-  {
-    if(topic.find("left") != topic.npos)
-      return Side::LEFT;
-    if(topic.find("right") != topic.npos)
-      return Side::RIGHT;
-    return Side::NONE;
-  }
 
 private:
 
@@ -53,9 +42,6 @@ private:
   ros::ServiceClient client;
   BridgePublishersAuth::Response authorized_publishers;
 
-  bool display{false};
-  std::unique_ptr<ros::Publisher> im_pub;
-  ros::Timer im_timer;
   void publishXDisplay();
 
   inline auto currentUser() const
@@ -63,13 +49,17 @@ private:
     return publish_req.user;
   }
 
-  inline auto leftUser() const
+  inline std::string reservedUser(Side side) const
   {
-    return authorized_publishers.forced_left;
-  }
-  inline auto rightUser() const
-  {
-    return authorized_publishers.forced_right;
+    switch(side)
+    {
+      case Side::LEFT:
+        return authorized_publishers.forced_left;
+      case Side::RIGHT:
+        return authorized_publishers.forced_right;
+      default:
+        return "";
+    }
   }
 
   inline auto findPublisher(const std::string &topic)
@@ -78,12 +68,12 @@ private:
                         [&topic](const auto &pub){return pub.topic == topic;});
   }
 
-  void parsePublishRequest(const std::string &user, const std::string &topic, const Side &side);
+  void updateAuthorizedPublishers(const std::string &user, const std::string &topic, const Side &side);
   bool userCallback(BridgePublishersAuth::Request &req,
                     BridgePublishersAuth::Response &res);
 
   bool forceCallback(BridgePublishersForce::Request &req,
-                            [[maybe_unused]] BridgePublishersForce::Response &res);
+                     [[maybe_unused]] BridgePublishersForce::Response &res);
   bool canPublishOn(const std::string &topic, bool test_client);
 
 };

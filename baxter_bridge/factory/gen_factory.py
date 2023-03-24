@@ -2,6 +2,7 @@
 
 import os
 import yaml
+import sys
 
 pkg_dir = os.path.abspath(os.path.dirname(__file__) + '/..')
 
@@ -14,7 +15,6 @@ builtin += [f'{i}{s}' for i in ('int','uint') for s in (8,16,32,64)]
 MSG_BASE = 0
 MSG_BASE_ARRAY = 1
 MSG_CUSTOM = 2
-
 
 def check_msg_type(msg: str):
     is_array = msg[-1] == ']' and msg[-2] != '['
@@ -198,7 +198,6 @@ class Factory:
         if msg == 'std_msgs/Empty':
             # nothing to do here
             fwd = [f'template<>\nvoid convert(const {src} &, {dst} &)\n{{']
-
         else:
             fwd = [f'template<>\nvoid convert(const {src} &src, {dst} &dst)\n{{']
 
@@ -213,6 +212,7 @@ class Factory:
 
             # some special cases
             msg_type = check_msg_type(sub)
+
             if sub == 'builtin_interfaces/Time':
                 if to2:
                     fwd.append(f'  {dst_field} = Bridge::ros2_now();')
@@ -224,7 +224,13 @@ class Factory:
                     fwd.append(f'  {dst_field}.nanosec = {src_field}.nsec;')
                 else:
                     fwd.append(f'  {dst_field}.nsec = {src_field}.nanosec;')
-
+            elif msg == 'baxter_core_msgs/JointCommand' and field2 == 'mode':
+                # use safe flag to ensure position or velocity only
+                fwd.append('#ifdef BAXTER_BRIDGE_SAFE_CMD')
+                fwd.append(f'  convert(std::min({src_field},2), {dst_field});')
+                fwd.append('#else')
+                fwd.append(f'  convert({src_field}, {dst_field});')
+                fwd.append('#endif')
             elif msg_type in (MSG_BASE, MSG_BASE_ARRAY) or 'bool[' in sub or 'byte[' in sub:
                 fwd.append(f'  convert({src_field}, {dst_field});')
             elif msg_type == MSG_BASE:

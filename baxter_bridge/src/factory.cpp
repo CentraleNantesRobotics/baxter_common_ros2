@@ -6,8 +6,6 @@
 namespace baxter_bridge
 {
 
-std::vector<std::unique_ptr<Bridge>> Factory::bridges;
-
 void Factory::createRemainingBridges()
 {
   // work on backups as createBridge erases topics_*to*

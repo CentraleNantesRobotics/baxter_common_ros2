@@ -6,25 +6,49 @@ constexpr double timeout_s{1.};
 
 using namespace baxter_bridge;
 
+namespace
+{
+static inline auto getSide(const std::string &topic)
+{
+  if(topic.find("left") != topic.npos)
+    return Monitor::Side::LEFT;
+  if(topic.find("right") != topic.npos)
+    return Monitor::Side::RIGHT;
+  return Monitor::Side::NONE;
+}
+
 void eraseSideTopics(baxter_core_msgs::BridgePublishersAuth::Response::_publishers_type &publishers,
                      const Monitor::Side &side)
 {
   using baxter_core_msgs::BridgePublisher;
   publishers.erase(std::remove_if(publishers.begin(), publishers.end(), [&](const BridgePublisher &pub)
-  {return Monitor::getSide(pub.topic) == side;}), publishers.end());
+  {return getSide(pub.topic) == side;}), publishers.end());
+}
 }
 
-Monitor::Monitor(const std::string &name, ros::NodeHandle *nh, bool display) : nh{nh}, display{display}
+Monitor::Server::Server(Monitor *monitor)
+  : auth{monitor->nh->advertiseService(AUTH_SRV, &Monitor::userCallback, monitor)},
+    force{monitor->nh->advertiseService(FORCE_SRV, &Monitor::forceCallback, monitor)}
+{
+  const auto display{monitor->nh->param<bool>("forward_display", true)};
+  if(display)
+  {
+    im_timer = monitor->nh->createTimer(ros::Duration(timeout_s/2),
+                               [&](const ros::TimerEvent&)
+    {
+      monitor->publishXDisplay();
+    });
+  }
+}
+
+
+Monitor::Monitor(const std::string &name, ros::NodeHandle *nh, bool init_server) : nh{nh}
 {
   publish_req.user = name;
   client = nh->serviceClient<BridgePublishersAuth>(AUTH_SRV, true);
 
-  im_timer = nh->createTimer(ros::Duration(timeout_s/2),
-                             [&](const ros::TimerEvent&)
-  {
-    if(im_pub.get())
-      publishXDisplay();
-  });
+  if(init_server)
+    server = std::make_unique<Server>(this);
 }
 
 // local call to the monitor
@@ -34,7 +58,7 @@ bool Monitor::canPublishOn(const std::string &topic, bool test_client)
   if(server)
   {
     // I am the one monitor, call service locally
-    parsePublishRequest(currentUser(), topic, side);
+    updateAuthorizedPublishers(currentUser(), topic, side);
   }
   else if(client.exists())
   {
@@ -51,22 +75,14 @@ bool Monitor::canPublishOn(const std::string &topic, bool test_client)
   }
   else
   {
-    // no (more?) monitor, let it be me
-    //server = std::make_unique<ros::ServiceServer>(
-    //           nh.advertiseService("/monitor", &Monitor::userCallback, this));
+    // no (more?) auth server, let it be me
     server = std::make_unique<Server>(this);
 
-    if(display)
-      im_pub = std::make_unique<ros::Publisher>(nh->advertise<sensor_msgs::Image>("/robot/xdisplay", 1));
-
-    parsePublishRequest(currentUser(), topic, side);
+    updateAuthorizedPublishers(currentUser(), topic, side);
   }
 
-  if(side == Side::LEFT && !leftUser().empty())
-    return leftUser() == currentUser();
-
-  if(side == Side::RIGHT && !rightUser().empty())
-    return rightUser() == currentUser();
+  if(const auto user{reservedUser(side)}; !user.empty())
+    return user == currentUser();
 
   const auto authorized{findPublisher(topic)};
 
@@ -79,12 +95,10 @@ bool Monitor::canPublishOn(const std::string &topic, bool test_client)
 }
 
 // all calls to the monitor
-void Monitor::parsePublishRequest(const std::string &user, const std::string &topic, const Side &side)
+void Monitor::updateAuthorizedPublishers(const std::string &user, const std::string &topic, const Side &side)
 {
   // first deal with forced users
-  if(side == Side::LEFT && !leftUser().empty())
-    return;
-  if(side == Side::RIGHT && !rightUser().empty())
+  if(!reservedUser(side).empty())
     return;
 
   // find it by hand
@@ -122,7 +136,7 @@ bool Monitor::userCallback(BridgePublishersAuth::Request &req,
   if(!req.user.empty() && !req.topic.empty())
   {
     std::cout << req.user << " wants to publish on " << req.topic << std::endl;
-    parsePublishRequest(req.user, req.topic, getSide(req.topic));
+    updateAuthorizedPublishers(req.user, req.topic, getSide(req.topic));
   }
   res = authorized_publishers;
   return true;
@@ -144,6 +158,8 @@ bool Monitor::forceCallback(BridgePublishersForce::Request &req,
 void Monitor::publishXDisplay()
 {
   static const std::array<cv::Scalar, 2> colors{cv::Scalar{0,255,0}, cv::Scalar{255,120,80}};
+  static auto im_pub = nh->advertise<sensor_msgs::Image>("/robot/xdisplay", 1);
+
   static sensor_msgs::Image im_msg = []()
   {
     sensor_msgs::Image msg;
@@ -185,5 +201,5 @@ void Monitor::publishXDisplay()
 
     row += row_inc;
   }
-  im_pub->publish(im_msg);
+  im_pub.publish(im_msg);
 }

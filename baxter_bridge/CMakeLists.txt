@@ -8,6 +8,12 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+option(SAFE_CMD "Ensure JointCommand is limited to Position or Velocity" TRUE)
+
+if(SAFE_CMD)
+  add_definitions(-DBAXTER_BRIDGE_SAFE_CMD)
+endif()
+
 # ROS 2 pkgs
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
@@ -43,7 +49,7 @@ if(EXISTS ${ROS1_ROOT})
     endforeach()
 endif()
 
-ament_auto_add_executable(bridge    src/baxter_bridge.cpp
+ament_auto_add_executable(bridge src/baxter_bridge.cpp
                                 src/bridge.cpp
                                 src/monitor.cpp
                                 src/factory.cpp

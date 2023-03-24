@@ -5,25 +5,21 @@
 #include <robot_state_publisher/robot_state_publisher.hpp>
 #include <fstream>
 
+
 namespace baxter_bridge
 {
-
-  std::unique_ptr<ros::NodeHandle> Bridge::ros1_node{};
-  rclcpp::Node::SharedPtr Bridge::ros2_node{};
-  rclcpp::executors::SingleThreadedExecutor::SharedPtr Bridge::exec;
-
-  std::unique_ptr<Monitor> Monitored::monitor;
+  //std::unique_ptr<Monitor> Monitored::monitor;
 
   std::tuple<bool,bool,bool> Bridge::init(int argc, char** argv)
   {
     // parse raw args to call the node easily from cmd line
-    auto baxter_display{true}, on_baxter{true}, is_static{false};
+    auto on_baxter{true}, run_server{false};
     for(int idx = 0; idx < argc; ++idx)
     {
       const auto arg{std::string(argv[idx])};
       if(arg == "-b") on_baxter = true;
-      else if(arg == "-d") baxter_display = false;
       else if(arg == "-s") is_static = true;
+      else if(arg == "--server") run_server = true;
     }
 
     if(!on_baxter)
@@ -64,7 +60,7 @@ namespace baxter_bridge
     const auto allow_multiple{ros1_node->param<bool>("allow_multiple", false)};
 
     if(on_baxter && !allow_multiple)
-      Monitored::init(name, ros1_node.get(), baxter_display);
+      Monitored::init(name, ros1_node.get(), run_server);
 
     return {true, on_baxter, is_static};
   }

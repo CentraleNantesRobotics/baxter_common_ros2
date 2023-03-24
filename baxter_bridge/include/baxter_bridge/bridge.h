@@ -42,12 +42,11 @@ protected:
 
   static bool initRSP();
 
-
 private:
-  static std::unique_ptr<ros::NodeHandle> ros1_node;
-  static rclcpp::Node::SharedPtr ros2_node;
-  static rclcpp::executors::SingleThreadedExecutor::SharedPtr exec;
-  static bool is_static;
+  static inline std::unique_ptr<ros::NodeHandle> ros1_node;
+  static inline rclcpp::Node::SharedPtr ros2_node;
+  static inline rclcpp::executors::SingleThreadedExecutor::SharedPtr exec;
+  static inline bool is_static;
 
 };
 
@@ -55,7 +54,7 @@ class Monitored
 {
 private:
   // monitor who publishes on which topics
-  static std::unique_ptr<Monitor> monitor;
+  static inline std::unique_ptr<Monitor> monitor;
 protected:
   inline static bool canPublishOn(const std::string &topic)
   {
@@ -63,11 +62,10 @@ protected:
     return monitor->canPublishOn(topic);
   }
 public:
-  inline static void init(const std::string &name, ros::NodeHandle* ros1, bool use_display)
+  inline static void init(const std::string &name, ros::NodeHandle* ros1, bool run_server)
   {
-    monitor = std::make_unique<Monitor>(name, ros1, use_display);
+    monitor = std::make_unique<Monitor>(name, ros1, run_server);
   }
-
 };
 
 }

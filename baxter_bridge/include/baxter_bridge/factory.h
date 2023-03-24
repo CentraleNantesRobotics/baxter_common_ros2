@@ -33,7 +33,7 @@ private:
 
   static std::map<std::string, std::string> topics_1to2;
   static std::map<std::string, std::string> topics_2to1;
-  static std::vector<std::unique_ptr<Bridge>> bridges;
+  static inline std::vector<std::unique_ptr<Bridge>> bridges;
 
   static void createBridge_1to2(const std::string &topic, const std::string &msg);
   static void createBridge_2to1(const std::string &topic, const std::string &msg);

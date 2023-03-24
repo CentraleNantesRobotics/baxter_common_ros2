@@ -35,6 +35,7 @@ struct Bridge_2to1 : public Bridge, public Monitored
 private:
   ros::Publisher pub;
   typename rclcpp::Subscription<Msg2>::SharedPtr sub;
+
 };
 
 }

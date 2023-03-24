@@ -223,7 +223,11 @@ void convert(const trajectory_msgs::msg::JointTrajectoryPoint &src, trajectory_m
 template<>
 void convert(const baxter_core_msgs::msg::JointCommand &src, baxter_core_msgs::JointCommand &dst)
 {
-  convert(src.mode, dst.mode);
+#ifdef BAXTER_BRIDGE_SAFE_CMD
+  convert(std::min(src.mode,2), dst.mode);
+#else
+  convert(src.mode ,dst.mode);
+#endif
   convert(src.command, dst.command);
   convert(src.names, dst.names);
 }
