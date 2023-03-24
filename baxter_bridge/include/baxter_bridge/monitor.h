@@ -23,7 +23,7 @@ struct Monitor
 
     inline explicit Server(Monitor *monitor)
       : auth{monitor->nh->advertiseService(AUTH_SRV, &Monitor::userCallback, monitor)},
-        force{monitor->nh->advertiseService(FORCE_SRV, &Monitor::userCallback, monitor)}
+        force{monitor->nh->advertiseService(FORCE_SRV, &Monitor::forceCallback, monitor)}
     {}
   };
 
