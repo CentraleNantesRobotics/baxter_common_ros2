@@ -22,9 +22,10 @@ convert(const std::vector<Src>& src, std::vector<Dst> &dst)
 {
   dst.clear();
   dst.reserve(src.size());
+  Dst converted;
   std::transform(src.begin(), src.end(), std::back_inserter(dst),
-                   [](const auto &elem)
-    {Dst converted;convert(elem,converted);return converted;});
+                 [&converted](const auto &elem)
+  {convert(elem,converted);return converted;});
 }
 
 // arrays are std in ROS 2 vs boost in ROS 1

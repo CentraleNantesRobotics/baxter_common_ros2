@@ -9,6 +9,17 @@ It avoids having to recompile ros1_bridge which can be quite long.
 By default the bridge only forwards a selection of usual topics (joint command, joint states, range sensors). The others are forwarded dynamically when suitable.
 It will display on Baxter's screen who is publishing on which topic.
 
+## Compile dependencies
+
+To compile the ROS 1 part, at least the several ROS 1 packages have to be installed:
+
+- roscpp
+- rosconsole
+- roscpp_serialization
+- rostime xmlrpcpp
+
+They can be installed through the OSRF repos (Noetic) or the Debian ones.
+
 ## Compile options
 
 By default the robot can only be controlled in `POSITION` or `VELOCITY` mode. This allows in particular the embedded auto-collision avoidance. In practice, `JointCommand` messages using another mode (`EFFORT` or `RAW_POSITION`) will be changed into `VELOCITY`.

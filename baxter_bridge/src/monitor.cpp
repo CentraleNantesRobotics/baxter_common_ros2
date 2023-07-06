@@ -30,7 +30,7 @@ Monitor::Server::Server(Monitor *monitor)
   : auth{monitor->nh->advertiseService(AUTH_SRV, &Monitor::userCallback, monitor)},
     force{monitor->nh->advertiseService(FORCE_SRV, &Monitor::forceCallback, monitor)}
 {
-  const auto display{monitor->nh->param<bool>("forward_display", true)};
+  const auto display{monitor->nh->param<bool>("forward_display", false)};
   if(display)
   {
     im_timer = monitor->nh->createTimer(ros::Duration(timeout_s/2),

@@ -35,7 +35,6 @@ if(NOT ${LEGACY_IDL})
 endif()
 
 find_package(OpenCV REQUIRED)
-set(CMAKE_BUILD_TYPE Release)
 
 # find ROS 1 packages we depend on
 set(ROS1_ROOT "/opt/ros/noetic")
@@ -57,8 +56,9 @@ ament_auto_add_executable(bridge src/baxter_bridge.cpp
                                 src/factory_2to1.cpp
                                 src/topic_poller.cpp)                                    
 target_include_directories(bridge PRIVATE
-                            ${ROS1_ROOT}/include
                             include
+                            ros1_msgs
+                            ${ROS1_ROOT}/include
                             ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
 target_link_libraries(bridge ${ROS1_LIBS} ${OpenCV_LIBS})
 if(${LEGACY_IDL})
