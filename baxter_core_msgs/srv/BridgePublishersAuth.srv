@@ -1,6 +1,6 @@
 string topic 
 string user 
 ---
-BridgePublisher[] publishers
-string forced_left
-string forced_right
+BridgePublisher[] publishers 
+string forced_left 
+string forced_right 

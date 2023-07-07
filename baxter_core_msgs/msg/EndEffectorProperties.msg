@@ -1,6 +1,6 @@
 uint32 id # EndEffectorId
 uint8 ui_type 
-    # End Effector type enumeration, for the UI:
+# End Effector type enumeration, for the UI:
 uint8 NO_GRIPPER = 0
 uint8 SUCTION_CUP_GRIPPER = 1
 uint8 ELECTRIC_GRIPPER = 2

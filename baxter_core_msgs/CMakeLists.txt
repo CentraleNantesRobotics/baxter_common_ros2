@@ -19,8 +19,8 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(builtin_interfaces REQUIRED)
 find_package(geometry_msgs REQUIRED)
-find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
 find_package(rosidl_default_generators REQUIRED)
 
@@ -57,7 +57,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 "srv/BridgePublishersForce.srv"  
 "srv/BridgePublishersAuth.srv"  
 "srv/SolvePositionIK.srv"
-DEPENDENCIES builtin_interfaces geometry_msgs sensor_msgs std_msgs)
+DEPENDENCIES builtin_interfaces geometry_msgs std_msgs sensor_msgs)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

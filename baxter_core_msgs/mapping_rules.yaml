@@ -1,3 +1,35 @@
+- ros1_message_name: EndEffectorState
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: EndEffectorState
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: EndEffectorProperties
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: EndEffectorProperties
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: DigitalIOStates
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: DigitalIOStates
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: EndEffectorCommand
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: EndEffectorCommand
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: NavigatorState
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: NavigatorState
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: AnalogOutputCommand
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: AnalogOutputCommand
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: EndpointState
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: EndpointState
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: CollisionDetectionState
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: CollisionDetectionState
+  ros2_package_name: baxter_core_msgs
 - fields_1_to_2:
     actual_effort: actual_effort
     actual_position: actual_position
@@ -17,6 +49,22 @@
   ros1_package_name: baxter_core_msgs
   ros2_message_name: SEAJointState
   ros2_package_name: baxter_core_msgs
+- ros1_message_name: CollisionAvoidanceState
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: CollisionAvoidanceState
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: URDFConfiguration
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: URDFConfiguration
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: CameraControl
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: CameraControl
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: NavigatorStates
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: NavigatorStates
+  ros2_package_name: baxter_core_msgs
 - fields_1_to_2:
     isInputOnly: is_input_only
     timestamp: timestamp
@@ -24,6 +72,14 @@
   ros1_message_name: AnalogIOState
   ros1_package_name: baxter_core_msgs
   ros2_message_name: AnalogIOState
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: CameraSettings
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: CameraSettings
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: JointCommand
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: JointCommand
   ros2_package_name: baxter_core_msgs
 - fields_1_to_2:
     isInputOnly: is_input_only
@@ -43,6 +99,22 @@
   ros1_package_name: baxter_core_msgs
   ros2_message_name: RobustControllerStatus
   ros2_package_name: baxter_core_msgs
+- ros1_message_name: AssemblyStates
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: AssemblyStates
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: DigitalOutputCommand
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: DigitalOutputCommand
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: HeadPanCommand
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: HeadPanCommand
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: AssemblyState
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: AssemblyState
+  ros2_package_name: baxter_core_msgs
 - fields_1_to_2:
     isNodding: is_nodding
     isPanEnabled: is_pan_enabled
@@ -52,14 +124,47 @@
   ros1_package_name: baxter_core_msgs
   ros2_message_name: HeadState
   ros2_package_name: baxter_core_msgs
-- fields_1_to_2:
-    isValid: is_valid
-    joints: joints
+- ros1_message_name: AnalogIOStates
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: AnalogIOStates
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: BridgePublisher
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: BridgePublisher
+  ros2_package_name: baxter_core_msgs
+- ros1_message_name: EndpointStates
+  ros1_package_name: baxter_core_msgs
+  ros2_message_name: EndpointStates
+  ros2_package_name: baxter_core_msgs
+- ros1_package_name: baxter_core_msgs
+  ros1_service_name: ListCameras
+  ros2_package_name: baxter_core_msgs
+  ros2_service_name: ListCameras
+- ros1_package_name: baxter_core_msgs
+  ros1_service_name: CloseCamera
+  ros2_package_name: baxter_core_msgs
+  ros2_service_name: CloseCamera
+- ros1_package_name: baxter_core_msgs
+  ros1_service_name: OpenCamera
+  ros2_package_name: baxter_core_msgs
+  ros2_service_name: OpenCamera
+- ros1_package_name: baxter_core_msgs
+  ros1_service_name: BridgePublishersForce
+  ros2_package_name: baxter_core_msgs
+  ros2_service_name: BridgePublishersForce
+- ros1_package_name: baxter_core_msgs
+  ros1_service_name: BridgePublishersAuth
+  ros2_package_name: baxter_core_msgs
+  ros2_service_name: BridgePublishersAuth
+- request_fields_1_to_2:
     pose_stamp: pose_stamp
-    result_type: result_type
     seed_angles: seed_angles
     seed_mode: seed_mode
-  ros1_message_name: SolvePositionIK
+  response_fields_1_to_2:
+    isValid: is_valid
+    joints: joints
+    result_type: result_type
   ros1_package_name: baxter_core_msgs
-  ros2_message_name: SolvePositionIK
+  ros1_service_name: SolvePositionIK
   ros2_package_name: baxter_core_msgs
+  ros2_service_name: SolvePositionIK
