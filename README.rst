@@ -14,6 +14,8 @@ It avoids having to recompile ros1_bridge which can be quite long.
 Running the bridge with '-s' forces it to forward all (many, many) topics, otherwise only a few are automatically forwarded and the others are forwarded dynamically when suitable.
 When run from multiple computers (e.g. students doing a lab on Baxter), all bridges synchronize by default and only allow one user to publish a given topic at the same time. Set the rosparam 'allow_multiple' to True in order to allow several computers to publish on the same topic.
 
+The ROS 1 counterpart can be installed from this repository: https://github.com/CentraleNantesRobotics/baxter_legacy
+
 
 
 Code & Tickets
