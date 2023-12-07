@@ -6,8 +6,6 @@
 #include <sensor_msgs/msg/camera_info.hpp>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/msg/image.hpp>
-#include <tf2_msgs/TFMessage.h>
-#include <tf2_msgs/msg/tf_message.hpp>
 #include <diagnostic_msgs/DiagnosticArray.h>
 #include <diagnostic_msgs/msg/diagnostic_array.hpp>
 #include <diagnostic_msgs/DiagnosticStatus.h>
@@ -260,44 +258,6 @@ void convert(const sensor_msgs::Image &src, sensor_msgs::msg::Image &dst)
 }
 
 template<>
-void convert(const geometry_msgs::Vector3 &src, geometry_msgs::msg::Vector3 &dst)
-{
-  convert(src.x, dst.x);
-  convert(src.y, dst.y);
-  convert(src.z, dst.z);
-}
-
-template<>
-void convert(const geometry_msgs::Quaternion &src, geometry_msgs::msg::Quaternion &dst)
-{
-  convert(src.x, dst.x);
-  convert(src.y, dst.y);
-  convert(src.z, dst.z);
-  convert(src.w, dst.w);
-}
-
-template<>
-void convert(const geometry_msgs::Transform &src, geometry_msgs::msg::Transform &dst)
-{
-  convert(src.translation, dst.translation);
-  convert(src.rotation, dst.rotation);
-}
-
-template<>
-void convert(const geometry_msgs::TransformStamped &src, geometry_msgs::msg::TransformStamped &dst)
-{
-  convert(src.header, dst.header);
-  convert(src.child_frame_id, dst.child_frame_id);
-  convert(src.transform, dst.transform);
-}
-
-template<>
-void convert(const tf2_msgs::TFMessage &src, tf2_msgs::msg::TFMessage &dst)
-{
-  convert(src.transforms, dst.transforms);
-}
-
-template<>
 void convert(const diagnostic_msgs::KeyValue &src, diagnostic_msgs::msg::KeyValue &dst)
 {
   convert(src.key, dst.key);
@@ -341,6 +301,23 @@ void convert(const std_msgs::UInt8MultiArray &src, std_msgs::msg::UInt8MultiArra
 {
   convert(src.layout, dst.layout);
   convert(src.data, dst.data);
+}
+
+template<>
+void convert(const geometry_msgs::Quaternion &src, geometry_msgs::msg::Quaternion &dst)
+{
+  convert(src.x, dst.x);
+  convert(src.y, dst.y);
+  convert(src.z, dst.z);
+  convert(src.w, dst.w);
+}
+
+template<>
+void convert(const geometry_msgs::Vector3 &src, geometry_msgs::msg::Vector3 &dst)
+{
+  convert(src.x, dst.x);
+  convert(src.y, dst.y);
+  convert(src.z, dst.z);
 }
 
 template<>
@@ -759,6 +736,13 @@ void convert(const sensor_msgs::Illuminance &src, sensor_msgs::msg::Illuminance 
 }
 
 template<>
+void convert(const geometry_msgs::Transform &src, geometry_msgs::msg::Transform &dst)
+{
+  convert(src.translation, dst.translation);
+  convert(src.rotation, dst.rotation);
+}
+
+template<>
 void convert(const sensor_msgs::MultiDOFJointState &src, sensor_msgs::msg::MultiDOFJointState &dst)
 {
   convert(src.header, dst.header);
@@ -1024,6 +1008,14 @@ void convert(const geometry_msgs::Pose2D &src, geometry_msgs::msg::Pose2D &dst)
 }
 
 template<>
+void convert(const geometry_msgs::TransformStamped &src, geometry_msgs::msg::TransformStamped &dst)
+{
+  convert(src.header, dst.header);
+  convert(src.child_frame_id, dst.child_frame_id);
+  convert(src.transform, dst.transform);
+}
+
+template<>
 void convert(const geometry_msgs::TwistStamped &src, geometry_msgs::msg::TwistStamped &dst)
 {
   convert(src.header, dst.header);
@@ -1116,7 +1108,6 @@ std::map<std::string, std::string> Factory::topics_1to2 = {
   {"/cameras/left_hand_camera/camera_info", "sensor_msgs/CameraInfo"},
   {"/cameras/left_hand_camera/camera_info_std", "sensor_msgs/CameraInfo"},
   {"/cameras/left_hand_camera/image", "sensor_msgs/Image"},
-  {"/tf_manual", "tf2_msgs/TFMessage"},
   {"/diagnostics", "diagnostic_msgs/DiagnosticArray"},
   {"/diagnostics_agg", "diagnostic_msgs/DiagnosticArray"},
   {"/diagnostics_toplevel_state", "diagnostic_msgs/DiagnosticStatus"},
@@ -1258,8 +1249,6 @@ void Factory::createBridge_1to2(const std::string &topic, const std::string &msg
     bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::CameraInfo, sensor_msgs::msg::CameraInfo>>(topic));
   else if(msg == "sensor_msgs/Image")
     bridges.push_back(std::make_unique<Bridge_1to2<sensor_msgs::Image, sensor_msgs::msg::Image>>(topic));
-  else if(msg == "tf2_msgs/TFMessage")
-    bridges.push_back(std::make_unique<Bridge_1to2<tf2_msgs::TFMessage, tf2_msgs::msg::TFMessage>>(topic));
   else if(msg == "diagnostic_msgs/DiagnosticArray")
     bridges.push_back(std::make_unique<Bridge_1to2<diagnostic_msgs::DiagnosticArray, diagnostic_msgs::msg::DiagnosticArray>>(topic));
   else if(msg == "diagnostic_msgs/DiagnosticStatus")

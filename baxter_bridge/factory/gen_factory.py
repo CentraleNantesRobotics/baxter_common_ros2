@@ -305,8 +305,8 @@ for cam in ('head', 'right_hand', 'left_hand'):
                      ('image', 'Image')):
         f12.add(base_topic + sub, 'sensor_msgs/' + msg)
 
-# if we want to forward a particular tf message
-f12.add('/tf_manual', 'tf2_msgs/TFMessage')
+# if we want to forward a particular tf message - not included in ROS 1 baxter_legacy
+# f12.add('/tf_manual', 'tf2_msgs/TFMessage')
 
 # messages used for IK bridge, no attached topic
 f21.add(None, 'sensor_msgs/JointState')
