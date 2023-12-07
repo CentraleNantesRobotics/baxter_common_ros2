@@ -226,7 +226,7 @@ void convert(const baxter_core_msgs::msg::JointCommand &src, baxter_core_msgs::J
 #ifdef BAXTER_BRIDGE_SAFE_CMD
   convert(std::min(src.mode,2), dst.mode);
 #else
-  convert(src.mode ,dst.mode);
+  convert(src.mode, dst.mode);
 #endif
   convert(src.command, dst.command);
   convert(src.names, dst.names);

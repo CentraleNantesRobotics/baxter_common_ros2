@@ -2,7 +2,6 @@
 
 import os
 import yaml
-import sys
 
 pkg_dir = os.path.abspath(os.path.dirname(__file__) + '/..')
 
@@ -15,6 +14,7 @@ builtin += [f'{i}{s}' for i in ('int','uint') for s in (8,16,32,64)]
 MSG_BASE = 0
 MSG_BASE_ARRAY = 1
 MSG_CUSTOM = 2
+
 
 def check_msg_type(msg: str):
     is_array = msg[-1] == ']' and msg[-2] != '['
@@ -96,8 +96,9 @@ for pkg in ('baxter_core_msgs','baxter_maintenance_msgs'):
         rules += yaml.safe_load(f)
 
 # simplify + invert 2 to 1
+# only messages for now, only service is hand-coded
 rules = dict((r['ros1_package_name']+'/'+r['ros1_message_name'],
-              dict((v,k) for (k,v) in r['fields_1_to_2'].items())) for r in rules)
+              dict((v,k) for (k,v) in r['fields_1_to_2'].items())) for r in rules if 'ros1_message_name' in r and 'fields_1_to_2' in r)
 
 
 def load_message(full_msg: str):
@@ -294,7 +295,6 @@ class Factory:
 
 f12 = Factory('1to2')
 f21 = Factory('2to1')
-
 
 
 # add all cameras which may not be activated

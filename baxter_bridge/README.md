@@ -18,7 +18,8 @@ To compile the ROS 1 part, at least the several ROS 1 packages have to be instal
 - roscpp_serialization
 - rostime xmlrpcpp
 
-They can be installed through the OSRF repos (Noetic) or the Debian ones.
+All ROS 1 dependencies can be installed from the `deb` files available in [baxter_legacy](https://github.com/CentraleNantesRobotics/baxter_legacy).
+
 
 ## Compile options
 
