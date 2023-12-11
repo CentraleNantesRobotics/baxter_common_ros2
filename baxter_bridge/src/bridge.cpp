@@ -46,9 +46,8 @@ namespace baxter_bridge
     rclcpp::init(argc, argv);
 
     rclcpp::NodeOptions bridge_arg;
-    // force into /robot ns and remap /tf_manual to /tf
-    bridge_arg.arguments({"--ros-args", "-r", "__ns:=/robot",
-                          "-r", "/tf_manual:=/tf"});
+    // force into /robot ns
+    bridge_arg.arguments({"--ros-args", "-r", "__ns:=/robot"});
     ros2_node = std::make_shared<rclcpp::Node>("baxter_ros2_bridge", bridge_arg);
     exec = std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
     exec->add_node(ros2_node);

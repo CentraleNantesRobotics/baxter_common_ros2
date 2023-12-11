@@ -24,7 +24,6 @@ int main(int argc, char** argv)
     Factory::createBridge("/robot/range/right_hand_range/state");
     Factory::createBridge("/robot/sonar/head_sonar/state");
     Factory::createBridge("/robot/joint_states");
-    Factory::createBridge("/tf_manual");
 
     if(is_static)
       Factory::createRemainingBridges();
