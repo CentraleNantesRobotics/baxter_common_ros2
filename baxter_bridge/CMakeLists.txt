@@ -25,12 +25,10 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 ament_export_dependencies(rosidl_default_runtime)
 
 # use custom services as node dependencies
-if("$ENV{ROS_DISTRO}" STREQUAL "galactic" OR "$ENV{ROS_DISTRO}" STREQUAL "foxy")
+if("$ENV{ROS_DISTRO}" STRLESS_EQUAL "galactic")
     set(LEGACY_IDL TRUE)
 else()
     set(LEGACY_IDL FALSE)
-endif()
-if(NOT ${LEGACY_IDL})
     rosidl_get_typesupport_target(cpp_typesupport_target "${PROJECT_NAME}" "rosidl_typesupport_cpp")
 endif()
 
