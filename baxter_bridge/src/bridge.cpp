@@ -49,10 +49,12 @@ namespace baxter_bridge
     // force into /robot ns
     bridge_arg.arguments({"--ros-args", "-r", "__ns:=/robot"});
     ros2_node = std::make_shared<rclcpp::Node>("baxter_ros2_bridge", bridge_arg);
+    const auto use_baxter_description = ros2_node->declare_parameter<bool>("use_baxter_description", true);
+
     exec = std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
     exec->add_node(ros2_node);
 
-    if(!initRSP())
+    if(use_baxter_description && !initRSP())
       return {false,false,false};
 
     // let some people configure Baxter before running the bridge

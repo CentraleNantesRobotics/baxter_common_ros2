@@ -46,7 +46,7 @@ private:
   static inline std::unique_ptr<ros::NodeHandle> ros1_node;
   static inline rclcpp::Node::SharedPtr ros2_node;
   static inline rclcpp::executors::SingleThreadedExecutor::SharedPtr exec;
-  static inline bool is_static;
+  static inline bool is_static{false};
 
 };
 
