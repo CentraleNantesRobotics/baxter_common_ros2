@@ -47,7 +47,7 @@ if(EXISTS ${ROS1_ROOT})
 
     # install ROS 1 libs to have them at runtime
     foreach(ROS1_LIB "cpp_common rosconsole_backend_interface rosconsole_log4cxx rosconsole xmlrpcpp")
-        install(FILE "${ROS1_ROOT}/lib/lib${ROS1_LIB}.so" DESTINATION lib)
+        install(FILES "${ROS1_ROOT}/lib/lib${ROS1_LIB}.so" DESTINATION lib)
     endforeach()
 
 endif()
