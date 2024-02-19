@@ -28,7 +28,7 @@ def generate_launch_description():
 
     decl_use_baxter_description = DeclareLaunchArgument(
         "use_baxter_description",
-        default_value=str(os.environ['ROS_DISTRO'] == 'galactic'),
+        default_value=str(os.environ['ROS_DISTRO'] != 'galactic'),
         description="Whether to use description embedded in Baxter, or local one")
 
     use_baxter_description = LaunchConfiguration("use_baxter_description")
