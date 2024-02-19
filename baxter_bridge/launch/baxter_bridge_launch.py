@@ -28,7 +28,7 @@ def generate_launch_description():
 
     decl_use_baxter_description = DeclareLaunchArgument(
         "use_baxter_description",
-        default_value="True",
+        default_value=str(os.environ['ROS_DISTRO'] == 'galactic'),
         description="Whether to use description embedded in Baxter, or local one")
 
     use_baxter_description = LaunchConfiguration("use_baxter_description")
@@ -36,7 +36,7 @@ def generate_launch_description():
     baxter_embedded = Node(package='baxter_bridge',executable='bridge',output='screen',
                            condition=IfCondition(use_baxter_description))
 
-    baxter_local = GroupAction([Node(package='baxter_bridge',executable='bridge',output='screen',parameters=[{'use_baxter_description': 'False'}]),
+    baxter_local = GroupAction([Node(package='baxter_bridge',executable='bridge',output='screen',parameters=[{'use_baxter_description': False}]),
                                 IncludeLaunchDescription(PythonLaunchDescriptionSource(description_launch))],
                                 condition=UnlessCondition(use_baxter_description))
 
