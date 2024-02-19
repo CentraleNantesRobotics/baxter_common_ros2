@@ -44,7 +44,15 @@ if(EXISTS ${ROS1_ROOT})
         add_library(${ROS1_LIB} UNKNOWN IMPORTED)
         set_property(TARGET ${ROS1_LIB} PROPERTY IMPORTED_LOCATION "${ROS1_ROOT}/lib/lib${ROS1_LIB}.so")
     endforeach()
+
+    # install ROS 1 libs to have them at runtime
+    foreach(ROS1_LIB "cpp_common rosconsole_backend_interface rosconsole_log4cxx rosconsole xmlrpcpp")
+        install(FILE "${ROS1_ROOT}/lib/lib${ROS1_LIB}.so" DESTINATION lib)
+    endforeach()
+
 endif()
+
+
 
 ament_auto_add_executable(bridge src/baxter_bridge.cpp
                                 src/bridge.cpp
@@ -52,7 +60,7 @@ ament_auto_add_executable(bridge src/baxter_bridge.cpp
                                 src/factory.cpp
                                 src/factory_1to2.cpp
                                 src/factory_2to1.cpp
-                                src/topic_poller.cpp)                                    
+                                src/topic_poller.cpp)
 target_include_directories(bridge PRIVATE
                             include
                             ros1_msgs
