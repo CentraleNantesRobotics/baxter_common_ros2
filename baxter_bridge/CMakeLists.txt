@@ -9,6 +9,13 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 option(SAFE_CMD "Ensure JointCommand is limited to Position or Velocity" TRUE)
+if("$ENV{ROS_DISTRO}" STRLESS_EQUAL "galactic") # 20.04
+    set(ROS1_VERSION_DEFAULT "noetic")
+else()
+    set(ROS1_VERSION_DEFAULT "obese")           # 22.04+
+endif()
+
+option(ROS1_ROOT "Path to ROS workspace with base packages, if any. If not valid will assume /usr/lib" "/opt/ros/${ROS1_VERSION_DEFAULT}")
 
 if(SAFE_CMD)
   add_definitions(-DBAXTER_BRIDGE_SAFE_CMD)
@@ -35,7 +42,6 @@ endif()
 find_package(OpenCV REQUIRED)
 
 # find ROS 1 packages we depend on
-set(ROS1_ROOT "/opt/ros/noetic")
 set(ROS1_LIBS roscpp rosconsole roscpp_serialization rostime xmlrpcpp)
 
 # if libraries in ROS1_ROOT, explicitely give their location
@@ -46,7 +52,6 @@ if(EXISTS ${ROS1_ROOT})
     endforeach()
 
     # install ROS 1 libs to have them at runtime
-
     foreach(ROS1_LIB cpp_common rosconsole_backend_interface rosconsole_log4cxx rosconsole xmlrpcpp)
         install(FILES "${ROS1_ROOT}/lib/lib${ROS1_LIB}.so" DESTINATION lib)
     endforeach()
