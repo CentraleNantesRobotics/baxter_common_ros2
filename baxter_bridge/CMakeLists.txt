@@ -15,7 +15,7 @@ else()
     set(ROS1_VERSION_DEFAULT "obese")           # 22.04+
 endif()
 
-option(ROS1_ROOT "Path to ROS workspace with base packages, if any. If not valid will assume /usr/lib" "/opt/ros/${ROS1_VERSION_DEFAULT}")
+set(ROS1_ROOT "/opt/ros/${ROS1_VERSION_DEFAULT}" CACHE STRING "Path to ROS workspace with base packages, if any. If not valid will assume /usr/lib")
 
 if(SAFE_CMD)
   add_definitions(-DBAXTER_BRIDGE_SAFE_CMD)
@@ -52,7 +52,7 @@ if(EXISTS ${ROS1_ROOT})
     endforeach()
 
     # install ROS 1 libs to have them at runtime
-    foreach(ROS1_LIB cpp_common rosconsole_backend_interface rosconsole_log4cxx rosconsole xmlrpcpp)
+    foreach(ROS1_LIB cpp_common rosconsole_backend_interface rosconsole_backend_interface rosconsole xmlrpcpp)
         install(FILES "${ROS1_ROOT}/lib/lib${ROS1_LIB}.so" DESTINATION lib)
     endforeach()
 
