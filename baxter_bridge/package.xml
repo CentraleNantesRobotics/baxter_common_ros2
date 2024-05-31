@@ -18,7 +18,6 @@
   <build_depend>rosidl_default_generators</build_depend>
   <depend>rclcpp</depend>
   <depend>sensor_msgs</depend>
-  <depend>actionlib_msgs</depend>
   <depend>baxter_core_msgs</depend>
   <depend>baxter_maintenance_msgs</depend>
   <depend>diagnostic_msgs</depend>
