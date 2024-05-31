@@ -6,7 +6,7 @@ import yaml
 pkg_dir = os.path.abspath(os.path.dirname(__file__) + '/..')
 
 ignores = ['/tf','/rosout', '/tf_static','/rosout_agg', '/robot/urdf']
-deprecated = ['arm_navigation_msgs', 'MotorControlMsgs']
+deprecated = ['arm_navigation_msgs', 'MotorControlMsgs', 'actionlib_msgs']
 
 builtin = ['bool','string','byte','float32','float64']
 builtin += [f'{i}{s}' for i in ('int','uint') for s in (8,16,32,64)]

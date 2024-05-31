@@ -60,8 +60,6 @@
 #include <baxter_core_msgs/msg/robust_controller_status.hpp>
 #include <std_msgs/Bool.h>
 #include <std_msgs/msg/bool.hpp>
-#include <actionlib_msgs/GoalStatusArray.h>
-#include <actionlib_msgs/msg/goal_status_array.hpp>
 #include <std_msgs/Int32.h>
 #include <std_msgs/msg/int32.hpp>
 #include <sensor_msgs/Joy.h>
@@ -593,28 +591,6 @@ template<>
 void convert(const std_msgs::Bool &src, std_msgs::msg::Bool &dst)
 {
   convert(src.data, dst.data);
-}
-
-template<>
-void convert(const actionlib_msgs::GoalID &src, actionlib_msgs::msg::GoalID &dst)
-{
-  dst.stamp = Bridge::ros2_now();
-  convert(src.id, dst.id);
-}
-
-template<>
-void convert(const actionlib_msgs::GoalStatus &src, actionlib_msgs::msg::GoalStatus &dst)
-{
-  convert(src.goal_id, dst.goal_id);
-  convert(src.status, dst.status);
-  convert(src.text, dst.text);
-}
-
-template<>
-void convert(const actionlib_msgs::GoalStatusArray &src, actionlib_msgs::msg::GoalStatusArray &dst)
-{
-  convert(src.header, dst.header);
-  convert(src.status_list, dst.status_list);
 }
 
 template<>
@@ -1238,7 +1214,6 @@ std::map<std::string, std::string> Factory::topics_1to2 = {
   {"/robustcontroller/right/CalibrateArm/status", "baxter_core_msgs/RobustControllerStatus"},
   {"/robustcontroller/right/Tare/status", "baxter_core_msgs/RobustControllerStatus"},
   {"/robustcontroller/right/rc_plugins_loaded", "std_msgs/Bool"},
-  {"/tf2_web_republisher/status", "actionlib_msgs/GoalStatusArray"},
   {"/update/progress", "std_msgs/Int32"},
   {"/update/status", "std_msgs/Int32"},
   {"/usb/ready", "std_msgs/Bool"}};
@@ -1303,8 +1278,6 @@ void Factory::createBridge_1to2(const std::string &topic, const std::string &msg
     bridges.push_back(std::make_unique<Bridge_1to2<baxter_core_msgs::RobustControllerStatus, baxter_core_msgs::msg::RobustControllerStatus>>(topic));
   else if(msg == "std_msgs/Bool")
     bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::Bool, std_msgs::msg::Bool>>(topic));
-  else if(msg == "actionlib_msgs/GoalStatusArray")
-    bridges.push_back(std::make_unique<Bridge_1to2<actionlib_msgs::GoalStatusArray, actionlib_msgs::msg::GoalStatusArray>>(topic));
   else if(msg == "std_msgs/Int32")
     bridges.push_back(std::make_unique<Bridge_1to2<std_msgs::Int32, std_msgs::msg::Int32>>(topic));
   else if(msg == "sensor_msgs/Joy")

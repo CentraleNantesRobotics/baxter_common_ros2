@@ -42,8 +42,6 @@
 #include <baxter_maintenance_msgs/msg/calibrate_arm_enable.hpp>
 #include <baxter_maintenance_msgs/TareEnable.h>
 #include <baxter_maintenance_msgs/msg/tare_enable.hpp>
-#include <actionlib_msgs/GoalID.h>
-#include <actionlib_msgs/msg/goal_id.hpp>
 
 namespace baxter_bridge
 {
@@ -289,13 +287,6 @@ void convert(const baxter_maintenance_msgs::msg::TareEnable &src, baxter_mainten
   convert(src.data, dst.data);
 }
 
-template<>
-void convert(const actionlib_msgs::msg::GoalID &src, actionlib_msgs::GoalID &dst)
-{
-  dst.stamp = Bridge::ros1_now();
-  convert(src.id, dst.id);
-}
-
 std::map<std::string, std::string> Factory::topics_2to1 = {
   {"/robot/analog_io/command", "baxter_core_msgs/AnalogOutputCommand"},
   {"/robot/digital_io/command", "baxter_core_msgs/DigitalOutputCommand"},
@@ -348,8 +339,7 @@ std::map<std::string, std::string> Factory::topics_2to1 = {
   {"/robustcontroller/left/CalibrateArm/enable", "baxter_maintenance_msgs/CalibrateArmEnable"},
   {"/robustcontroller/left/Tare/enable", "baxter_maintenance_msgs/TareEnable"},
   {"/robustcontroller/right/CalibrateArm/enable", "baxter_maintenance_msgs/CalibrateArmEnable"},
-  {"/robustcontroller/right/Tare/enable", "baxter_maintenance_msgs/TareEnable"},
-  {"/tf2_web_republisher/cancel", "actionlib_msgs/GoalID"}};
+  {"/robustcontroller/right/Tare/enable", "baxter_maintenance_msgs/TareEnable"}};
 
 void Factory::createBridge_2to1(const std::string &topic, const std::string &msg)
 {
@@ -393,7 +383,5 @@ void Factory::createBridge_2to1(const std::string &topic, const std::string &msg
     bridges.push_back(std::make_unique<Bridge_2to1<baxter_maintenance_msgs::CalibrateArmEnable, baxter_maintenance_msgs::msg::CalibrateArmEnable>>(topic));
   else if(msg == "baxter_maintenance_msgs/TareEnable")
     bridges.push_back(std::make_unique<Bridge_2to1<baxter_maintenance_msgs::TareEnable, baxter_maintenance_msgs::msg::TareEnable>>(topic));
-  else if(msg == "actionlib_msgs/GoalID")
-    bridges.push_back(std::make_unique<Bridge_2to1<actionlib_msgs::GoalID, actionlib_msgs::msg::GoalID>>(topic));
 }
 }
