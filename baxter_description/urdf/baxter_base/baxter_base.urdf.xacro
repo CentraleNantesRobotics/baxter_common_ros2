@@ -49,7 +49,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/torso/base_link.DAE"/>
+        <mesh filename="package://baxter_description/meshes/torso/base_link.DAE"/>
       </geometry>
       <material name="darkgray">
         <color rgba=".2 .2 .2 1"/>
@@ -58,7 +58,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/torso/base_link_collision.DAE"/>
+        <mesh filename="package://baxter_description/meshes/torso/base_link_collision.DAE"/>
       </geometry>
     </collision>
     <inertial>
@@ -85,7 +85,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 .00953"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/head/H0.DAE"/>
+        <mesh filename="package://baxter_description/meshes/head/H0.DAE"/>
       </geometry>
       <material name="darkgray">
         <color rgba=".2 .2 .2 1"/>
@@ -129,7 +129,7 @@
     <visual>
       <origin rpy="0 -1.57079632679 0" xyz="0 -.00953 -.0347"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/head/H1.DAE"/>
+        <mesh filename="package://baxter_description/meshes/head/H1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -293,7 +293,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/upper_shoulder/S0.DAE"/>
+        <mesh filename="package://baxter_description/meshes/upper_shoulder/S0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -315,7 +315,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/lower_shoulder/S1.DAE"/>
+        <mesh filename="package://baxter_description/meshes/lower_shoulder/S1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -337,7 +337,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/upper_elbow/E0.DAE"/>
+        <mesh filename="package://baxter_description/meshes/upper_elbow/E0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -372,7 +372,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/lower_elbow/E1.DAE"/>
+        <mesh filename="package://baxter_description/meshes/lower_elbow/E1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -394,7 +394,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/upper_forearm/W0.DAE"/>
+        <mesh filename="package://baxter_description/meshes/upper_forearm/W0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -436,7 +436,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/lower_forearm/W1.DAE"/>
+        <mesh filename="package://baxter_description/meshes/lower_forearm/W1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -458,7 +458,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/wrist/W2.DAE"/>
+        <mesh filename="package://baxter_description/meshes/wrist/W2.DAE"/>
       </geometry>
       <material name="lightgrey">
         <color rgba=".1 .1 .1 1"/>
@@ -555,7 +555,7 @@
     <axis xyz="0 0 1"/>
     <parent link="right_arm_mount"/>
     <child link="right_upper_shoulder"/>
-    <limit effort="50.0" lower="-1.70167993878" upper="1.70167993878" velocity="1.5"/>
+    <limit effort="100.0" lower="-1.70167993878" upper="1.70167993878" velocity="1.5"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
   <joint name="right_s1" type="revolute">
@@ -563,7 +563,7 @@
     <axis xyz="0 0 1"/>
     <parent link="right_upper_shoulder"/>
     <child link="right_lower_shoulder"/>
-    <limit effort="50.0" lower="-2.147" upper="1.047" velocity="1.5"/>
+    <limit effort="100.0" lower="-2.147" upper="1.047" velocity="1.5"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
   <joint name="right_e0" type="revolute">
@@ -571,7 +571,7 @@
     <axis xyz="0 0 1"/>
     <parent link="right_lower_shoulder"/>
     <child link="right_upper_elbow"/>
-    <limit effort="50.0" lower="-3.05417993878" upper="3.05417993878" velocity="1.5"/>
+    <limit effort="100.0" lower="-3.05417993878" upper="3.05417993878" velocity="1.5"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
   <joint name="right_e0_fixed" type="fixed">
@@ -585,7 +585,7 @@
     <axis xyz="0 0 1"/>
     <parent link="right_upper_elbow"/>
     <child link="right_lower_elbow"/>
-    <limit effort="50.0" lower="-0.05" upper="2.618" velocity="1.5"/>
+    <limit effort="100.0" lower="-0.05" upper="2.618" velocity="1.5"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
   <joint name="right_w0" type="revolute">
@@ -593,7 +593,7 @@
     <axis xyz="0 0 1"/>
     <parent link="right_lower_elbow"/>
     <child link="right_upper_forearm"/>
-    <limit effort="15.0" lower="-3.059" upper="3.059" velocity="4.0"/>
+    <limit effort="50.0" lower="-3.059" upper="3.059" velocity="4.0"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
   <joint name="right_w0_fixed" type="fixed">
@@ -613,7 +613,7 @@
     <axis xyz="0 0 1"/>
     <parent link="right_upper_forearm"/>
     <child link="right_lower_forearm"/>
-    <limit effort="15.0" lower="-1.57079632679" upper="2.094" velocity="4.0"/>
+    <limit effort="50.0" lower="-1.57079632679" upper="2.094" velocity="4.0"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
   <joint name="right_w2" type="revolute">
@@ -621,7 +621,7 @@
     <axis xyz="0 0 1"/>
     <parent link="right_lower_forearm"/>
     <child link="right_wrist"/>
-    <limit effort="15.0" lower="-3.059" upper="3.059" velocity="4.0"/>
+    <limit effort="50.0" lower="-3.059" upper="3.059" velocity="4.0"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
   <joint name="right_hand_fixed" type="fixed">
@@ -662,7 +662,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/upper_shoulder/S0.DAE"/>
+        <mesh filename="package://baxter_description/meshes/upper_shoulder/S0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -684,7 +684,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/lower_shoulder/S1.DAE"/>
+        <mesh filename="package://baxter_description/meshes/lower_shoulder/S1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -706,7 +706,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/upper_elbow/E0.DAE"/>
+        <mesh filename="package://baxter_description/meshes/upper_elbow/E0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -741,7 +741,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/lower_elbow/E1.DAE"/>
+        <mesh filename="package://baxter_description/meshes/lower_elbow/E1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -763,7 +763,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/upper_forearm/W0.DAE"/>
+        <mesh filename="package://baxter_description/meshes/upper_forearm/W0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -805,7 +805,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/lower_forearm/W1.DAE"/>
+        <mesh filename="package://baxter_description/meshes/lower_forearm/W1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -827,7 +827,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/wrist/W2.DAE"/>
+        <mesh filename="package://baxter_description/meshes/wrist/W2.DAE"/>
       </geometry>
       <material name="lightgrey">
         <color rgba=".1 .1 .1 1"/>
@@ -924,7 +924,7 @@
     <axis xyz="0 0 1"/>
     <parent link="left_arm_mount"/>
     <child link="left_upper_shoulder"/>
-    <limit effort="50.0" lower="-1.70167993878" upper="1.70167993878" velocity="1.5"/>
+    <limit effort="100.0" lower="-1.70167993878" upper="1.70167993878" velocity="1.5"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
   <joint name="left_s1" type="revolute">
@@ -932,7 +932,7 @@
     <axis xyz="0 0 1"/>
     <parent link="left_upper_shoulder"/>
     <child link="left_lower_shoulder"/>
-    <limit effort="50.0" lower="-2.147" upper="1.047" velocity="1.5"/>
+    <limit effort="100.0" lower="-2.147" upper="1.047" velocity="1.5"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
   <joint name="left_e0" type="revolute">
@@ -940,7 +940,7 @@
     <axis xyz="0 0 1"/>
     <parent link="left_lower_shoulder"/>
     <child link="left_upper_elbow"/>
-    <limit effort="50.0" lower="-3.05417993878" upper="3.05417993878" velocity="1.5"/>
+    <limit effort="100.0" lower="-3.05417993878" upper="3.05417993878" velocity="1.5"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
   <joint name="left_e0_fixed" type="fixed">
@@ -954,7 +954,7 @@
     <axis xyz="0 0 1"/>
     <parent link="left_upper_elbow"/>
     <child link="left_lower_elbow"/>
-    <limit effort="50.0" lower="-0.05" upper="2.618" velocity="1.5"/>
+    <limit effort="100.0" lower="-0.05" upper="2.618" velocity="1.5"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
   <joint name="left_w0" type="revolute">
@@ -962,7 +962,7 @@
     <axis xyz="0 0 1"/>
     <parent link="left_lower_elbow"/>
     <child link="left_upper_forearm"/>
-    <limit effort="15.0" lower="-3.059" upper="3.059" velocity="4.0"/>
+    <limit effort="50.0" lower="-3.059" upper="3.059" velocity="4.0"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
   <joint name="left_w0_fixed" type="fixed">
@@ -982,7 +982,7 @@
     <axis xyz="0 0 1"/>
     <parent link="left_upper_forearm"/>
     <child link="left_lower_forearm"/>
-    <limit effort="15.0" lower="-1.57079632679" upper="2.094" velocity="4.0"/>
+    <limit effort="50.0" lower="-1.57079632679" upper="2.094" velocity="4.0"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
   <joint name="left_w2" type="revolute">
@@ -990,7 +990,7 @@
     <axis xyz="0 0 1"/>
     <parent link="left_lower_forearm"/>
     <child link="left_wrist"/>
-    <limit effort="15.0" lower="-3.059" upper="3.059" velocity="4.0"/>
+    <limit effort="50.0" lower="-3.059" upper="3.059" velocity="4.0"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
   <joint name="left_hand_fixed" type="fixed">
