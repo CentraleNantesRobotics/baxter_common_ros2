@@ -34,10 +34,12 @@ When run from multiple computers (e.g. students doing a lab on Baxter), all brid
 The synchronization is done with ROS 1 that allows all bridges to communicate. Users are identified from their Linux username. Using the same username from several computers will lead to nodes having the same name in the ROS 1 graph.
 
 Two ROS 1 rosparams tune the synchronization behavior:
+
 - `allow_multiple` (default False): allow several users to publish on the same topic
 - `forward_diplay` (default True): if `allow_multiple` is False, uses Baxter's screen to display who is currently publishing on which topics
 
 It also advertizes two services on the ROS 1 side, mostly to synchronize bridges together when `allow_multiple` is False.
+
 - `/bridge_auth`: request to publish on a given topic from a given user, returns the list of current topics and their users
 - `/bridge_force`: reserve a limb (left / right) for a given user. Give an empty username to cancel
 

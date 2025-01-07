@@ -42,7 +42,7 @@ endif()
 find_package(OpenCV REQUIRED)
 
 # find ROS 1 packages we depend on
-set(ROS1_LIBS roscpp rosconsole roscpp_serialization rostime xmlrpcpp)
+set(ROS1_LIBS roscpp rosconsole roscpp_serialization rostime xmlrpcpp rosconsole_glog)
 
 # if libraries in ROS1_ROOT, explicitely give their location
 if(EXISTS ${ROS1_ROOT})
@@ -52,7 +52,7 @@ if(EXISTS ${ROS1_ROOT})
     endforeach()
 
     # install ROS 1 libs to have them at runtime
-    foreach(ROS1_LIB cpp_common rosconsole_backend_interface rosconsole_backend_interface rosconsole xmlrpcpp)
+    foreach(ROS1_LIB cpp_common rosconsole_backend_interface rosconsole_backend_interface rosconsole xmlrpcpp rosconsole_glog)
         install(FILES "${ROS1_ROOT}/lib/lib${ROS1_LIB}.so" DESTINATION lib)
     endforeach()
 
