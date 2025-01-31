@@ -15,6 +15,14 @@ else()
     set(ROS1_VERSION_DEFAULT "obese")           # 22.04+
 endif()
 
+if("$ENV{ROS_DISTRO}" STRLESS_EQUAL "humble") # 22.04
+    set(ROSCONSOLE_LOG "rosconsole_log4cxx")
+else()
+    set(ROSCONSOLE_LOG "rosconsole_glog")     # 24.04+
+endif()
+
+
+
 set(ROS1_ROOT "/opt/ros/${ROS1_VERSION_DEFAULT}" CACHE STRING "Path to ROS workspace with base packages, if any. If not valid will assume /usr/lib")
 
 if(SAFE_CMD)
@@ -42,7 +50,7 @@ endif()
 find_package(OpenCV REQUIRED)
 
 # find ROS 1 packages we depend on
-set(ROS1_LIBS roscpp rosconsole roscpp_serialization rostime xmlrpcpp rosconsole_glog)
+set(ROS1_LIBS roscpp rosconsole roscpp_serialization rostime xmlrpcpp ${ROSCONSOLE_LOG})
 
 # if libraries in ROS1_ROOT, explicitely give their location
 if(EXISTS ${ROS1_ROOT})
@@ -52,7 +60,7 @@ if(EXISTS ${ROS1_ROOT})
     endforeach()
 
     # install ROS 1 libs to have them at runtime
-    foreach(ROS1_LIB cpp_common rosconsole_backend_interface rosconsole_backend_interface rosconsole xmlrpcpp rosconsole_glog)
+    foreach(ROS1_LIB cpp_common rosconsole_backend_interface rosconsole_backend_interface rosconsole xmlrpcpp ${ROSCONSOLE_LOG})
         install(FILES "${ROS1_ROOT}/lib/lib${ROS1_LIB}.so" DESTINATION lib)
     endforeach()
 
