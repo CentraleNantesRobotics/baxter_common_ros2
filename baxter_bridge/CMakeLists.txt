@@ -15,11 +15,11 @@ else()
     set(ROS1_VERSION_DEFAULT "obese")           # 22.04+
 endif()
 
-if("$ENV{ROS_DISTRO}" STRLESS_EQUAL "humble") # 22.04
+# if("$ENV{ROS_DISTRO}" STRLESS_EQUAL "humble") # 22.04
     set(ROSCONSOLE_LOG "rosconsole_log4cxx")
-else()
-    set(ROSCONSOLE_LOG "rosconsole_glog")     # 24.04+
-endif()
+# else()
+#     set(ROSCONSOLE_LOG "rosconsole_glog")     # 24.04+
+# endif()
 
 
 
