@@ -170,8 +170,6 @@
 #include <geometry_msgs/msg/pose_array.hpp>
 #include <geometry_msgs/Transform.h>
 #include <geometry_msgs/msg/transform.hpp>
-#include <geometry_msgs/Pose2D.h>
-#include <geometry_msgs/msg/pose2_d.hpp>
 #include <geometry_msgs/TransformStamped.h>
 #include <geometry_msgs/msg/transform_stamped.hpp>
 #include <geometry_msgs/TwistStamped.h>
@@ -976,14 +974,6 @@ void convert(const geometry_msgs::PoseArray &src, geometry_msgs::msg::PoseArray 
 }
 
 template<>
-void convert(const geometry_msgs::Pose2D &src, geometry_msgs::msg::Pose2D &dst)
-{
-  convert(src.x, dst.x);
-  convert(src.y, dst.y);
-  convert(src.theta, dst.theta);
-}
-
-template<>
 void convert(const geometry_msgs::TransformStamped &src, geometry_msgs::msg::TransformStamped &dst)
 {
   convert(src.header, dst.header);
@@ -1388,8 +1378,6 @@ void Factory::createBridge_1to2(const std::string &topic, const std::string &msg
     bridges.push_back(std::make_unique<Bridge_1to2<geometry_msgs::PoseArray, geometry_msgs::msg::PoseArray>>(topic));
   else if(msg == "geometry_msgs/Transform")
     bridges.push_back(std::make_unique<Bridge_1to2<geometry_msgs::Transform, geometry_msgs::msg::Transform>>(topic));
-  else if(msg == "geometry_msgs/Pose2D")
-    bridges.push_back(std::make_unique<Bridge_1to2<geometry_msgs::Pose2D, geometry_msgs::msg::Pose2D>>(topic));
   else if(msg == "geometry_msgs/TransformStamped")
     bridges.push_back(std::make_unique<Bridge_1to2<geometry_msgs::TransformStamped, geometry_msgs::msg::TransformStamped>>(topic));
   else if(msg == "geometry_msgs/TwistStamped")

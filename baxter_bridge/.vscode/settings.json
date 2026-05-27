@@ -1,0 +1,10 @@
+{
+  "cmake.buildDirectory": "/home/olivier/code/libs/ros2/build/baxter_bridge",
+  "editor.mouseWheelZoom": true,
+  "cmake.configureArgs": ["-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE"],
+  "clangd.arguments": [ "-pretty",
+                         "--background-index=false",
+                         "--compile-commands-dir=/home/olivier/code/libs/ros2/build/baxter_bridge",
+                         "--query-driver=/usr/bin/g++"],
+  "clangd.fallbackFlags": ["-std=c++17", "-xc++"],
+}

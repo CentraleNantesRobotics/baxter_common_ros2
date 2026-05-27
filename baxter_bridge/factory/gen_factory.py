@@ -141,6 +141,13 @@ def toROS2(msg):
     return toElem(msg.replace('/', '::msg::'))
 
 
+msg_skipped = ('geometry_msgs/Pose2D',
+                    'geometry_msgs/PolygonInstance',
+                    'geometry_msgs/VelocityStamped')
+
+ros2_fields_skipped = {'sensor_msgs/Range': ['variance']}
+
+
 class Factory:
     def __init__(self, src):
         self.src = src
@@ -185,6 +192,10 @@ class Factory:
         fields, rule = load_message(msg)
         if fields is None:
             print('Cannot load incomplete message ' + msg)
+            return False
+
+        if msg in msg_skipped:
+            print('Skipping',msg)
             return False
 
         to2 = self.direction == '1to2'
@@ -233,7 +244,15 @@ class Factory:
                 fwd.append(f'  convert({src_field}, {dst_field});')
                 fwd.append('#endif')
             elif msg_type in (MSG_BASE, MSG_BASE_ARRAY) or 'bool[' in sub or 'byte[' in sub:
-                fwd.append(f'  convert({src_field}, {dst_field});')
+                skip = False
+                for ros2_msg, fields in ros2_fields_skipped.items():
+                    if msg == ros2_msg:
+                        for field in fields:
+                            if src_field == f'src.{field}':
+                                skip = True
+                                print('Skipping',field,'from',msg)
+                if not skip:
+                    fwd.append(f'  convert({src_field}, {dst_field});')
             elif msg_type == MSG_BASE:
                 fwd.append(f'  {dst_field} = {src_field};')
             else:
