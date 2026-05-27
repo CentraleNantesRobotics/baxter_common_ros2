@@ -140,13 +140,7 @@ def toROS1(msg):
 def toROS2(msg):
     return toElem(msg.replace('/', '::msg::'))
 
-
-msg_skipped = ('geometry_msgs/Pose2D',
-                    'geometry_msgs/PolygonInstance',
-                    'geometry_msgs/VelocityStamped')
-
 ros2_fields_skipped = {'sensor_msgs/Range': ['variance']}
-
 
 class Factory:
     def __init__(self, src):
@@ -182,20 +176,18 @@ class Factory:
             self.fact[msg1] = f'''if(msg == "{msg}")
     bridges.push_back(std::make_unique<Bridge_{self.direction}<{msg1}, {msg2}>>(topic));'''
 
-    def build_fwd(self, msg):
+    def build_fwd(self, msg, indent = 0):
 
         msg = toElem(msg)
 
         if msg in self.msgs_done:
             return True
 
+        print(' '*indent, f'[{self.direction}] Adding',msg)
+
         fields, rule = load_message(msg)
         if fields is None:
             print('Cannot load incomplete message ' + msg)
-            return False
-
-        if msg in msg_skipped:
-            print('Skipping',msg)
             return False
 
         to2 = self.direction == '1to2'
@@ -256,13 +248,13 @@ class Factory:
             elif msg_type == MSG_BASE:
                 fwd.append(f'  {dst_field} = {src_field};')
             else:
-                valid = valid and self.build_fwd(sub)
+                valid = valid and self.build_fwd(sub, indent+2)
                 fwd.append(f'  convert({src_field}, {dst_field});')
 
         self.msgs_done.append(msg)
 
         if valid:
-            print(f'{src} -> {dst}\n')
+            # print(f'{src} -> {dst}\n')
             fwd.append('}\n')
             self.forwards.append('\n'.join(fwd))
             return True
@@ -333,16 +325,18 @@ f21.add(None, 'geometry_msgs/PoseStamped')
 
 
 for topic, msg in topics['publishers'].items():
+    print('1to2:',msg)
     f12.add(topic, msg)
 
 # we might want to forward any classical message from ROS 1 to 2
 # used to have all ROS 2 bridge receive / forward a global topic
-msg_root = f'/opt/ros/{os.environ["ROS_DISTRO"]}/share'
-for pkg in ('sensor_msgs', 'std_msgs', 'geometry_msgs'):
-    msg_pkg = f'{msg_root}/{pkg}/msg'
-    for msg in os.listdir(msg_pkg):
-        if msg.endswith('.msg'):
-            f12.add(None, f'{pkg}/{msg[:-4]}')
+# msg_root = f'/opt/ros/{os.environ["ROS_DISTRO"]}/share'
+# for pkg in ('sensor_msgs', 'std_msgs', 'geometry_msgs'):
+#     msg_pkg = f'{msg_root}/{pkg}/msg'
+#     for msg in os.listdir(msg_pkg):
+#         if msg not in ('Pose2D','PolygonInstance','VelocityStamped'):
+#             if msg.endswith('.msg'):
+#                 f12.add(None, f'{pkg}/{msg[:-4]}')
 
 for topic, msg in topics['subscribers'].items():
     f21.add(topic, msg)
