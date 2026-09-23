@@ -7,7 +7,7 @@
        <gazebo>
 
         <!-- Velocity control -->
-        <plugin filename="ignition-gazebo-joint-controller-system" name="ignition::gazebo::systems::JointController">
+        <plugin filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
             <joint_name>${joint}</joint_name>
             <topic>${joint}_cmd_vel</topic>
         </plugin>
@@ -92,7 +92,7 @@
 </xacro:macro>
 
     <gazebo>
-        <plugin filename="ignition-gazebo-joint-state-publisher-system" name="ignition::gazebo::systems::JointStatePublisher"/>
+        <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher"/>
 </gazebo>
 
         <xacro:arm_plugins side="left"/>
