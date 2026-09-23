@@ -7,15 +7,11 @@
   <xacro:property name="PI" value="3.1415927"/>
 
   <!-- Baxter Base URDF -->
-  <xacro:include filename="$(find baxter_description)/urdf/baxter_base/baxter_base.urdf.xacro">
-<!--     <xacro:arg name="gazebo" value="$(arg gazebo)"/> -->
-  </xacro:include>
+  <xacro:include filename="$(find baxter_description)/urdf/baxter_base/baxter_base.urdf.xacro"/>
 
   <!-- Baxter Pedestal -->
   <xacro:if value="$(arg pedestal)">
-    <xacro:include filename="$(find baxter_description)/urdf/pedestal/pedestal.xacro">
-<!--       <xacro:arg name="gazebo" value="$(arg gazebo)"/> -->
-    </xacro:include>
+    <xacro:include filename="$(find baxter_description)/urdf/pedestal/pedestal.xacro"/>
   </xacro:if>
 
   <!-- Left End Effector -->
@@ -25,8 +21,9 @@
   <xacro:include filename="$(find baxter_description)/urdf/right_end_effector.urdf.xacro" />
 
   <!-- Gazebo plugins -->
+  <xacro:if value="$(arg gazebo)">
   <xacro:include filename="$(find baxter_description)/urdf/gazebosim.urdf.xacro" />
-
+</xacro:if>
 
 
 

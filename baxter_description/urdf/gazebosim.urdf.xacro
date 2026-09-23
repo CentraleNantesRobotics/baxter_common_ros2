@@ -1,14 +1,13 @@
 <?xml version="1.0" ?>
 <robot name="gazebosim" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-
      <xacro:macro name="joint_controller" params="joint p i d cmd_max">
 
         <!-- Position control -->
        <gazebo>
 
         <!-- Velocity control -->
-        <plugin filename="libignition-gazebo-joint-controller-system.so" name="ignition::gazebo::systems::JointController">
+        <plugin filename="ignition-gazebo-joint-controller-system" name="ignition::gazebo::systems::JointController">
             <joint_name>${joint}</joint_name>
             <topic>${joint}_cmd_vel</topic>
         </plugin>
@@ -93,7 +92,7 @@
 </xacro:macro>
 
     <gazebo>
-        <plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher"/>
+        <plugin filename="ignition-gazebo-joint-state-publisher-system" name="ignition::gazebo::systems::JointStatePublisher"/>
 </gazebo>
 
         <xacro:arm_plugins side="left"/>
